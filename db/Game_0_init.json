@@ -1,0 +1,21 @@
+{
+	"game" : {
+		"game_type": "spades",
+		"round": 0,
+		"players":["pl1", "pl2", "pl3", "pl4"],
+		"active_player" : "pl1",
+		"cards_player" : [
+			{"color": "hearts", "number": "10"}, 
+			{"color": "hearts", "number": "jack"}, 
+			{"color": "hearts", "number": "king"}, 
+			{"color": "spades", "number": "7"}, 
+			{"color": "spades", "number": "queen"}, 
+			{"color": "spades", "number": "king"}, 
+			{"color": "spades", "number": "ace"}, 
+			{"color": "diamonds", "number": "9"}, 
+			{"color": "diamonds", "number": "ace"}
+		],
+		"cards_table" : [],
+		"cards_history" : []
+	}
+}
