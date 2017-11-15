@@ -1,2 +1,2 @@
-api: yarn api
+ws: yarn ws
 client: yarn client

@@ -12,7 +12,7 @@ import Models exposing (Model, initialModel)
 import Msgs exposing (Msg)
 import Updates exposing (update)
 import View exposing (view)
-
+import Subscriptions exposing (subscriptions)
 
 -- INIT
 
@@ -22,13 +22,6 @@ init location =
         Routing.parseLocation location
     in
         (initialModel cRoute, Cmd.none)
-
-
-
--- SUBSCRIPTIONS
-subscriptions : Model -> Sub Msg
-subscriptions model =
-    Sub.none
 
 
 -- MAIN

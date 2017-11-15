@@ -1,7 +1,5 @@
 module Game.Model exposing (..)
 
-
-
 type alias Game =
     { gameType : String
     , round : Int
