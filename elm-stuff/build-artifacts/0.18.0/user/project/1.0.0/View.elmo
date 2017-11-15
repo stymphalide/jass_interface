@@ -1,0 +1,63 @@
+var _user$project$View$notFoundView = A2(
+	_elm_lang$html$Html$div,
+	{ctor: '[]'},
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html$text('Not found'),
+		_1: {ctor: '[]'}
+	});
+var _user$project$View$btn = F2(
+	function (txt, path) {
+		return A2(
+			_elm_lang$html$Html$a,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('btn block mx-auto'),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$href(
+						_user$project$Routing$gamePath(path)),
+					_1: {ctor: '[]'}
+				}
+			},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text(txt),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$View$init = A2(
+	_elm_lang$html$Html$div,
+	{ctor: '[]'},
+	{
+		ctor: '::',
+		_0: A2(_user$project$View$btn, 'Play New Game', 'play'),
+		_1: {
+			ctor: '::',
+			_0: A2(_user$project$View$btn, 'Watch Previous Game', 'watch'),
+			_1: {ctor: '[]'}
+		}
+	});
+var _user$project$View$page = function (model) {
+	var _p0 = model.route;
+	switch (_p0.ctor) {
+		case 'Init':
+			return _user$project$View$init;
+		case 'Play':
+			return _user$project$Game_View$view;
+		case 'Watch':
+			return _user$project$Game_View$view;
+		default:
+			return _user$project$View$notFoundView;
+	}
+};
+var _user$project$View$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _user$project$View$page(model),
+			_1: {ctor: '[]'}
+		});
+};

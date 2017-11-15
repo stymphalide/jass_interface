@@ -1,0 +1,3 @@
+var _user$project$Msgs$OnLocationChange = function (a) {
+	return {ctor: 'OnLocationChange', _0: a};
+};

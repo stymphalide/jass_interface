@@ -42,5 +42,6 @@ module: {
 	devServer: {
 		inline: true,
 		stats: { colors: true },
+		historyApiFallback : true
 	},
 };
