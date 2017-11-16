@@ -8,6 +8,9 @@ import Commands exposing (routeCommand)
 import Routing exposing (parseLocation)
 
 import Game.Update exposing (updateGame)
+
+import WebSocket
+
 -- UPDATE
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -18,12 +21,14 @@ update msg model =
                 newRoute =
                     parseLocation location
             in
-                ({model | route = newRoute}, routeCommand newRoute)
+                ({model | route = newRoute}, Cmd.none)
         Msgs.GameUpdate gameString ->
             let
                 newGame = updateGame gameString
             in
                 ({model | game = newGame}, Cmd.none)
+        Msgs.Send ->
+            (model, WebSocket.send "ws://localhost:5000" "fetchGame")
 
 
 

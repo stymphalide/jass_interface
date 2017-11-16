@@ -7,4 +7,4 @@ import Msgs exposing (Msg)
 
 view : String -> Html Msg
 view game =
-    div [] [text game ]
+    div []  [text game]

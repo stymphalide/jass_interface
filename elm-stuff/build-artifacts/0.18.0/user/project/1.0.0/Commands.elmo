@@ -1,7 +1,4 @@
-var _user$project$Commands$fetchGame = A2(
-	_elm_lang$core$Platform_Cmd$map,
-	_user$project$Msgs$GameUpdate,
-	A2(_elm_lang$websocket$WebSocket$send, _user$project$Routing$serverUrl, 'fetchGame'));
+var _user$project$Commands$fetchGame = A2(_elm_lang$websocket$WebSocket$send, _user$project$Routing$serverUrl, 'fetchGame');
 var _user$project$Commands$routeCommand = function (route) {
 	var _p0 = route;
 	switch (_p0.ctor) {

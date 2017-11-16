@@ -15,8 +15,7 @@ var _user$project$View$btn = F2(
 				_0: _elm_lang$html$Html_Attributes$class('btn block mx-auto'),
 				_1: {
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$href(
-						_user$project$Routing$gamePath(path)),
+					_0: _elm_lang$html$Html_Events$onClick(_user$project$Msgs$Send),
 					_1: {ctor: '[]'}
 				}
 			},
@@ -39,16 +38,11 @@ var _user$project$View$init = A2(
 		}
 	});
 var _user$project$View$page = function (model) {
-	var _p0 = model.route;
-	switch (_p0.ctor) {
-		case 'Init':
-			return _user$project$View$init;
-		case 'Play':
-			return _user$project$Game_View$view(_p0._0);
-		case 'Watch':
-			return _user$project$Game_View$view(_p0._0);
-		default:
-			return _user$project$View$notFoundView;
+	var _p0 = model.game;
+	if (_p0.ctor === 'Nothing') {
+		return _user$project$View$init;
+	} else {
+		return _user$project$Game_View$view(_p0._0);
 	}
 };
 var _user$project$View$view = function (model) {

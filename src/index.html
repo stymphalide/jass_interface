@@ -8792,6 +8792,120 @@ var _elm_lang$html$Html_Attributes$classList = function (list) {
 				A2(_elm_lang$core$List$filter, _elm_lang$core$Tuple$second, list))));
 };
 var _elm_lang$html$Html_Attributes$style = _elm_lang$virtual_dom$VirtualDom$style;
+var _elm_lang$html$Html_Events$keyCode = A2(_elm_lang$core$Json_Decode$field, 'keyCode', _elm_lang$core$Json_Decode$int);
+var _elm_lang$html$Html_Events$targetChecked = A2(
+	_elm_lang$core$Json_Decode$at,
+	{
+		ctor: '::',
+		_0: 'target',
+		_1: {
+			ctor: '::',
+			_0: 'checked',
+			_1: {ctor: '[]'}
+		}
+	},
+	_elm_lang$core$Json_Decode$bool);
+var _elm_lang$html$Html_Events$targetValue = A2(
+	_elm_lang$core$Json_Decode$at,
+	{
+		ctor: '::',
+		_0: 'target',
+		_1: {
+			ctor: '::',
+			_0: 'value',
+			_1: {ctor: '[]'}
+		}
+	},
+	_elm_lang$core$Json_Decode$string);
+var _elm_lang$html$Html_Events$defaultOptions = _elm_lang$virtual_dom$VirtualDom$defaultOptions;
+var _elm_lang$html$Html_Events$onWithOptions = _elm_lang$virtual_dom$VirtualDom$onWithOptions;
+var _elm_lang$html$Html_Events$on = _elm_lang$virtual_dom$VirtualDom$on;
+var _elm_lang$html$Html_Events$onFocus = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'focus',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onBlur = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'blur',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onSubmitOptions = _elm_lang$core$Native_Utils.update(
+	_elm_lang$html$Html_Events$defaultOptions,
+	{preventDefault: true});
+var _elm_lang$html$Html_Events$onSubmit = function (msg) {
+	return A3(
+		_elm_lang$html$Html_Events$onWithOptions,
+		'submit',
+		_elm_lang$html$Html_Events$onSubmitOptions,
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onCheck = function (tagger) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'change',
+		A2(_elm_lang$core$Json_Decode$map, tagger, _elm_lang$html$Html_Events$targetChecked));
+};
+var _elm_lang$html$Html_Events$onInput = function (tagger) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'input',
+		A2(_elm_lang$core$Json_Decode$map, tagger, _elm_lang$html$Html_Events$targetValue));
+};
+var _elm_lang$html$Html_Events$onMouseOut = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseout',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseOver = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseover',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseLeave = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseleave',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseEnter = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseenter',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseUp = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseup',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseDown = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mousedown',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onDoubleClick = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'dblclick',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onClick = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'click',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$Options = F2(
+	function (a, b) {
+		return {stopPropagation: a, preventDefault: b};
+	});
 var _elm_lang$http$Native_Http = function() {
 
 
@@ -10332,12 +10446,6 @@ var _evancz$url_parser$UrlParser$stringParam = function (name) {
 var _evancz$url_parser$UrlParser$intParam = function (name) {
 	return A2(_evancz$url_parser$UrlParser$customParam, name, _evancz$url_parser$UrlParser$intParamHelp);
 };
-var _user$project$Msgs$GameUpdate = function (a) {
-	return {ctor: 'GameUpdate', _0: a};
-};
-var _user$project$Msgs$OnLocationChange = function (a) {
-	return {ctor: 'OnLocationChange', _0: a};
-};
 var _user$project$Game_Model$Game = F2(
 	function (a, b) {
 		return {gameType: a, round: b};
@@ -10410,6 +10518,13 @@ var _user$project$Routing$parseLocation = function (location) {
 	}
 };
 var _user$project$Routing$serverUrl = 'ws://localhost:5000';
+var _user$project$Msgs$Send = {ctor: 'Send'};
+var _user$project$Msgs$GameUpdate = function (a) {
+	return {ctor: 'GameUpdate', _0: a};
+};
+var _user$project$Msgs$OnLocationChange = function (a) {
+	return {ctor: 'OnLocationChange', _0: a};
+};
 var _user$project$Decoders$gameDecoder = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'round',
@@ -10419,10 +10534,7 @@ var _user$project$Decoders$gameDecoder = A3(
 		'type',
 		_elm_lang$core$Json_Decode$string,
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Game_Model$Game)));
-var _user$project$Commands$fetchGame = A2(
-	_elm_lang$core$Platform_Cmd$map,
-	_user$project$Msgs$GameUpdate,
-	A2(_elm_lang$websocket$WebSocket$send, _user$project$Routing$serverUrl, 'fetchGame'));
+var _user$project$Commands$fetchGame = A2(_elm_lang$websocket$WebSocket$send, _user$project$Routing$serverUrl, 'fetchGame');
 var _user$project$Commands$routeCommand = function (route) {
 	var _p0 = route;
 	switch (_p0.ctor) {
@@ -10452,24 +10564,31 @@ var _user$project$Game_View$view = function (game) {
 var _user$project$Updates$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
-		if (_p0.ctor === 'OnLocationChange') {
-			var newRoute = _user$project$Routing$parseLocation(_p0._0);
-			return {
-				ctor: '_Tuple2',
-				_0: _elm_lang$core$Native_Utils.update(
-					model,
-					{route: newRoute}),
-				_1: _user$project$Commands$routeCommand(newRoute)
-			};
-		} else {
-			var newGame = _user$project$Game_Update$updateGame(_p0._0);
-			return {
-				ctor: '_Tuple2',
-				_0: _elm_lang$core$Native_Utils.update(
-					model,
-					{game: newGame}),
-				_1: _elm_lang$core$Platform_Cmd$none
-			};
+		switch (_p0.ctor) {
+			case 'OnLocationChange':
+				var newRoute = _user$project$Routing$parseLocation(_p0._0);
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{route: newRoute}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'GameUpdate':
+				var newGame = _user$project$Game_Update$updateGame(_p0._0);
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{game: newGame}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: A2(_elm_lang$websocket$WebSocket$send, 'ws://localhost:5000', 'fetchGame')
+				};
 		}
 	});
 var _user$project$View$notFoundView = A2(
@@ -10489,8 +10608,7 @@ var _user$project$View$btn = F2(
 				_0: _elm_lang$html$Html_Attributes$class('btn block mx-auto'),
 				_1: {
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$href(
-						_user$project$Routing$gamePath(path)),
+					_0: _elm_lang$html$Html_Events$onClick(_user$project$Msgs$Send),
 					_1: {ctor: '[]'}
 				}
 			},
@@ -10513,16 +10631,11 @@ var _user$project$View$init = A2(
 		}
 	});
 var _user$project$View$page = function (model) {
-	var _p0 = model.route;
-	switch (_p0.ctor) {
-		case 'Init':
-			return _user$project$View$init;
-		case 'Play':
-			return _user$project$Game_View$view(_p0._0);
-		case 'Watch':
-			return _user$project$Game_View$view(_p0._0);
-		default:
-			return _user$project$View$notFoundView;
+	var _p0 = model.game;
+	if (_p0.ctor === 'Nothing') {
+		return _user$project$View$init;
+	} else {
+		return _user$project$Game_View$view(_p0._0);
 	}
 };
 var _user$project$View$view = function (model) {
