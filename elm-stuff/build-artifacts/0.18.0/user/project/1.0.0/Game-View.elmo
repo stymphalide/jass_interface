@@ -1,8 +1,10 @@
-var _user$project$Game_View$view = A2(
-	_elm_lang$html$Html$div,
-	{ctor: '[]'},
-	{
-		ctor: '::',
-		_0: _elm_lang$html$Html$text('The game has started'),
-		_1: {ctor: '[]'}
-	});
+var _user$project$Game_View$view = function (game) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(game),
+			_1: {ctor: '[]'}
+		});
+};

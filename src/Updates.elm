@@ -4,6 +4,7 @@ import Navigation exposing (Location)
 
 import Msgs exposing (Msg)
 import Models exposing (Model)
+import Commands exposing (routeCommand)
 import Routing exposing (parseLocation)
 
 import Game.Update exposing (updateGame)
@@ -17,9 +18,12 @@ update msg model =
                 newRoute =
                     parseLocation location
             in
-                ({model | route = newRoute}, Cmd.none)
+                ({model | route = newRoute}, routeCommand newRoute)
         Msgs.GameUpdate gameString ->
             let
                 newGame = updateGame gameString
             in
                 ({model | game = newGame}, Cmd.none)
+
+
+

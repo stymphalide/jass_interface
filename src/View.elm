@@ -25,9 +25,9 @@ page model =
         Models.Init ->
             init
         Models.Play gameId ->
-            Game.View.view
+            Game.View.view gameId
         Models.Watch gameId ->
-            Game.View.view
+            Game.View.view gameId
         Models.NotFoundRoute ->
             notFoundView
 

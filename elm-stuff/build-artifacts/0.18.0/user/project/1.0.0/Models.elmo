@@ -1,9 +1,10 @@
 var _user$project$Models$initialModel = function (route) {
-	return {route: route};
+	return {route: route, game: _elm_lang$core$Maybe$Nothing};
 };
-var _user$project$Models$Model = function (a) {
-	return {route: a};
-};
+var _user$project$Models$Model = F2(
+	function (a, b) {
+		return {route: a, game: b};
+	});
 var _user$project$Models$NotFoundRoute = {ctor: 'NotFoundRoute'};
 var _user$project$Models$Play = function (a) {
 	return {ctor: 'Play', _0: a};

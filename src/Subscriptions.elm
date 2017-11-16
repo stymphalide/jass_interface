@@ -1,21 +1,19 @@
 module Subscriptions exposing (..)
 
 
-import WebSocket
+import WebSocket exposing(..)
 
 import Models exposing (Model)
 import Msgs exposing (Msg)
+import Routing exposing (serverUrl)
 
 
 
-serverUrl : String
-serverUrl =
-    "ws://localhost:5000"
 
 
 
 -- SUBSCRIPTIONS
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    WebSocket.listen serverUrl Msgs.GameUpdate
+    listen serverUrl Msgs.GameUpdate
 

@@ -6,6 +6,10 @@ import UrlParser exposing (..)
 
 import Models exposing (Route(..))
 
+serverUrl : String
+serverUrl =
+    "ws://localhost:5000"
+
 matchers : Parser (Route -> a) a
 matchers =
     oneOf
@@ -25,3 +29,4 @@ parseLocation location =
 gamePath : String -> String
 gamePath path=
     "/" ++ path ++ "/"
+

@@ -1,0 +1,3 @@
+var _user$project$Game_Update$updateGame = function (gameString) {
+	return _elm_lang$core$Maybe$Just(gameString);
+};

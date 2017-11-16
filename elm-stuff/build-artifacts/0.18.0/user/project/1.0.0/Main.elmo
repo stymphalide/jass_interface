@@ -1,6 +1,3 @@
-var _user$project$Main$subscriptions = function (model) {
-	return _elm_lang$core$Platform_Sub$none;
-};
 var _user$project$Main$init = function (location) {
 	var cRoute = _user$project$Routing$parseLocation(location);
 	return {
@@ -12,4 +9,4 @@ var _user$project$Main$init = function (location) {
 var _user$project$Main$main = A2(
 	_elm_lang$navigation$Navigation$program,
 	_user$project$Msgs$OnLocationChange,
-	{init: _user$project$Main$init, view: _user$project$View$view, update: _user$project$Updates$update, subscriptions: _user$project$Main$subscriptions})();
+	{init: _user$project$Main$init, view: _user$project$View$view, update: _user$project$Updates$update, subscriptions: _user$project$Subscriptions$subscriptions})();

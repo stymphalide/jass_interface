@@ -1,4 +1,3 @@
-var _user$project$Subscriptions$serverUrl = 'ws://localhost:5000';
 var _user$project$Subscriptions$subscriptions = function (model) {
-	return A2(_elm_lang$websocket$WebSocket$listen, _user$project$Subscriptions$serverUrl, _user$project$Msgs$GameUpdate);
+	return A2(_elm_lang$websocket$WebSocket$listen, _user$project$Routing$serverUrl, _user$project$Msgs$GameUpdate);
 };

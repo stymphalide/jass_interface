@@ -1,12 +1,23 @@
 var _user$project$Updates$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
-		var newRoute = _user$project$Routing$parseLocation(_p0._0);
-		return {
-			ctor: '_Tuple2',
-			_0: _elm_lang$core$Native_Utils.update(
-				model,
-				{route: newRoute}),
-			_1: _elm_lang$core$Platform_Cmd$none
-		};
+		if (_p0.ctor === 'OnLocationChange') {
+			var newRoute = _user$project$Routing$parseLocation(_p0._0);
+			return {
+				ctor: '_Tuple2',
+				_0: _elm_lang$core$Native_Utils.update(
+					model,
+					{route: newRoute}),
+				_1: _user$project$Commands$routeCommand(newRoute)
+			};
+		} else {
+			var newGame = _user$project$Game_Update$updateGame(_p0._0);
+			return {
+				ctor: '_Tuple2',
+				_0: _elm_lang$core$Native_Utils.update(
+					model,
+					{game: newGame}),
+				_1: _elm_lang$core$Platform_Cmd$none
+			};
+		}
 	});

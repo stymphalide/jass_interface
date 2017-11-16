@@ -7,7 +7,6 @@ import Msgs exposing (Msg)
 import Models exposing (Model)
 
 import Game.Model exposing (..)
-im
 
 
 
@@ -17,16 +16,16 @@ gameDecoder =
     decode Game
     |> required "type" Decode.string
     |> required "round" Decode.int
-    |> required "players" Decode.list playerDecoder
-    |> required "activePlayer" Decode.string
-    |> required "cardsPlayer" Decode.list cardDecoder 
-    |> required 
+--    |> required "players" Decode.list playerDecoder
+--    |> required "activePlayer" Decode.string
+--    |> required "cardsPlayer" Decode.list cardDecoder 
+ 
+{-
+--cardDecoder : Decode.Decoder Card
 
-cardDecoder : Decode.Decoder Card
-cardDecoder =
     
 
-playerDecoder
+--playerDecoder
 
 groupDecoder
 
@@ -62,3 +61,4 @@ type alias Table =
     , pos3 : Maybe Card
     , pos4 : Maybe Card 
     }
+-}

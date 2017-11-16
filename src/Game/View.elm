@@ -5,9 +5,6 @@ import Html exposing (..)
 import Game.Model exposing(Game)
 import Msgs exposing (Msg)
 
-
-
-
-view : Html Msg
-view =
-    div [] [text "The game has started" ]
+view : String -> Html Msg
+view game =
+    div [] [text game ]

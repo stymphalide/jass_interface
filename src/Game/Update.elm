@@ -1,14 +1,9 @@
 module Game.Update exposing (..)
 
 import Game.Model exposing (Game)
+import Decoders exposing (gameDecoder)
 
 
-
-updateGame : String -> Game
+updateGame : String -> Maybe String
 updateGame gameString =
-       
-
-decodeGameString : String -> Game
-decodeGameString gameString = 
-    case 
-
+    Just gameString

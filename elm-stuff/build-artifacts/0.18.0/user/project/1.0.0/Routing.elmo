@@ -38,3 +38,4 @@ var _user$project$Routing$parseLocation = function (location) {
 		return _user$project$Models$NotFoundRoute;
 	}
 };
+var _user$project$Routing$serverUrl = 'ws://localhost:5000';
