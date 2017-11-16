@@ -21,6 +21,7 @@
     "ws": "^3.3.1"
   },
   "scripts": {
+    "comp": "elm-make src/Main.elm; mv index.html src",
     "api": "node backend/api.js",
     "ws" : "node backend/webSocketServer.js",
     "build": "webpack",

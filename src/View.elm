@@ -5,7 +5,6 @@ import Html exposing (..)
 import Html.Attributes exposing (class, href)
 import Html.Events exposing (onClick)
 
-import Commands exposing (fetchGame)
 import Models exposing (Model)
 import Msgs exposing (Msg)
 import Game.View 
@@ -21,23 +20,27 @@ view model =
 
 page : Model -> Html Msg
 page model =
-    case model.game of
-        Nothing ->
+    case model.route of
+        Models.Init ->
             init
-        Just game ->
-            Game.View.view game
+        Models.Play gameId ->
+            Game.View.view model.game
+        Models.Watch gameId ->
+            Game.View.view model.game
+        Models.NotFoundRoute ->
+            notFoundView
 
 
 init : Html Msg
 init =
     div []
-        [ btn "Play New Game" "play"
-        , btn "Watch Previous Game" "watch" 
+        [ btn "Play New Game" "play/0"
+        , btn "Watch Previous Game" "watch/0" 
         ]
 
 btn : String -> String -> Html Msg
 btn txt path =       
-    a [class "btn block mx-auto", onClick Msgs.Send ] 
+    a [class "btn block mx-auto", href path] 
         [ text txt 
         ]
 

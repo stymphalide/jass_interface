@@ -27,6 +27,6 @@ parseLocation location =
             NotFoundRoute
 
 gamePath : String -> String
-gamePath path=
+gamePath path =
     "/" ++ path ++ "/"
 

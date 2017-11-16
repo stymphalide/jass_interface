@@ -10551,13 +10551,47 @@ var _user$project$Commands$routeCommand = function (route) {
 var _user$project$Game_Update$updateGame = function (gameString) {
 	return _elm_lang$core$Maybe$Just(gameString);
 };
+var _user$project$Game_View$init = A2(
+	_elm_lang$html$Html$div,
+	{ctor: '[]'},
+	{
+		ctor: '::',
+		_0: A2(
+			_elm_lang$html$Html$a,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Events$onClick(_user$project$Msgs$Send),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text('Start Game'),
+				_1: {ctor: '[]'}
+			}),
+		_1: {ctor: '[]'}
+	});
+var _user$project$Game_View$page = function (game) {
+	var _p0 = game;
+	if (_p0.ctor === 'Nothing') {
+		return _user$project$Game_View$init;
+	} else {
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text(_p0._0),
+				_1: {ctor: '[]'}
+			});
+	}
+};
 var _user$project$Game_View$view = function (game) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html$text(game),
+			_0: _user$project$Game_View$page(game),
 			_1: {ctor: '[]'}
 		});
 };
@@ -10608,7 +10642,7 @@ var _user$project$View$btn = F2(
 				_0: _elm_lang$html$Html_Attributes$class('btn block mx-auto'),
 				_1: {
 					ctor: '::',
-					_0: _elm_lang$html$Html_Events$onClick(_user$project$Msgs$Send),
+					_0: _elm_lang$html$Html_Attributes$href(path),
 					_1: {ctor: '[]'}
 				}
 			},
@@ -10623,19 +10657,24 @@ var _user$project$View$init = A2(
 	{ctor: '[]'},
 	{
 		ctor: '::',
-		_0: A2(_user$project$View$btn, 'Play New Game', 'play'),
+		_0: A2(_user$project$View$btn, 'Play New Game', 'play/0'),
 		_1: {
 			ctor: '::',
-			_0: A2(_user$project$View$btn, 'Watch Previous Game', 'watch'),
+			_0: A2(_user$project$View$btn, 'Watch Previous Game', 'watch/0'),
 			_1: {ctor: '[]'}
 		}
 	});
 var _user$project$View$page = function (model) {
-	var _p0 = model.game;
-	if (_p0.ctor === 'Nothing') {
-		return _user$project$View$init;
-	} else {
-		return _user$project$Game_View$view(_p0._0);
+	var _p0 = model.route;
+	switch (_p0.ctor) {
+		case 'Init':
+			return _user$project$View$init;
+		case 'Play':
+			return _user$project$Game_View$view(model.game);
+		case 'Watch':
+			return _user$project$Game_View$view(model.game);
+		default:
+			return _user$project$View$notFoundView;
 	}
 };
 var _user$project$View$view = function (model) {

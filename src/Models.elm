@@ -18,5 +18,5 @@ initialModel : Route -> Model
 initialModel route =
     {
         route = route
-    ,    game = Nothing
+    ,   game = Nothing
     }
