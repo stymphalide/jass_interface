@@ -22,6 +22,10 @@ gameDecoder =
     |> required "cardsTable" tableDecoder
 
 
+playerDecoder : Decode.Decoder Player
+playerDecoder =
+    Decode.string
+    
 cardDecoder : Decode.Decoder Card
 cardDecoder =
     decode Card
@@ -29,9 +33,6 @@ cardDecoder =
     |> required "number" Decode.string
     
 
-playerDecoder : Decode.Decoder Player
-playerDecoder =
-    Decode.string
 
 tableDecoder : Decode.Decoder Table
 tableDecoder =

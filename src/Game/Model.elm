@@ -13,10 +13,14 @@ type alias Game =
     }
 type alias Card =
     { color : String
-    , number : String 
+    , number : Number 
     }
 
 type alias Player =
+    String
+type alias Color =
+    String
+type alias Number =
     String
 
 type alias Group =

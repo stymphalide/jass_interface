@@ -1,0 +1,212 @@
+var _user$project$Game_Card$isEqual = F2(
+	function (a, b) {
+		return _elm_lang$core$Native_Utils.eq(
+			a,
+			_elm_lang$core$Tuple$first(b));
+	});
+var _user$project$Game_Card$isEqualColor = function (col) {
+	return _user$project$Game_Card$isEqual(col);
+};
+var _user$project$Game_Card$matchingTuple = F2(
+	function (a, list) {
+		return A2(
+			_elm_lang$core$List$filter,
+			_user$project$Game_Card$isEqualColor(a),
+			list);
+	});
+var _user$project$Game_Card$extractTuple = F2(
+	function (a, list) {
+		var _p0 = _elm_lang$core$List$head(
+			A2(_user$project$Game_Card$matchingTuple, a, list));
+		if (_p0.ctor === 'Just') {
+			return _p0._0;
+		} else {
+			return {ctor: '_Tuple2', _0: '', _1: ''};
+		}
+	});
+var _user$project$Game_Card$numbers_french = {
+	ctor: '::',
+	_0: '6',
+	_1: {
+		ctor: '::',
+		_0: '7',
+		_1: {
+			ctor: '::',
+			_0: '8',
+			_1: {
+				ctor: '::',
+				_0: '9',
+				_1: {
+					ctor: '::',
+					_0: '10',
+					_1: {
+						ctor: '::',
+						_0: 'Bauer',
+						_1: {
+							ctor: '::',
+							_0: 'Dame',
+							_1: {
+								ctor: '::',
+								_0: 'K',
+								_1: {
+									ctor: '::',
+									_0: 'Ass',
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+};
+var _user$project$Game_Card$colors_french = {
+	ctor: '::',
+	_0: 'Herz',
+	_1: {
+		ctor: '::',
+		_0: 'Schaufel',
+		_1: {
+			ctor: '::',
+			_0: 'Ecke',
+			_1: {
+				ctor: '::',
+				_0: 'Kreuz',
+				_1: {ctor: '[]'}
+			}
+		}
+	}
+};
+var _user$project$Game_Card$numbers_german = {
+	ctor: '::',
+	_0: '6',
+	_1: {
+		ctor: '::',
+		_0: '7',
+		_1: {
+			ctor: '::',
+			_0: '8',
+			_1: {
+				ctor: '::',
+				_0: '9',
+				_1: {
+					ctor: '::',
+					_0: '10',
+					_1: {
+						ctor: '::',
+						_0: 'Under',
+						_1: {
+							ctor: '::',
+							_0: 'Ober',
+							_1: {
+								ctor: '::',
+								_0: 'K',
+								_1: {
+									ctor: '::',
+									_0: 'As',
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+};
+var _user$project$Game_Card$colors_german = {
+	ctor: '::',
+	_0: 'Rose',
+	_1: {
+		ctor: '::',
+		_0: 'Schilte',
+		_1: {
+			ctor: '::',
+			_0: 'Eichle',
+			_1: {
+				ctor: '::',
+				_0: 'Schelle',
+				_1: {ctor: '[]'}
+			}
+		}
+	}
+};
+var _user$project$Game_Card$numbers_english = {
+	ctor: '::',
+	_0: '6',
+	_1: {
+		ctor: '::',
+		_0: '7',
+		_1: {
+			ctor: '::',
+			_0: '8',
+			_1: {
+				ctor: '::',
+				_0: '9',
+				_1: {
+					ctor: '::',
+					_0: '10',
+					_1: {
+						ctor: '::',
+						_0: 'jack',
+						_1: {
+							ctor: '::',
+							_0: 'queen',
+							_1: {
+								ctor: '::',
+								_0: 'king',
+								_1: {
+									ctor: '::',
+									_0: 'ace',
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+};
+var _user$project$Game_Card$mappedNumbers = A3(
+	_elm_lang$core$List$map2,
+	F2(
+		function (v0, v1) {
+			return {ctor: '_Tuple2', _0: v0, _1: v1};
+		}),
+	_user$project$Game_Card$numbers_english,
+	_user$project$Game_Card$numbers_german);
+var _user$project$Game_Card$numberTranslate = function (number) {
+	return _elm_lang$core$Tuple$second(
+		A2(_user$project$Game_Card$extractTuple, number, _user$project$Game_Card$mappedNumbers));
+};
+var _user$project$Game_Card$colors_english = {
+	ctor: '::',
+	_0: 'hearts',
+	_1: {
+		ctor: '::',
+		_0: 'spades',
+		_1: {
+			ctor: '::',
+			_0: 'diamonds',
+			_1: {
+				ctor: '::',
+				_0: 'clubs',
+				_1: {ctor: '[]'}
+			}
+		}
+	}
+};
+var _user$project$Game_Card$mappedColors = A3(
+	_elm_lang$core$List$map2,
+	F2(
+		function (v0, v1) {
+			return {ctor: '_Tuple2', _0: v0, _1: v1};
+		}),
+	_user$project$Game_Card$colors_english,
+	_user$project$Game_Card$colors_german);
+var _user$project$Game_Card$colorTranslate = function (color) {
+	return _elm_lang$core$Tuple$second(
+		A2(_user$project$Game_Card$extractTuple, color, _user$project$Game_Card$mappedColors));
+};

@@ -1,3 +1,49 @@
+var _user$project$Game_View$getImagePath = F2(
+	function (color, number) {
+		return A2(
+			_elm_lang$core$Basics_ops['++'],
+			'../../img/',
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_user$project$Game_Card$colorTranslate(color),
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'_',
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						_user$project$Game_Card$numberTranslate(number),
+						'.png'))));
+	});
+var _user$project$Game_View$viewPlayerCard = function (card) {
+	return A2(
+		_elm_lang$html$Html$img,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$src(
+				A2(_user$project$Game_View$getImagePath, card.color, card.number)),
+			_1: {ctor: '[]'}
+		},
+		{ctor: '[]'});
+};
+var _user$project$Game_View$viewPlayerCards = function (cards) {
+	var _p0 = cards;
+	if (_p0.ctor === 'Nothing') {
+		return {
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('No Cards received'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		};
+	} else {
+		return A2(_elm_lang$core$List$map, _user$project$Game_View$viewPlayerCard, _p0._0);
+	}
+};
 var _user$project$Game_View$viewGame = function (game) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -12,7 +58,25 @@ var _user$project$Game_View$viewGame = function (game) {
 					_0: _elm_lang$html$Html$text(game.gameType),
 					_1: {ctor: '[]'}
 				}),
-			_1: {ctor: '[]'}
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$h2,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(game.activePlayer),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{ctor: '[]'},
+						_user$project$Game_View$viewPlayerCards(game.cardsPlayer)),
+					_1: {ctor: '[]'}
+				}
+			}
 		});
 };
 var _user$project$Game_View$init = A2(
@@ -35,11 +99,11 @@ var _user$project$Game_View$init = A2(
 		_1: {ctor: '[]'}
 	});
 var _user$project$Game_View$page = function (game) {
-	var _p0 = game;
-	if (_p0.ctor === 'Nothing') {
+	var _p1 = game;
+	if (_p1.ctor === 'Nothing') {
 		return _user$project$Game_View$init;
 	} else {
-		return _user$project$Game_View$viewGame(_p0._0);
+		return _user$project$Game_View$viewGame(_p1._0);
 	}
 };
 var _user$project$Game_View$view = function (game) {

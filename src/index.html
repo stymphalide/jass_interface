@@ -10525,7 +10525,6 @@ var _user$project$Msgs$GameUpdate = function (a) {
 var _user$project$Msgs$OnLocationChange = function (a) {
 	return {ctor: 'OnLocationChange', _0: a};
 };
-var _user$project$Decoders$playerDecoder = _elm_lang$core$Json_Decode$string;
 var _user$project$Decoders$cardDecoder = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'number',
@@ -10555,6 +10554,7 @@ var _user$project$Decoders$tableDecoder = A3(
 var _user$project$Decoders$historyDecoder = _elm_lang$core$Json_Decode$maybe(
 	_elm_lang$core$Json_Decode$list(
 		_elm_lang$core$Json_Decode$list(_user$project$Decoders$cardDecoder)));
+var _user$project$Decoders$playerDecoder = _elm_lang$core$Json_Decode$string;
 var _user$project$Decoders$groupDecoder = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'wonCards',
@@ -10620,6 +10620,218 @@ var _user$project$Commands$routeCommand = function (route) {
 			return _elm_lang$core$Platform_Cmd$none;
 	}
 };
+var _user$project$Game_Card$isEqual = F2(
+	function (a, b) {
+		return _elm_lang$core$Native_Utils.eq(
+			a,
+			_elm_lang$core$Tuple$first(b));
+	});
+var _user$project$Game_Card$isEqualColor = function (col) {
+	return _user$project$Game_Card$isEqual(col);
+};
+var _user$project$Game_Card$matchingTuple = F2(
+	function (a, list) {
+		return A2(
+			_elm_lang$core$List$filter,
+			_user$project$Game_Card$isEqualColor(a),
+			list);
+	});
+var _user$project$Game_Card$extractTuple = F2(
+	function (a, list) {
+		var _p0 = _elm_lang$core$List$head(
+			A2(_user$project$Game_Card$matchingTuple, a, list));
+		if (_p0.ctor === 'Just') {
+			return _p0._0;
+		} else {
+			return {ctor: '_Tuple2', _0: '', _1: ''};
+		}
+	});
+var _user$project$Game_Card$numbers_french = {
+	ctor: '::',
+	_0: '6',
+	_1: {
+		ctor: '::',
+		_0: '7',
+		_1: {
+			ctor: '::',
+			_0: '8',
+			_1: {
+				ctor: '::',
+				_0: '9',
+				_1: {
+					ctor: '::',
+					_0: '10',
+					_1: {
+						ctor: '::',
+						_0: 'Bauer',
+						_1: {
+							ctor: '::',
+							_0: 'Dame',
+							_1: {
+								ctor: '::',
+								_0: 'K',
+								_1: {
+									ctor: '::',
+									_0: 'Ass',
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+};
+var _user$project$Game_Card$colors_french = {
+	ctor: '::',
+	_0: 'Herz',
+	_1: {
+		ctor: '::',
+		_0: 'Schaufel',
+		_1: {
+			ctor: '::',
+			_0: 'Ecke',
+			_1: {
+				ctor: '::',
+				_0: 'Kreuz',
+				_1: {ctor: '[]'}
+			}
+		}
+	}
+};
+var _user$project$Game_Card$numbers_german = {
+	ctor: '::',
+	_0: '6',
+	_1: {
+		ctor: '::',
+		_0: '7',
+		_1: {
+			ctor: '::',
+			_0: '8',
+			_1: {
+				ctor: '::',
+				_0: '9',
+				_1: {
+					ctor: '::',
+					_0: '10',
+					_1: {
+						ctor: '::',
+						_0: 'Under',
+						_1: {
+							ctor: '::',
+							_0: 'Ober',
+							_1: {
+								ctor: '::',
+								_0: 'K',
+								_1: {
+									ctor: '::',
+									_0: 'As',
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+};
+var _user$project$Game_Card$colors_german = {
+	ctor: '::',
+	_0: 'Rose',
+	_1: {
+		ctor: '::',
+		_0: 'Schilte',
+		_1: {
+			ctor: '::',
+			_0: 'Eichle',
+			_1: {
+				ctor: '::',
+				_0: 'Schelle',
+				_1: {ctor: '[]'}
+			}
+		}
+	}
+};
+var _user$project$Game_Card$numbers_english = {
+	ctor: '::',
+	_0: '6',
+	_1: {
+		ctor: '::',
+		_0: '7',
+		_1: {
+			ctor: '::',
+			_0: '8',
+			_1: {
+				ctor: '::',
+				_0: '9',
+				_1: {
+					ctor: '::',
+					_0: '10',
+					_1: {
+						ctor: '::',
+						_0: 'jack',
+						_1: {
+							ctor: '::',
+							_0: 'queen',
+							_1: {
+								ctor: '::',
+								_0: 'king',
+								_1: {
+									ctor: '::',
+									_0: 'ace',
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+};
+var _user$project$Game_Card$mappedNumbers = A3(
+	_elm_lang$core$List$map2,
+	F2(
+		function (v0, v1) {
+			return {ctor: '_Tuple2', _0: v0, _1: v1};
+		}),
+	_user$project$Game_Card$numbers_english,
+	_user$project$Game_Card$numbers_german);
+var _user$project$Game_Card$numberTranslate = function (number) {
+	return _elm_lang$core$Tuple$second(
+		A2(_user$project$Game_Card$extractTuple, number, _user$project$Game_Card$mappedNumbers));
+};
+var _user$project$Game_Card$colors_english = {
+	ctor: '::',
+	_0: 'hearts',
+	_1: {
+		ctor: '::',
+		_0: 'spades',
+		_1: {
+			ctor: '::',
+			_0: 'diamonds',
+			_1: {
+				ctor: '::',
+				_0: 'clubs',
+				_1: {ctor: '[]'}
+			}
+		}
+	}
+};
+var _user$project$Game_Card$mappedColors = A3(
+	_elm_lang$core$List$map2,
+	F2(
+		function (v0, v1) {
+			return {ctor: '_Tuple2', _0: v0, _1: v1};
+		}),
+	_user$project$Game_Card$colors_english,
+	_user$project$Game_Card$colors_german);
+var _user$project$Game_Card$colorTranslate = function (color) {
+	return _elm_lang$core$Tuple$second(
+		A2(_user$project$Game_Card$extractTuple, color, _user$project$Game_Card$mappedColors));
+};
 var _user$project$Game_Update$decodeGame = function (gameString) {
 	var _p0 = A2(_elm_lang$core$Json_Decode$decodeString, _user$project$Decoders$gameDecoder, gameString);
 	if (_p0.ctor === 'Ok') {
@@ -10630,6 +10842,52 @@ var _user$project$Game_Update$decodeGame = function (gameString) {
 };
 var _user$project$Game_Update$updateGame = function (gameString) {
 	return _user$project$Game_Update$decodeGame(gameString);
+};
+var _user$project$Game_View$getImagePath = F2(
+	function (color, number) {
+		return A2(
+			_elm_lang$core$Basics_ops['++'],
+			'../../img/',
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_user$project$Game_Card$colorTranslate(color),
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'_',
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						_user$project$Game_Card$numberTranslate(number),
+						'.png'))));
+	});
+var _user$project$Game_View$viewPlayerCard = function (card) {
+	return A2(
+		_elm_lang$html$Html$img,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$src(
+				A2(_user$project$Game_View$getImagePath, card.color, card.number)),
+			_1: {ctor: '[]'}
+		},
+		{ctor: '[]'});
+};
+var _user$project$Game_View$viewPlayerCards = function (cards) {
+	var _p0 = cards;
+	if (_p0.ctor === 'Nothing') {
+		return {
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('No Cards received'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		};
+	} else {
+		return A2(_elm_lang$core$List$map, _user$project$Game_View$viewPlayerCard, _p0._0);
+	}
 };
 var _user$project$Game_View$viewGame = function (game) {
 	return A2(
@@ -10645,7 +10903,25 @@ var _user$project$Game_View$viewGame = function (game) {
 					_0: _elm_lang$html$Html$text(game.gameType),
 					_1: {ctor: '[]'}
 				}),
-			_1: {ctor: '[]'}
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$h2,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(game.activePlayer),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{ctor: '[]'},
+						_user$project$Game_View$viewPlayerCards(game.cardsPlayer)),
+					_1: {ctor: '[]'}
+				}
+			}
 		});
 };
 var _user$project$Game_View$init = A2(
@@ -10668,11 +10944,11 @@ var _user$project$Game_View$init = A2(
 		_1: {ctor: '[]'}
 	});
 var _user$project$Game_View$page = function (game) {
-	var _p0 = game;
-	if (_p0.ctor === 'Nothing') {
+	var _p1 = game;
+	if (_p1.ctor === 'Nothing') {
 		return _user$project$Game_View$init;
 	} else {
-		return _user$project$Game_View$viewGame(_p0._0);
+		return _user$project$Game_View$viewGame(_p1._0);
 	}
 };
 var _user$project$Game_View$view = function (game) {
