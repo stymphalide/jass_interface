@@ -3,13 +3,13 @@ module Game.Model exposing (..)
 type alias Game =
     { gameType : String
     , round : Int
---    , turn : Int
---    , players : List Player
---    , group : List Group
---    , activePlayer : Player
---    , onTurnPlayer : Player
---    , cardsPlayer : Maybe ( List Card ) 
---    , table : Table
+    , turn : Int
+    , players : List Player
+    , group : List Group
+    , activePlayer : Player
+    , onTurnPlayer : Player
+    , cardsPlayer : Maybe ( List Card ) 
+    , table : Table
     }
 type alias Card =
     { color : String
@@ -22,7 +22,7 @@ type alias Player =
 type alias Group =
     { points : Int
     , players : List Player
-    , wonCards : Maybe (List List Card)
+    , wonCards : Maybe (List (List Card))
     }
 
 type alias Table =

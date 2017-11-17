@@ -11,7 +11,7 @@ type Route
 
 type alias Model =
     { route : Route
-    , game : Maybe String
+    , game : Maybe Game
     }
 
 initialModel : Route -> Model

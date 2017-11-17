@@ -9,12 +9,13 @@ import Json.Decode.Pipeline exposing (decode, required)
 import Models exposing (Route)
 import Routing exposing (serverUrl)
 import Decoders exposing (gameDecoder)
+import Msgs exposing (Msg)
 
 import Game.Model exposing (Game)
 
 
 
-routeCommand : Route -> Cmd msg
+routeCommand : Route -> Cmd Msg
 routeCommand route =
     case route of
         Models.Init ->
@@ -26,6 +27,6 @@ routeCommand route =
         Models.NotFoundRoute ->
             Cmd.none
 
-fetchGame : Cmd msg
+fetchGame : Cmd Msg
 fetchGame =
     WebSocket.send serverUrl "fetchGame"

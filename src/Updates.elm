@@ -4,7 +4,7 @@ import Navigation exposing (Location)
 
 import Msgs exposing (Msg)
 import Models exposing (Model)
-import Commands exposing (routeCommand)
+import Commands exposing (fetchGame)
 import Routing exposing (parseLocation)
 
 import Game.Update exposing (updateGame)
@@ -28,7 +28,7 @@ update msg model =
             in
                 ({model | game = newGame}, Cmd.none)
         Msgs.Send ->
-            (model, WebSocket.send "ws://localhost:5000" "fetchGame")
+            (model, fetchGame)
 
 
 

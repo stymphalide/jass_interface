@@ -1,1 +1,7 @@
 var _user$project$Repl$t_s_o_l = {ctor: '_Tuple0'};
+var _user$project$Repl$User = F2(
+	function (a, b) {
+		return {id: a, email: b};
+	});
+var _user$project$Repl$userDecoder = _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Repl$User);
+var _user$project$Repl$d_e_l_t_r_o_n_3_0_3_0 = _user$project$Repl$userDecoder;

@@ -1,3 +1,20 @@
+var _user$project$Game_View$viewGame = function (game) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$h1,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(game.gameType),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		});
+};
 var _user$project$Game_View$init = A2(
 	_elm_lang$html$Html$div,
 	{ctor: '[]'},
@@ -22,14 +39,7 @@ var _user$project$Game_View$page = function (game) {
 	if (_p0.ctor === 'Nothing') {
 		return _user$project$Game_View$init;
 	} else {
-		return A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html$text(_p0._0),
-				_1: {ctor: '[]'}
-			});
+		return _user$project$Game_View$viewGame(_p0._0);
 	}
 };
 var _user$project$Game_View$view = function (game) {

@@ -10446,9 +10446,9 @@ var _evancz$url_parser$UrlParser$stringParam = function (name) {
 var _evancz$url_parser$UrlParser$intParam = function (name) {
 	return A2(_evancz$url_parser$UrlParser$customParam, name, _evancz$url_parser$UrlParser$intParamHelp);
 };
-var _user$project$Game_Model$Game = F2(
-	function (a, b) {
-		return {gameType: a, round: b};
+var _user$project$Game_Model$Game = F9(
+	function (a, b, c, d, e, f, g, h, i) {
+		return {gameType: a, round: b, turn: c, players: d, group: e, activePlayer: f, onTurnPlayer: g, cardsPlayer: h, table: i};
 	});
 var _user$project$Game_Model$Card = F2(
 	function (a, b) {
@@ -10525,15 +10525,87 @@ var _user$project$Msgs$GameUpdate = function (a) {
 var _user$project$Msgs$OnLocationChange = function (a) {
 	return {ctor: 'OnLocationChange', _0: a};
 };
-var _user$project$Decoders$gameDecoder = A3(
+var _user$project$Decoders$playerDecoder = _elm_lang$core$Json_Decode$string;
+var _user$project$Decoders$cardDecoder = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-	'round',
-	_elm_lang$core$Json_Decode$int,
+	'number',
+	_elm_lang$core$Json_Decode$string,
 	A3(
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-		'type',
+		'color',
 		_elm_lang$core$Json_Decode$string,
-		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Game_Model$Game)));
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Game_Model$Card)));
+var _user$project$Decoders$tableDecoder = A3(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+	'pos4',
+	_elm_lang$core$Json_Decode$maybe(_user$project$Decoders$cardDecoder),
+	A3(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+		'pos3',
+		_elm_lang$core$Json_Decode$maybe(_user$project$Decoders$cardDecoder),
+		A3(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+			'pos2',
+			_elm_lang$core$Json_Decode$maybe(_user$project$Decoders$cardDecoder),
+			A3(
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+				'pos1',
+				_elm_lang$core$Json_Decode$maybe(_user$project$Decoders$cardDecoder),
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Game_Model$Table)))));
+var _user$project$Decoders$historyDecoder = _elm_lang$core$Json_Decode$maybe(
+	_elm_lang$core$Json_Decode$list(
+		_elm_lang$core$Json_Decode$list(_user$project$Decoders$cardDecoder)));
+var _user$project$Decoders$groupDecoder = A3(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+	'wonCards',
+	_user$project$Decoders$historyDecoder,
+	A3(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+		'players',
+		_elm_lang$core$Json_Decode$list(_user$project$Decoders$playerDecoder),
+		A3(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+			'points',
+			_elm_lang$core$Json_Decode$int,
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Game_Model$Group))));
+var _user$project$Decoders$gameDecoder = A3(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+	'cardsTable',
+	_user$project$Decoders$tableDecoder,
+	A3(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+		'cardsPlayer',
+		_elm_lang$core$Json_Decode$maybe(
+			_elm_lang$core$Json_Decode$list(_user$project$Decoders$cardDecoder)),
+		A3(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+			'onTurnPlayer',
+			_user$project$Decoders$playerDecoder,
+			A3(
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+				'activePlayer',
+				_user$project$Decoders$playerDecoder,
+				A3(
+					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+					'groups',
+					_elm_lang$core$Json_Decode$list(_user$project$Decoders$groupDecoder),
+					A3(
+						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+						'players',
+						_elm_lang$core$Json_Decode$list(_user$project$Decoders$playerDecoder),
+						A3(
+							_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+							'turn',
+							_elm_lang$core$Json_Decode$int,
+							A3(
+								_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+								'round',
+								_elm_lang$core$Json_Decode$int,
+								A3(
+									_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+									'type',
+									_elm_lang$core$Json_Decode$string,
+									_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Game_Model$Game))))))))));
 var _user$project$Commands$fetchGame = A2(_elm_lang$websocket$WebSocket$send, _user$project$Routing$serverUrl, 'fetchGame');
 var _user$project$Commands$routeCommand = function (route) {
 	var _p0 = route;
@@ -10548,8 +10620,33 @@ var _user$project$Commands$routeCommand = function (route) {
 			return _elm_lang$core$Platform_Cmd$none;
 	}
 };
+var _user$project$Game_Update$decodeGame = function (gameString) {
+	var _p0 = A2(_elm_lang$core$Json_Decode$decodeString, _user$project$Decoders$gameDecoder, gameString);
+	if (_p0.ctor === 'Ok') {
+		return _elm_lang$core$Maybe$Just(_p0._0);
+	} else {
+		return _elm_lang$core$Maybe$Nothing;
+	}
+};
 var _user$project$Game_Update$updateGame = function (gameString) {
-	return _elm_lang$core$Maybe$Just(gameString);
+	return _user$project$Game_Update$decodeGame(gameString);
+};
+var _user$project$Game_View$viewGame = function (game) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$h1,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(game.gameType),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		});
 };
 var _user$project$Game_View$init = A2(
 	_elm_lang$html$Html$div,
@@ -10575,14 +10672,7 @@ var _user$project$Game_View$page = function (game) {
 	if (_p0.ctor === 'Nothing') {
 		return _user$project$Game_View$init;
 	} else {
-		return A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html$text(_p0._0),
-				_1: {ctor: '[]'}
-			});
+		return _user$project$Game_View$viewGame(_p0._0);
 	}
 };
 var _user$project$Game_View$view = function (game) {
@@ -10618,11 +10708,7 @@ var _user$project$Updates$update = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:
-				return {
-					ctor: '_Tuple2',
-					_0: model,
-					_1: A2(_elm_lang$websocket$WebSocket$send, 'ws://localhost:5000', 'fetchGame')
-				};
+				return {ctor: '_Tuple2', _0: model, _1: _user$project$Commands$fetchGame};
 		}
 	});
 var _user$project$View$notFoundView = A2(

@@ -8,29 +8,61 @@ import Models exposing (Model)
 
 import Game.Model exposing (..)
 
-
-
-
 gameDecoder : Decode.Decoder Game
 gameDecoder =
     decode Game
     |> required "type" Decode.string
     |> required "round" Decode.int
---    |> required "players" Decode.list playerDecoder
---    |> required "activePlayer" Decode.string
---    |> required "cardsPlayer" Decode.list cardDecoder 
- 
-{-
---cardDecoder : Decode.Decoder Card
+    |> required "turn" Decode.int
+    |> required "players" (Decode.list playerDecoder)
+    |> required "groups" (Decode.list groupDecoder)
+    |> required "activePlayer" playerDecoder
+    |> required "onTurnPlayer" playerDecoder
+    |> required "cardsPlayer" (Decode.maybe(Decode.list cardDecoder) )
+    |> required "cardsTable" tableDecoder
 
+
+cardDecoder : Decode.Decoder Card
+cardDecoder =
+    decode Card
+    |> required "color" Decode.string
+    |> required "number" Decode.string
     
 
---playerDecoder
+playerDecoder : Decode.Decoder Player
+playerDecoder =
+    Decode.string
 
-groupDecoder
+tableDecoder : Decode.Decoder Table
+tableDecoder =
+    decode Table
+    |> required "pos1" (Decode.maybe cardDecoder)
+    |> required "pos2" (Decode.maybe cardDecoder)
+    |> required "pos3" (Decode.maybe cardDecoder)
+    |> required "pos4" (Decode.maybe cardDecoder)
 
-tableDecoder
+groupDecoder : Decode.Decoder Group
+groupDecoder = 
+    decode Group
+    |> required "points" Decode.int
+    |> required "players" (Decode.list playerDecoder)
+    |> required "wonCards" historyDecoder
 
+type alias History =
+    Maybe (List (List Card))
+
+historyDecoder : Decode.Decoder History
+historyDecoder =
+    Decode.maybe (Decode.list (Decode.list cardDecoder))
+
+{-
+
+
+type alias Group =
+    { points : Int
+    , players : List Player
+    , wonCards : Maybe (List List Card)
+    }
 
 type alias Game =
     { gameType : String
@@ -49,11 +81,6 @@ type alias Card =
 type alias Player =
     String
 
-type alias Group =
-    { points : Int
-    , players : List Player
-    , wonCards : Maybe (List List Card)
-    }
 
 type alias Table =
     { pos1 : Maybe Card 

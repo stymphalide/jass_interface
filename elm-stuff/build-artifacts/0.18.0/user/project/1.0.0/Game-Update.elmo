@@ -1,3 +1,11 @@
+var _user$project$Game_Update$decodeGame = function (gameString) {
+	var _p0 = A2(_elm_lang$core$Json_Decode$decodeString, _user$project$Decoders$gameDecoder, gameString);
+	if (_p0.ctor === 'Ok') {
+		return _elm_lang$core$Maybe$Just(_p0._0);
+	} else {
+		return _elm_lang$core$Maybe$Nothing;
+	}
+};
 var _user$project$Game_Update$updateGame = function (gameString) {
-	return _elm_lang$core$Maybe$Just(gameString);
+	return _user$project$Game_Update$decodeGame(gameString);
 };
