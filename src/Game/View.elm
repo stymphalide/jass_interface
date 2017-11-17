@@ -33,11 +33,13 @@ init =
 viewGame : Game -> Html Msg
 viewGame game =
     div [] 
-    [ h1 [] [text game.gameType]
+    [ h1 [] [viewGameType game.gameType]
     , h2 [] [text game.activePlayer]
     , div [] (viewPlayerCards game.cardsPlayer)
     ]
-
+viewGameType : String -> Html Msg
+viewGameType gameType =
+    img [src ("../../img/" ++ (colorTranslate gameType)++ "_icon.png") ] []
 
 viewPlayerCards : Maybe (List Card) -> List (Html Msg)
 viewPlayerCards cards =

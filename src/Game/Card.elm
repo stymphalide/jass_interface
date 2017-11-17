@@ -3,7 +3,6 @@ module Game.Card exposing (..)
 import List
 import Tuple
 
-import Game.Model exposing (Card, Color, Number)
 
 colors_english = ["hearts", "spades", "diamonds", "clubs"]
 numbers_english = ["6", "7", "8", "9", "10", "jack", "queen", "king", "ace"]

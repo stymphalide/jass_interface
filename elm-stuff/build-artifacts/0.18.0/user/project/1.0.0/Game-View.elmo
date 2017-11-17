@@ -44,6 +44,23 @@ var _user$project$Game_View$viewPlayerCards = function (cards) {
 		return A2(_elm_lang$core$List$map, _user$project$Game_View$viewPlayerCard, _p0._0);
 	}
 };
+var _user$project$Game_View$viewGameType = function (gameType) {
+	return A2(
+		_elm_lang$html$Html$img,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$src(
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'../../img/',
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						_user$project$Game_Card$colorTranslate(gameType),
+						'_icon.png'))),
+			_1: {ctor: '[]'}
+		},
+		{ctor: '[]'});
+};
 var _user$project$Game_View$viewGame = function (game) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -55,7 +72,7 @@ var _user$project$Game_View$viewGame = function (game) {
 				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text(game.gameType),
+					_0: _user$project$Game_View$viewGameType(game.gameType),
 					_1: {ctor: '[]'}
 				}),
 			_1: {
