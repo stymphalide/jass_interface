@@ -19,7 +19,7 @@ group_2 = {
 	wonCards : []
 }
 
-function initial_game() {
+function initial_game(activePlayer) {
 	var initial_game = {
 		type : "",
 		players : [],
@@ -39,45 +39,42 @@ function initial_game() {
 	initial_game.type = game_data.type;
 	initial_game.players = game_data.players;
 	initial_game.groups = [group_1, group_2];
-	initial_game.activePlayer = game_data.rounds[0].startingPlayer
+	initial_game.activePlayer = activePlayer
 	initial_game.onTurnPlayer = initial_game.activePlayer
 	initial_game.cardsPlayer = game_data.cards[initial_game.activePlayer]
 	return initial_game
 }
 
-function getGameStatus(round, turn) {
+function getGameStatus(activePlayer) {
 	var game = game_data;
-	var game_msg = initial_game();
-	rounds = game.rounds;
-	for(var r = 0; r < round; r++) {
+	var game_msg = initial_game(activePlayer);
+	var gameMsgs = [[JSON.stringify(initial_game())]];
+	var rounds = game.rounds;
+	for(var r = 0; r < 9; r++) {
 		var cards = rounds[r].cards;
 		for(var t = 0; t < 4 ; t++) {
-			var c_idx = game_msg.cardsPlayer.indexOf(cards[t]);
+			var i_pl = game_msg.players.indexOf(game_msg.onTurnPlayer);
 			// To set the cards of the same players always at the same position
-			var p_idx = game.players.indexOf(game_msg.activePlayer);
+			var c_idx = game.cards[game_msg.onTurnPlayer].indexOf(cards[t]);
 			// Update the cards Table 
 			// and the cards of the player in our internal game Model
-			game_msg.cardsTable["pos" + (p_idx+1)] = game.cards[game_msg.activePlayer].splice(c_idx,c_idx)[0];
-
-			var i_pl = game_msg.players.indexOf(game.activePlayer);
-			game_msg.activePlayer = game_msg.players[(i_pl + 1) %4]
-			game_msg.cardsPlayer = game_msg.activePlayer
+			game_msg.cardsTable["pos" + (i_pl+1)] = game.cards[game_msg.onTurnPlayer].splice(c_idx,1)[0];
 			game_msg.turn++;
-			if ( r + 1 == round && t + 1 == turn) {
-				break;
-			}
+			game_msg.cardsPlayer = game.cards[game_msg.activePlayer]
+			gameMsgs[r].push(JSON.stringify(game_msg));
+			game_msg.onTurnPlayer = game_msg.players[(i_pl + 1) % 4]
 		}
-		if(r + 1 == round) {
-			return game_msg;
-		}
+		game_msg.round++;
 		var g_idx = game.players.indexOf(rounds[r].winner)
 		g_idx %= 2;
 		moveCards(g_idx, game_msg.cardsTable);
-		game_msg.activePlayer = rounds[r].winner
-		game_msg.round++;
+		gameMsgs.push([JSON.stringify(game_msg)]);
+		game_msg.onTurnPlayer = rounds[r].winner
+		game_msg.turn = 0;
+
 	}
 
-	return game_msg;
+	return gameMsgs;
 }
 
 function moveCards(group_idx, table) {
@@ -93,14 +90,13 @@ function moveCards(group_idx, table) {
 	}
 }
 
-
-function splitGame(round, turn) {
-	for(var r = 0; r < round; r++) {
-		for (var i = 0; i < turn; i++) {
-
-			game_msg = JSON.stringify(getGameStatus(r, i));
-			fs.writeFile('../game_0/r_'+r+'_t_' + i+'.json', game_msg, 'utf8', function () {})
-		}
+gameMsgs = getGameStatus("pl_2");
+for (var r = 0; r < 9; r++) {
+	for (var t = 0; t <= 4; t++) {
+		console.log(r, t)
+		fs.writeFile( "../game_0/r" +r+ "t"+t+".json", gameMsgs[r][t], 'utf8', (err) => {
+			if (err) throw err;
+			console.log("File saved")
+		})
 	}
 }
-splitGame(9,4);

@@ -1,0 +1,18 @@
+var _user$project$Repl$t_s_o_l = {ctor: '_Tuple0'};
+var _user$project$Repl$g = {
+	ctor: '::',
+	_0: 'e',
+	_1: {
+		ctor: '::',
+		_0: 'b',
+		_1: {ctor: '[]'}
+	}
+};
+var _user$project$Repl$concat = F2(
+	function (a, b) {
+		return A2(
+			_elm_lang$core$Basics_ops['++'],
+			a,
+			A2(_elm_lang$core$Basics_ops['++'], ' ', b));
+	});
+var _user$project$Repl$d_e_l_t_r_o_n_3_0_3_0 = A3(_elm_lang$core$List$foldr, _user$project$Repl$concat, '', _user$project$Repl$g);
