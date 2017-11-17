@@ -12,7 +12,9 @@ import Msgs exposing (Msg)
 import Game.Model exposing(..)
 import Game.Card exposing (colorTranslate, numberTranslate)
 
-
+imgSourcePath : String
+imgSourcePath =
+    "../../img/"
 
 view : Maybe Game  -> Html Msg
 view game =
@@ -35,11 +37,14 @@ viewGame game =
     div [] 
     [ h1 [] [viewGameType game.gameType]
     , h2 [] [text game.activePlayer]
+    , h2 [] [text ("Round #" ++ (toString (game.round +1)))]
     , div [] (viewPlayerCards game.cardsPlayer)
+    , div [] (viewPlayers game.activePlayer game.onTurnPlayer game.players)
     ]
 viewGameType : String -> Html Msg
 viewGameType gameType =
-    img [src ("../../img/" ++ (colorTranslate gameType)++ "_icon.png") ] []
+    div []
+    [ text "Trumpf: ", img [src (imgSourcePath ++ (colorTranslate gameType)++ "_icon.png") ] []]
 
 viewPlayerCards : Maybe (List Card) -> List (Html Msg)
 viewPlayerCards cards =
@@ -56,4 +61,35 @@ viewPlayerCard card =
 
 getImagePath : Color -> Number -> String
 getImagePath color number =
-    "../../img/"++ (colorTranslate color) ++"_"++(numberTranslate number) ++".png"
+    imgSourcePath++ (colorTranslate color) ++"_"++(numberTranslate number) ++".png"
+
+
+viewPlayers: Player -> Player -> List Player -> List (Html Msg)
+viewPlayers  activePlayer onTurnPlayer players=
+    List.map (viewPlayer activePlayer onTurnPlayer) players
+
+
+viewPlayer : Player -> Player -> Player -> Html Msg
+viewPlayer  activePlayer onTurnPlayer player =
+    if player == activePlayer then
+        if player == onTurnPlayer then 
+            div []
+            [ div [] [text player]
+            , img [src (imgSourcePath ++ "playerActiveOnTurn_icon.png")] []
+            ]
+        else
+            div []
+            [ div [] [text player]
+            , img [src (imgSourcePath ++ "playerActive_icon.png")] []
+            ]
+    else 
+        if player == onTurnPlayer then 
+            div []
+            [ div [] [text player]
+            , img [src (imgSourcePath ++ "playerOnTurn_icon.png")] []
+            ]
+        else 
+            div []
+            [ div [] [text player]
+            , img [src (imgSourcePath ++ "player_icon.png")] []
+            ]

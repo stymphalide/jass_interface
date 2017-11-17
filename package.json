@@ -2,7 +2,7 @@
   "name": "jass_interface",
   "version": "1.0.0",
   "description": "A Simple Jass Interface",
-  "main": "index.js",
+  "main": "views/index.js",
   "repository": "https://github.com/stymphalide/jass.git",
   "author": "stymphalide <angelo.birrer@gmail.com>",
   "license": "MIT",

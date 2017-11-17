@@ -1,8 +1,56 @@
+var _user$project$Game_View$init = A2(
+	_elm_lang$html$Html$div,
+	{ctor: '[]'},
+	{
+		ctor: '::',
+		_0: A2(
+			_elm_lang$html$Html$a,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Events$onClick(_user$project$Msgs$Send),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text('Start Game'),
+				_1: {ctor: '[]'}
+			}),
+		_1: {ctor: '[]'}
+	});
+var _user$project$Game_View$imgSourcePath = '../../img/';
+var _user$project$Game_View$viewGameType = function (gameType) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('Trumpf: '),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$img,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$src(
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								_user$project$Game_View$imgSourcePath,
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									_user$project$Game_Card$colorTranslate(gameType),
+									'_icon.png'))),
+						_1: {ctor: '[]'}
+					},
+					{ctor: '[]'}),
+				_1: {ctor: '[]'}
+			}
+		});
+};
 var _user$project$Game_View$getImagePath = F2(
 	function (color, number) {
 		return A2(
 			_elm_lang$core$Basics_ops['++'],
-			'../../img/',
+			_user$project$Game_View$imgSourcePath,
 			A2(
 				_elm_lang$core$Basics_ops['++'],
 				_user$project$Game_Card$colorTranslate(color),
@@ -44,23 +92,121 @@ var _user$project$Game_View$viewPlayerCards = function (cards) {
 		return A2(_elm_lang$core$List$map, _user$project$Game_View$viewPlayerCard, _p0._0);
 	}
 };
-var _user$project$Game_View$viewGameType = function (gameType) {
-	return A2(
-		_elm_lang$html$Html$img,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$src(
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					'../../img/',
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						_user$project$Game_Card$colorTranslate(gameType),
-						'_icon.png'))),
-			_1: {ctor: '[]'}
-		},
-		{ctor: '[]'});
-};
+var _user$project$Game_View$viewPlayer = F3(
+	function (activePlayer, onTurnPlayer, player) {
+		return _elm_lang$core$Native_Utils.eq(player, activePlayer) ? (_elm_lang$core$Native_Utils.eq(player, onTurnPlayer) ? A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(player),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$src(
+								A2(_elm_lang$core$Basics_ops['++'], _user$project$Game_View$imgSourcePath, 'playerActiveOnTurn_icon.png')),
+							_1: {ctor: '[]'}
+						},
+						{ctor: '[]'}),
+					_1: {ctor: '[]'}
+				}
+			}) : A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(player),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$src(
+								A2(_elm_lang$core$Basics_ops['++'], _user$project$Game_View$imgSourcePath, 'playerActive_icon.png')),
+							_1: {ctor: '[]'}
+						},
+						{ctor: '[]'}),
+					_1: {ctor: '[]'}
+				}
+			})) : (_elm_lang$core$Native_Utils.eq(player, onTurnPlayer) ? A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(player),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$src(
+								A2(_elm_lang$core$Basics_ops['++'], _user$project$Game_View$imgSourcePath, 'playerOnTurn_icon.png')),
+							_1: {ctor: '[]'}
+						},
+						{ctor: '[]'}),
+					_1: {ctor: '[]'}
+				}
+			}) : A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(player),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$src(
+								A2(_elm_lang$core$Basics_ops['++'], _user$project$Game_View$imgSourcePath, 'player_icon.png')),
+							_1: {ctor: '[]'}
+						},
+						{ctor: '[]'}),
+					_1: {ctor: '[]'}
+				}
+			}));
+	});
+var _user$project$Game_View$viewPlayers = F3(
+	function (activePlayer, onTurnPlayer, players) {
+		return A2(
+			_elm_lang$core$List$map,
+			A2(_user$project$Game_View$viewPlayer, activePlayer, onTurnPlayer),
+			players);
+	});
 var _user$project$Game_View$viewGame = function (game) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -88,33 +234,36 @@ var _user$project$Game_View$viewGame = function (game) {
 				_1: {
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$div,
+						_elm_lang$html$Html$h2,
 						{ctor: '[]'},
-						_user$project$Game_View$viewPlayerCards(game.cardsPlayer)),
-					_1: {ctor: '[]'}
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									'Round #',
+									_elm_lang$core$Basics$toString(game.round + 1))),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{ctor: '[]'},
+							_user$project$Game_View$viewPlayerCards(game.cardsPlayer)),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{ctor: '[]'},
+								A3(_user$project$Game_View$viewPlayers, game.activePlayer, game.onTurnPlayer, game.players)),
+							_1: {ctor: '[]'}
+						}
+					}
 				}
 			}
 		});
 };
-var _user$project$Game_View$init = A2(
-	_elm_lang$html$Html$div,
-	{ctor: '[]'},
-	{
-		ctor: '::',
-		_0: A2(
-			_elm_lang$html$Html$a,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Events$onClick(_user$project$Msgs$Send),
-				_1: {ctor: '[]'}
-			},
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html$text('Start Game'),
-				_1: {ctor: '[]'}
-			}),
-		_1: {ctor: '[]'}
-	});
 var _user$project$Game_View$page = function (game) {
 	var _p1 = game;
 	if (_p1.ctor === 'Nothing') {
