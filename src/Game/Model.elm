@@ -5,7 +5,7 @@ type alias Game =
     , round : Int
     , turn : Int
     , players : List Player
-    , group : List Group
+    , groups : List Group
     , activePlayer : Player
     , onTurnPlayer : Player
     , cardsPlayer : Maybe ( List Card ) 
@@ -22,11 +22,13 @@ type alias Color =
     String
 type alias Number =
     String
+type alias History =
+    Maybe (List (List Card))
 
 type alias Group =
     { points : Int
     , players : List Player
-    , wonCards : Maybe (List (List Card))
+    , wonCards : History
     }
 
 type alias Table =
