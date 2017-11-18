@@ -1,25 +1,7 @@
-const game_data = require("../game_3/game_full.json");
-
+var path = require('path')
 var fs = require('fs')
 
-group_1 = {
-	points : 0,
-	players : [
-		game_data.players[0], 
-		game_data.players[2]
-	],
-	wonCards : []
-};
-group_2 = {
-	points : 0,
-	players : [
-		game_data.players[1],
-		game_data.players[3]
-	],
-	wonCards : []
-}
-
-function initial_game() {
+function initial_game(game_data) {
 	var initial_game = {
 		type : "",
 		players : [],
@@ -28,6 +10,7 @@ function initial_game() {
 		groups : [],
 		activePlayer : "",
 		onTurnPlayer : "",
+		cards : {},
 		cardsPlayer : [],
 		cardsTable : {
 			pos1 : null, 
@@ -39,16 +22,35 @@ function initial_game() {
 	initial_game.type = game_data.type;
 	initial_game.players = game_data.players;
 	initial_game.groups = [group_1, group_2];
-	initial_game.activePlayer = game_data.players[0];
+	initial_game.cards = game_data.cards
 	initial_game.onTurnPlayer = game_data.rounds[0].startingPlayer;
-	initial_game.cardsPlayer = game_data.cards[initial_game.activePlayer];
-	console.log(initial_game)
 	return initial_game
 }
 
-function getGameStatus() {
+
+getGameStatus =  function(gameId) {
+	const game_data = require(path.resolve(__dirname + "/../game_"+ gameId +"/game_full.json"));
+	group_1 = {
+		points : 0,
+		players : [
+			game_data.players[0], 
+			game_data.players[2]
+		],
+		wonCards : []
+	};
+	group_2 = {
+		points : 0,
+		players : [
+			game_data.players[1],
+			game_data.players[3]
+		],
+		wonCards : []
+	}
+
+
 	var game = game_data;
-	var game_msg = initial_game();
+
+	var game_msg = initial_game( game_data);
 	var gameMsgs = [[JSON.stringify(game_msg)]];
 	var rounds = game.rounds;
 	for(var r = 0; r < 9; r++) {
@@ -61,7 +63,7 @@ function getGameStatus() {
 			// and the cards of the player in our internal game Model
 			game_msg.cardsTable["pos" + (i_pl+1)] = game.cards[game_msg.onTurnPlayer].splice(c_idx,1)[0];
 			game_msg.turn++;
-			game_msg.cardsPlayer = game.cards[game_msg.activePlayer]
+
 			gameMsgs[r].push(JSON.stringify(game_msg));
 			game_msg.onTurnPlayer = game_msg.players[(i_pl + 1) % 4]
 		}
@@ -74,7 +76,6 @@ function getGameStatus() {
 		gameMsgs.push([JSON.stringify(game_msg)]);
 
 	}
-
 	return gameMsgs;
 }
 
@@ -91,13 +92,12 @@ function moveCards(group_idx, table) {
 	}
 }
 
-gameMsgs = getGameStatus("pl_2");
+gameId = 3
+gameMsgs = getGameStatus(gameId)
 for (var r = 0; r < 9; r++) {
-	for (var t = 0; t <= 4; t++) {
-		console.log(r, t)
-		fs.writeFile( "../game_3/r" +r+ "t"+t+".json", gameMsgs[r][t], 'utf8', (err) => {
-			if (err) throw err;
-			console.log("File saved")
-		})
+	for(var t = 0; t <= 4; t++) {
+		fs.writeFile( path.resolve( __dirname + "/../")+ "/game_" + gameId + "/r"+r+"t"+t+".json", gameMsgs[r][t],"utf8", (err) => {})
 	}
 }
+
+

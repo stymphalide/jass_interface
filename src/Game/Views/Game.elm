@@ -24,11 +24,11 @@ viewGame game =
     , div [] [nav game.round game.turn]
     , ol [class "list-reset"] (viewPlayerCards game.cardsPlayer)
     , ol [class "list-reset"] (viewPlayers game.activePlayer game.onTurnPlayer game.players)
+    , viewTable game.table
     , div [] 
         [ viewGroup (List.head game.groups)
         , viewGroup (List.head (unwrapMaybeGroups (List.tail game.groups)))
         ]
-    , viewTable game.table
     ]
 
 viewGameType : String -> Html Msg

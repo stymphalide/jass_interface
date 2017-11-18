@@ -3,13 +3,13 @@ module Commands exposing (..)
 import WebSocket
 import Window
 import Task
-
+import Json.Encode exposing (..)
 
 import Models exposing (Route)
 import Globals exposing (serverUrl)
 import Msgs exposing (Msg)
 
-import Game.Model exposing (Game)
+import Game.Model exposing (Game, Player)
 
 getWindowSize : Cmd Msg
 getWindowSize =
@@ -34,8 +34,14 @@ fetchGame (round, turn) =
 
 encodeGame : Int -> Int -> String
 encodeGame round turn =
-    fileName round turn
+    encode 4 (gameObject round turn "pl_2" "3")
 
-fileName : Int -> Int -> String
-fileName round turn =
-    "../db/game_3/r" ++ (toString round) ++ "t"++ (toString turn) ++ ".json"
+gameObject : Int -> Int -> Player -> String -> Value
+gameObject round turn player gameId =
+        object 
+            [ ("round", int round)
+            , ("turn", int turn)
+            , ("player", string player)
+            , ("gameId", string gameId)
+            ]
+

@@ -1,22 +1,46 @@
-var _user$project$Commands$fileName = F2(
-	function (round, turn) {
-		return A2(
-			_elm_lang$core$Basics_ops['++'],
-			'../db/game_3/r',
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				_elm_lang$core$Basics$toString(round),
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					't',
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						_elm_lang$core$Basics$toString(turn),
-						'.json'))));
+var _user$project$Commands$gameObject = F4(
+	function (round, turn, player, gameId) {
+		return _elm_lang$core$Json_Encode$object(
+			{
+				ctor: '::',
+				_0: {
+					ctor: '_Tuple2',
+					_0: 'round',
+					_1: _elm_lang$core$Json_Encode$int(round)
+				},
+				_1: {
+					ctor: '::',
+					_0: {
+						ctor: '_Tuple2',
+						_0: 'turn',
+						_1: _elm_lang$core$Json_Encode$int(turn)
+					},
+					_1: {
+						ctor: '::',
+						_0: {
+							ctor: '_Tuple2',
+							_0: 'player',
+							_1: _elm_lang$core$Json_Encode$string(player)
+						},
+						_1: {
+							ctor: '::',
+							_0: {
+								ctor: '_Tuple2',
+								_0: 'gameId',
+								_1: _elm_lang$core$Json_Encode$string(gameId)
+							},
+							_1: {ctor: '[]'}
+						}
+					}
+				}
+			});
 	});
 var _user$project$Commands$encodeGame = F2(
 	function (round, turn) {
-		return A2(_user$project$Commands$fileName, round, turn);
+		return A2(
+			_elm_lang$core$Json_Encode$encode,
+			4,
+			A4(_user$project$Commands$gameObject, round, turn, 'pl_2', '3'));
 	});
 var _user$project$Commands$fetchGame = function (_p0) {
 	var _p1 = _p0;
