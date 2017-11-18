@@ -29,6 +29,6 @@ update msg model =
             in
                 ({model | game = newGame}, Cmd.none)
         Msgs.FetchGame (round, turn) ->
-            (model, fetchGame (round, turn))
+            (model, fetchGame model.gameId (round, turn))
         Msgs.SizeUpdated newSize ->
             ({model | windowSize = newSize}, Cmd.none)

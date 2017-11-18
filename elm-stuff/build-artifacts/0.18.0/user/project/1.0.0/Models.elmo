@@ -2,12 +2,13 @@ var _user$project$Models$initialModel = function (route) {
 	return {
 		route: route,
 		game: _elm_lang$core$Maybe$Nothing,
-		windowSize: A2(_elm_lang$window$Window$Size, 0, 0)
+		windowSize: A2(_elm_lang$window$Window$Size, 0, 0),
+		gameId: '3'
 	};
 };
-var _user$project$Models$Model = F3(
-	function (a, b, c) {
-		return {route: a, game: b, windowSize: c};
+var _user$project$Models$Model = F4(
+	function (a, b, c, d) {
+		return {route: a, game: b, windowSize: c, gameId: d};
 	});
 var _user$project$Models$NotFoundRoute = {ctor: 'NotFoundRoute'};
 var _user$project$Models$Play = function (a) {

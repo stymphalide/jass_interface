@@ -1,5 +1,5 @@
 var _user$project$Commands$gameObject = F4(
-	function (round, turn, player, gameId) {
+	function (round, turn, gameId, player) {
 		return _elm_lang$core$Json_Encode$object(
 			{
 				ctor: '::',
@@ -19,15 +19,15 @@ var _user$project$Commands$gameObject = F4(
 						ctor: '::',
 						_0: {
 							ctor: '_Tuple2',
-							_0: 'player',
-							_1: _elm_lang$core$Json_Encode$string(player)
+							_0: 'gameId',
+							_1: _elm_lang$core$Json_Encode$string(gameId)
 						},
 						_1: {
 							ctor: '::',
 							_0: {
 								ctor: '_Tuple2',
-								_0: 'gameId',
-								_1: _elm_lang$core$Json_Encode$string(gameId)
+								_0: 'player',
+								_1: _elm_lang$core$Json_Encode$string(player)
 							},
 							_1: {ctor: '[]'}
 						}
@@ -35,30 +35,35 @@ var _user$project$Commands$gameObject = F4(
 				}
 			});
 	});
-var _user$project$Commands$encodeGame = F2(
-	function (round, turn) {
+var _user$project$Commands$encodeGame = F3(
+	function (round, turn, gameId) {
 		return A2(
 			_elm_lang$core$Json_Encode$encode,
 			4,
-			A4(_user$project$Commands$gameObject, round, turn, 'pl_2', '3'));
+			A4(_user$project$Commands$gameObject, round, turn, gameId, 'pl_2'));
 	});
-var _user$project$Commands$fetchGame = function (_p0) {
-	var _p1 = _p0;
-	return A2(
-		_elm_lang$websocket$WebSocket$send,
-		_user$project$Globals$serverUrl,
-		A2(_user$project$Commands$encodeGame, _p1._0, _p1._1));
-};
+var _user$project$Commands$fetchGame = F2(
+	function (gameId, _p0) {
+		var _p1 = _p0;
+		return A2(
+			_elm_lang$websocket$WebSocket$send,
+			_user$project$Globals$serverUrl,
+			A3(_user$project$Commands$encodeGame, _p1._0, _p1._1, gameId));
+	});
 var _user$project$Commands$routeCommand = function (route) {
 	var _p2 = route;
 	switch (_p2.ctor) {
 		case 'Init':
 			return _elm_lang$core$Platform_Cmd$none;
 		case 'Play':
-			return _user$project$Commands$fetchGame(
+			return A2(
+				_user$project$Commands$fetchGame,
+				_p2._0,
 				{ctor: '_Tuple2', _0: -1, _1: -1});
 		case 'Watch':
-			return _user$project$Commands$fetchGame(
+			return A2(
+				_user$project$Commands$fetchGame,
+				_p2._0,
 				{ctor: '_Tuple2', _0: -1, _1: -1});
 		default:
 			return _elm_lang$core$Platform_Cmd$none;
