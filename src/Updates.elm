@@ -6,7 +6,7 @@ import WebSocket
 
 import Msgs exposing (Msg)
 import Models exposing (Model)
-import Commands exposing (fetchGame, getWindowSize)
+import Commands exposing (fetchGame)
 import Routing exposing (parseLocation)
 
 import Game.Update exposing (updateGame)
@@ -28,10 +28,7 @@ update msg model =
                 newGame = updateGame gameString
             in
                 ({model | game = newGame}, Cmd.none)
-        Msgs.Send ->
-            (model, fetchGame)
+        Msgs.FetchGame (round, turn) ->
+            (model, fetchGame (round, turn))
         Msgs.SizeUpdated newSize ->
             ({model | windowSize = newSize}, Cmd.none)
-
-
-

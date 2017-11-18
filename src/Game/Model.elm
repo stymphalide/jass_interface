@@ -16,6 +16,10 @@ type alias Card =
     , number : Number 
     }
 
+
+type alias GameCoord =
+    (Int, Int)
+
 type alias Player =
     String
 type alias Color =

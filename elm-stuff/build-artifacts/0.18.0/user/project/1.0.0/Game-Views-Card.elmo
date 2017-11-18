@@ -23,7 +23,7 @@ var _user$project$Game_Views_Card$viewCard = function (card) {
 				A2(_user$project$Game_Views_Card$getImagePath, card.color, card.number)),
 			_1: {
 				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$width(70),
+				_0: _elm_lang$html$Html_Attributes$width(100),
 				_1: {ctor: '[]'}
 			}
 		},

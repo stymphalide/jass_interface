@@ -6,5 +6,5 @@ import Window exposing (Size)
 type Msg
     = OnLocationChange Location
     | GameUpdate String 
-    | Send
+    | FetchGame (Int, Int)
     | SizeUpdated Size

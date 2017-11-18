@@ -1,4 +1,4 @@
-const game_data = require("../game_0/game_full.json");
+const game_data = require("../game_3/game_full.json");
 
 var fs = require('fs')
 
@@ -19,7 +19,7 @@ group_2 = {
 	wonCards : []
 }
 
-function initial_game(activePlayer) {
+function initial_game() {
 	var initial_game = {
 		type : "",
 		players : [],
@@ -39,16 +39,17 @@ function initial_game(activePlayer) {
 	initial_game.type = game_data.type;
 	initial_game.players = game_data.players;
 	initial_game.groups = [group_1, group_2];
-	initial_game.activePlayer = activePlayer
-	initial_game.onTurnPlayer = initial_game.activePlayer
-	initial_game.cardsPlayer = game_data.cards[initial_game.activePlayer]
+	initial_game.activePlayer = game_data.players[0];
+	initial_game.onTurnPlayer = game_data.rounds[0].startingPlayer;
+	initial_game.cardsPlayer = game_data.cards[initial_game.activePlayer];
+	console.log(initial_game)
 	return initial_game
 }
 
-function getGameStatus(activePlayer) {
+function getGameStatus() {
 	var game = game_data;
-	var game_msg = initial_game(activePlayer);
-	var gameMsgs = [[JSON.stringify(initial_game())]];
+	var game_msg = initial_game();
+	var gameMsgs = [[JSON.stringify(game_msg)]];
 	var rounds = game.rounds;
 	for(var r = 0; r < 9; r++) {
 		var cards = rounds[r].cards;
@@ -68,9 +69,9 @@ function getGameStatus(activePlayer) {
 		var g_idx = game.players.indexOf(rounds[r].winner)
 		g_idx %= 2;
 		moveCards(g_idx, game_msg.cardsTable);
-		gameMsgs.push([JSON.stringify(game_msg)]);
 		game_msg.onTurnPlayer = rounds[r].winner
 		game_msg.turn = 0;
+		gameMsgs.push([JSON.stringify(game_msg)]);
 
 	}
 
@@ -94,7 +95,7 @@ gameMsgs = getGameStatus("pl_2");
 for (var r = 0; r < 9; r++) {
 	for (var t = 0; t <= 4; t++) {
 		console.log(r, t)
-		fs.writeFile( "../game_0/r" +r+ "t"+t+".json", gameMsgs[r][t], 'utf8', (err) => {
+		fs.writeFile( "../game_3/r" +r+ "t"+t+".json", gameMsgs[r][t], 'utf8', (err) => {
 			if (err) throw err;
 			console.log("File saved")
 		})

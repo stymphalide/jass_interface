@@ -7,7 +7,9 @@ var _user$project$Game_View$init = A2(
 			_elm_lang$html$Html$a,
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html_Events$onClick(_user$project$Msgs$Send),
+				_0: _elm_lang$html$Html_Events$onClick(
+					_user$project$Msgs$FetchGame(
+						{ctor: '_Tuple2', _0: 0, _1: 0})),
 				_1: {ctor: '[]'}
 			},
 			{

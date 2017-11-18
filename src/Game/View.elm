@@ -12,9 +12,11 @@ import Game.Model exposing(Game)
 
 import Game.Views.Game exposing (viewGame)
 
-view : Maybe Game  -> Html Msg
+view : Maybe Game -> Html Msg
 view game =
-    div []  [page game]
+    div []  
+    [ page game
+    ]
 
 page : Maybe Game -> Html Msg
 page game =
@@ -26,5 +28,5 @@ page game =
 init :  Html Msg
 init =
     div [] 
-        [ a [onClick Msgs.Send ] [text "Start Game"]
+        [ a [onClick (Msgs.FetchGame (0, 0))] [text "Start Game"]
         ]

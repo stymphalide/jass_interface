@@ -16,6 +16,9 @@ type alias Model =
     , windowSize : Size
     }
 
+type alias GameCoord =
+    (Int, Int)
+
 initialModel : Route -> Model
 initialModel route =
     { route = route

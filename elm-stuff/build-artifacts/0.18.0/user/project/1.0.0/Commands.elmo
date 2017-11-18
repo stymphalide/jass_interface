@@ -1,13 +1,41 @@
-var _user$project$Commands$fetchGame = A2(_elm_lang$websocket$WebSocket$send, _user$project$Globals$serverUrl, 'fetchGame');
+var _user$project$Commands$fileName = F2(
+	function (round, turn) {
+		return A2(
+			_elm_lang$core$Basics_ops['++'],
+			'../db/game_3/r',
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_elm_lang$core$Basics$toString(round),
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					't',
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						_elm_lang$core$Basics$toString(turn),
+						'.json'))));
+	});
+var _user$project$Commands$encodeGame = F2(
+	function (round, turn) {
+		return A2(_user$project$Commands$fileName, round, turn);
+	});
+var _user$project$Commands$fetchGame = function (_p0) {
+	var _p1 = _p0;
+	return A2(
+		_elm_lang$websocket$WebSocket$send,
+		_user$project$Globals$serverUrl,
+		A2(_user$project$Commands$encodeGame, _p1._0, _p1._1));
+};
 var _user$project$Commands$routeCommand = function (route) {
-	var _p0 = route;
-	switch (_p0.ctor) {
+	var _p2 = route;
+	switch (_p2.ctor) {
 		case 'Init':
 			return _elm_lang$core$Platform_Cmd$none;
 		case 'Play':
-			return _user$project$Commands$fetchGame;
+			return _user$project$Commands$fetchGame(
+				{ctor: '_Tuple2', _0: -1, _1: -1});
 		case 'Watch':
-			return _user$project$Commands$fetchGame;
+			return _user$project$Commands$fetchGame(
+				{ctor: '_Tuple2', _0: -1, _1: -1});
 		default:
 			return _elm_lang$core$Platform_Cmd$none;
 	}

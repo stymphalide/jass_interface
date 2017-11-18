@@ -1,7 +1,6 @@
 module View exposing (..)
 
 
-import Window
 import Html exposing (..)
 import Html.Attributes exposing (class, href)
 
@@ -13,8 +12,9 @@ import Game.View
 view : Model -> Html Msg
 view model =
     div [] 
-        [
-            page model
+        [ page model
+        , text (toString model.windowSize)
+        , text (toString model.game)
         ]
 
 page : Model -> Html Msg
@@ -28,7 +28,6 @@ page model =
             Game.View.view model.game 
         Models.NotFoundRoute ->
             notFoundView
-
 
 init : Html Msg
 init =

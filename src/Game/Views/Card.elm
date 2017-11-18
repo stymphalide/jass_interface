@@ -10,9 +10,10 @@ import Game.Model exposing (Card, Number, Color)
 import Game.Translate exposing (colorTranslate, numberTranslate)
 
 
+
 viewCard : Card -> Html Msg
-viewCard card =
-    img [src (getImagePath card.color card.number), width 70] []
+viewCard card  =
+    img [src (getImagePath card.color card.number), width 100] []
 
 
 

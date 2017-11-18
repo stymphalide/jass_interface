@@ -57,6 +57,16 @@ var _user$project$View$view = function (model) {
 		{
 			ctor: '::',
 			_0: _user$project$View$page(model),
-			_1: {ctor: '[]'}
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html$text(
+					_elm_lang$core$Basics$toString(model.windowSize)),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						_elm_lang$core$Basics$toString(model.game)),
+					_1: {ctor: '[]'}
+				}
+			}
 		});
 };

@@ -4,6 +4,7 @@ import WebSocket
 import Window
 import Task
 
+
 import Models exposing (Route)
 import Globals exposing (serverUrl)
 import Msgs exposing (Msg)
@@ -21,12 +22,20 @@ routeCommand route =
         Models.Init ->
             Cmd.none
         Models.Play gameId ->
-            fetchGame
+            fetchGame (-1, -1)
         Models.Watch gameId ->
-            fetchGame
+            fetchGame (-1, -1)
         Models.NotFoundRoute ->
             Cmd.none
 
-fetchGame : Cmd Msg
-fetchGame =
-    WebSocket.send serverUrl "fetchGame"
+fetchGame : (Int, Int) -> Cmd Msg
+fetchGame (round, turn) =
+    WebSocket.send serverUrl (encodeGame round turn )
+
+encodeGame : Int -> Int -> String
+encodeGame round turn =
+    fileName round turn
+
+fileName : Int -> Int -> String
+fileName round turn =
+    "../db/game_3/r" ++ (toString round) ++ "t"++ (toString turn) ++ ".json"

@@ -20,8 +20,13 @@ var _user$project$Updates$update = F2(
 						{game: newGame}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
-			case 'Send':
-				return {ctor: '_Tuple2', _0: model, _1: _user$project$Commands$fetchGame};
+			case 'FetchGame':
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: _user$project$Commands$fetchGame(
+						{ctor: '_Tuple2', _0: _p0._0._0, _1: _p0._0._1})
+				};
 			default:
 				return {
 					ctor: '_Tuple2',
