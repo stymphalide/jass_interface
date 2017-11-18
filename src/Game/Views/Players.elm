@@ -2,7 +2,7 @@ module Game.Views.Players exposing (..)
 
 import List
 import Html exposing (..)
-import Html.Attributes exposing (src)
+import Html.Attributes exposing (src, class, width)
 
 import Msgs exposing (Msg)
 import Globals exposing (imgSourcePath)
@@ -21,25 +21,25 @@ viewPlayer : Player -> Player -> Player -> Html Msg
 viewPlayer  activePlayer onTurnPlayer player =
     if player == activePlayer then
         if player == onTurnPlayer then 
-            li []
-            [ div [] [text player]
-            , img [src (imgSourcePath ++ "playerActiveOnTurn_icon.png")] []
+            li [class "inline-block mr1"]
+            [ div [class "col-9"] [text player]
+            , img [src (imgSourcePath ++ "playerActiveOnTurn_icon.png"), width 50] []
             ]
         else
-            li []
-            [ div [] [text player]
-            , img [src (imgSourcePath ++ "playerActive_icon.png")] []
+            li [class "inline-block mr1"]
+            [ div [class "col-9"] [text player]
+            , img [src (imgSourcePath ++ "playerActive_icon.png"), width 50] []
             ]
     else 
         if player == onTurnPlayer then 
-            li []
-            [ div [] [text player]
-            , img [src (imgSourcePath ++ "playerOnTurn_icon.png")] []
+            li [class "inline-block mr1"]
+            [ div [class "col-9"] [text player]
+            , img [src (imgSourcePath ++ "playerOnTurn_icon.png"), width 50] []
             ]
         else 
-            li []
-            [ div [] [text player]
-            , img [src (imgSourcePath ++ "player_icon.png")] []
+            li [class "inline-block mr1"]
+            [ div [class "col-9"] [text player]
+            , img [src (imgSourcePath ++ "player_icon.png"), width 50] []
             ]
 
 
@@ -53,7 +53,8 @@ viewPlayerCards cards =
 
 viewPlayerCard : Card -> Html Msg
 viewPlayerCard card =
-    li [] 
-    [
-     viewCard card
+    li [class "inline-block"] 
+    [ div [class "sm-col sm-col-9"] 
+        [viewCard card]
+     
     ]

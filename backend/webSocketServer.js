@@ -11,7 +11,8 @@ wss.on('connection', function connection(ws) {
 		console.log("I got a message.")
 		if(data == "fetchGame") {
 			console.log("I will fetch the game.")
-			gameState = require('../db/game_0/r_0_t_0.json');
+			gameState = require('../db/game_0/r1t0.json');
+			console.log(gameState)
 			ws.send(JSON.stringify(gameState));
 		}
 	});

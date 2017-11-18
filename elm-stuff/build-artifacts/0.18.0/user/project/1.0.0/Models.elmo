@@ -1,9 +1,13 @@
 var _user$project$Models$initialModel = function (route) {
-	return {route: route, game: _elm_lang$core$Maybe$Nothing};
+	return {
+		route: route,
+		game: _elm_lang$core$Maybe$Nothing,
+		windowSize: A2(_elm_lang$window$Window$Size, 0, 0)
+	};
 };
-var _user$project$Models$Model = F2(
-	function (a, b) {
-		return {route: a, game: b};
+var _user$project$Models$Model = F3(
+	function (a, b, c) {
+		return {route: a, game: b, windowSize: c};
 	});
 var _user$project$Models$NotFoundRoute = {ctor: 'NotFoundRoute'};
 var _user$project$Models$Play = function (a) {

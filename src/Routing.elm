@@ -1,14 +1,11 @@
 module Routing exposing (..)
 
-
 import Navigation exposing (Location)
 import UrlParser exposing (..)
 
 import Models exposing (Route(..))
+import Globals exposing (serverUrl)
 
-serverUrl : String
-serverUrl =
-    "ws://localhost:5000"
 
 matchers : Parser (Route -> a) a
 matchers =

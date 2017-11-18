@@ -2,7 +2,7 @@ module Game.Views.Game exposing (..)
 
 import List
 import Html exposing (..)
-import Html.Attributes exposing (src)
+import Html.Attributes exposing (src, class)
 
 import Msgs exposing (Msg)
 import Globals exposing (imgSourcePath)
@@ -20,8 +20,8 @@ viewGame game =
     [ h1 [] [viewGameType game.gameType]
     , h2 [] [text game.activePlayer]
     , h2 [] [text ("Round #" ++ (toString (game.round +1)))]
-    , ol [] (viewPlayerCards game.cardsPlayer)
-    , ol [] (viewPlayers game.activePlayer game.onTurnPlayer game.players)
+    , ol [class "list-reset"] (viewPlayerCards game.cardsPlayer)
+    , ol [class "list-reset"] (viewPlayers game.activePlayer game.onTurnPlayer game.players)
     , div [] 
         [ viewGroup (List.head game.groups)
         , viewGroup (List.head (unwrapMaybeGroups (List.tail game.groups)))

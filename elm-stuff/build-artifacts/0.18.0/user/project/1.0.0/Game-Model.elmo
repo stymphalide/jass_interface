@@ -1,6 +1,6 @@
 var _user$project$Game_Model$Game = F9(
 	function (a, b, c, d, e, f, g, h, i) {
-		return {gameType: a, round: b, turn: c, players: d, group: e, activePlayer: f, onTurnPlayer: g, cardsPlayer: h, table: i};
+		return {gameType: a, round: b, turn: c, players: d, groups: e, activePlayer: f, onTurnPlayer: g, cardsPlayer: h, table: i};
 	});
 var _user$project$Game_Model$Card = F2(
 	function (a, b) {

@@ -1,0 +1,116 @@
+var _user$project$Game_Views_Game$viewGameType = function (gameType) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('Trumpf: '),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$img,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$src(
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								_user$project$Globals$imgSourcePath,
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									_user$project$Game_Translate$colorTranslate(gameType),
+									'_icon.png'))),
+						_1: {ctor: '[]'}
+					},
+					{ctor: '[]'}),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+var _user$project$Game_Views_Game$viewGame = function (game) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$h1,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _user$project$Game_Views_Game$viewGameType(game.gameType),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$h2,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(game.activePlayer),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$h2,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									'Round #',
+									_elm_lang$core$Basics$toString(game.round + 1))),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$ol,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('list-reset'),
+								_1: {ctor: '[]'}
+							},
+							_user$project$Game_Views_Players$viewPlayerCards(game.cardsPlayer)),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$ol,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('list-reset'),
+									_1: {ctor: '[]'}
+								},
+								A3(_user$project$Game_Views_Players$viewPlayers, game.activePlayer, game.onTurnPlayer, game.players)),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$div,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: _user$project$Game_Views_Groups$viewGroup(
+											_elm_lang$core$List$head(game.groups)),
+										_1: {
+											ctor: '::',
+											_0: _user$project$Game_Views_Groups$viewGroup(
+												_elm_lang$core$List$head(
+													_user$project$Game_Views_Groups$unwrapMaybeGroups(
+														_elm_lang$core$List$tail(game.groups)))),
+											_1: {ctor: '[]'}
+										}
+									}),
+								_1: {
+									ctor: '::',
+									_0: _user$project$Game_Views_Table$viewTable(game.table),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				}
+			}
+		});
+};

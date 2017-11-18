@@ -1,9 +1,10 @@
+var _user$project$Main$initialSize = _user$project$Commands$getWindowSize;
 var _user$project$Main$init = function (location) {
 	var cRoute = _user$project$Routing$parseLocation(location);
 	return {
 		ctor: '_Tuple2',
 		_0: _user$project$Models$initialModel(cRoute),
-		_1: _elm_lang$core$Platform_Cmd$none
+		_1: _user$project$Main$initialSize
 	};
 };
 var _user$project$Main$main = A2(

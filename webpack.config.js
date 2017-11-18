@@ -1,8 +1,8 @@
 var path = require("path");
 module.exports = {
 entry: {
-	app: [
-		'./src/index.js'
+	index: [
+		'./src/static/index.js'
 	]
 },
 output: {

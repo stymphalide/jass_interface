@@ -10909,14 +10909,21 @@ var _user$project$Game_View$getImagePath = F2(
 	});
 var _user$project$Game_View$viewPlayerCard = function (card) {
 	return A2(
-		_elm_lang$html$Html$img,
+		_elm_lang$html$Html$li,
+		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$src(
-				A2(_user$project$Game_View$getImagePath, card.color, card.number)),
+			_0: A2(
+				_elm_lang$html$Html$img,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$src(
+						A2(_user$project$Game_View$getImagePath, card.color, card.number)),
+					_1: {ctor: '[]'}
+				},
+				{ctor: '[]'}),
 			_1: {ctor: '[]'}
-		},
-		{ctor: '[]'});
+		});
 };
 var _user$project$Game_View$viewPlayerCards = function (cards) {
 	var _p0 = cards;
@@ -10940,7 +10947,7 @@ var _user$project$Game_View$viewPlayerCards = function (cards) {
 var _user$project$Game_View$viewPlayer = F3(
 	function (activePlayer, onTurnPlayer, player) {
 		return _elm_lang$core$Native_Utils.eq(player, activePlayer) ? (_elm_lang$core$Native_Utils.eq(player, onTurnPlayer) ? A2(
-			_elm_lang$html$Html$div,
+			_elm_lang$html$Html$li,
 			{ctor: '[]'},
 			{
 				ctor: '::',
@@ -10966,7 +10973,7 @@ var _user$project$Game_View$viewPlayer = F3(
 					_1: {ctor: '[]'}
 				}
 			}) : A2(
-			_elm_lang$html$Html$div,
+			_elm_lang$html$Html$li,
 			{ctor: '[]'},
 			{
 				ctor: '::',
@@ -10992,7 +10999,7 @@ var _user$project$Game_View$viewPlayer = F3(
 					_1: {ctor: '[]'}
 				}
 			})) : (_elm_lang$core$Native_Utils.eq(player, onTurnPlayer) ? A2(
-			_elm_lang$html$Html$div,
+			_elm_lang$html$Html$li,
 			{ctor: '[]'},
 			{
 				ctor: '::',
@@ -11018,7 +11025,7 @@ var _user$project$Game_View$viewPlayer = F3(
 					_1: {ctor: '[]'}
 				}
 			}) : A2(
-			_elm_lang$html$Html$div,
+			_elm_lang$html$Html$li,
 			{ctor: '[]'},
 			{
 				ctor: '::',
@@ -11093,16 +11100,28 @@ var _user$project$Game_View$viewGame = function (game) {
 					_1: {
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$div,
+							_elm_lang$html$Html$ol,
 							{ctor: '[]'},
 							_user$project$Game_View$viewPlayerCards(game.cardsPlayer)),
 						_1: {
 							ctor: '::',
 							_0: A2(
-								_elm_lang$html$Html$div,
+								_elm_lang$html$Html$ul,
 								{ctor: '[]'},
 								A3(_user$project$Game_View$viewPlayers, game.activePlayer, game.onTurnPlayer, game.players)),
-							_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$div,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text(
+											_elm_lang$core$Basics$toString(game.group)),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
 						}
 					}
 				}

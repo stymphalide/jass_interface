@@ -1,19 +1,19 @@
 module Commands exposing (..)
 
 import WebSocket
+import Window
+import Task
 
-import Json.Decode as Decode
-import Json.Decode.Pipeline exposing (decode, required)
-
---import Msgs exposing (Msg)
 import Models exposing (Route)
-import Routing exposing (serverUrl)
-import Decoders exposing (gameDecoder)
+import Globals exposing (serverUrl)
 import Msgs exposing (Msg)
 
 import Game.Model exposing (Game)
 
-
+getWindowSize : Cmd Msg
+getWindowSize =
+    Window.size 
+    |> Task.perform Msgs.SizeUpdated
 
 routeCommand : Route -> Cmd Msg
 routeCommand route =

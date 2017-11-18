@@ -1,1 +1,0 @@
-{"type":"spades","players":["pl_1","pl_2","pl_3","pl_4"],"round":1,"turn":5,"groups":[{"points":0,"players":["pl_1","pl_3"],"wonCards":[]},{"points":0,"players":["pl_2","pl_4"],"wonCards":[[null,null,null,null],[null,null,null,null]]}],"activePlayer":"pl_1","onTurnPlayer":"pl_2","cardsPlayer":"pl_1","cardsTable":{"pos1":null,"pos3":null,"pos4":null}}

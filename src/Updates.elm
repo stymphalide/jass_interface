@@ -1,15 +1,16 @@
 module Updates exposing (..)
 
 import Navigation exposing (Location)
+import WebSocket
+--import RemoteData
 
 import Msgs exposing (Msg)
 import Models exposing (Model)
-import Commands exposing (fetchGame)
+import Commands exposing (fetchGame, getWindowSize)
 import Routing exposing (parseLocation)
 
 import Game.Update exposing (updateGame)
 
-import WebSocket
 
 -- UPDATE
 
@@ -29,6 +30,8 @@ update msg model =
                 ({model | game = newGame}, Cmd.none)
         Msgs.Send ->
             (model, fetchGame)
+        Msgs.SizeUpdated newSize ->
+            ({model | windowSize = newSize}, Cmd.none)
 
 
 

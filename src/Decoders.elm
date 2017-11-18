@@ -49,44 +49,7 @@ groupDecoder =
     |> required "players" (Decode.list playerDecoder)
     |> required "wonCards" historyDecoder
 
-type alias History =
-    Maybe (List (List Card))
-
 historyDecoder : Decode.Decoder History
 historyDecoder =
     Decode.maybe (Decode.list (Decode.list cardDecoder))
 
-{-
-
-
-type alias Group =
-    { points : Int
-    , players : List Player
-    , wonCards : Maybe (List List Card)
-    }
-
-type alias Game =
-    { gameType : String
-    , round : Int
-    , players : List Player
-    , group : List Group
-    , activePlayer : Player
-    , cardsPlayer : Maybe ( List Card ) 
-    , table : Table
-    }
-type alias Card =
-    { color : String
-    , number : String 
-    }
-
-type alias Player =
-    String
-
-
-type alias Table =
-    { pos1 : Maybe Card 
-    , pos2 : Maybe Card
-    , pos3 : Maybe Card
-    , pos4 : Maybe Card 
-    }
--}

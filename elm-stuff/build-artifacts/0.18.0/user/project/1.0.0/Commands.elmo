@@ -1,4 +1,4 @@
-var _user$project$Commands$fetchGame = A2(_elm_lang$websocket$WebSocket$send, _user$project$Routing$serverUrl, 'fetchGame');
+var _user$project$Commands$fetchGame = A2(_elm_lang$websocket$WebSocket$send, _user$project$Globals$serverUrl, 'fetchGame');
 var _user$project$Commands$routeCommand = function (route) {
 	var _p0 = route;
 	switch (_p0.ctor) {
@@ -12,3 +12,4 @@ var _user$project$Commands$routeCommand = function (route) {
 			return _elm_lang$core$Platform_Cmd$none;
 	}
 };
+var _user$project$Commands$getWindowSize = A2(_elm_lang$core$Task$perform, _user$project$Msgs$SizeUpdated, _elm_lang$window$Window$size);

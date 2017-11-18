@@ -1,17 +1,15 @@
 module Main exposing (..)
 
-
-
 import Navigation exposing (Location)
 
-
 import Routing
-
+import Commands exposing (getWindowSize)
 import Models exposing (Model, initialModel)
 import Msgs exposing (Msg)
 import Updates exposing (update)
 import View exposing (view)
 import Subscriptions exposing (subscriptions)
+
 
 -- INIT
 
@@ -20,7 +18,11 @@ init location =
     let cRoute = 
         Routing.parseLocation location
     in
-        (initialModel cRoute, Cmd.none)
+        (initialModel cRoute, initialSize)
+
+initialSize : Cmd Msg
+initialSize =
+    getWindowSize
 
 
 -- MAIN

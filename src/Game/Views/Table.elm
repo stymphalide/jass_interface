@@ -1,7 +1,7 @@
 module Game.Views.Table exposing (..)
 
 import Html exposing (..)
-import Html.Attributes exposing (src)
+import Html.Attributes exposing (src, width)
 
 import Msgs exposing (Msg)
 import Globals exposing (imgSourcePath)
@@ -30,4 +30,4 @@ viewTableCard mCard =
 
 viewEmptyCard : Html Msg
 viewEmptyCard =
-    img [src (imgSourcePath ++ "empty_card.png")] []
+    img [src (imgSourcePath ++ "empty_card.png"), width 70] []

@@ -1,0 +1,2 @@
+var _user$project$Globals$imgSourcePath = '../../img/';
+var _user$project$Globals$serverUrl = 'ws://localhost:5000';

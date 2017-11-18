@@ -1,14 +1,13 @@
 module View exposing (..)
 
 
+import Window
 import Html exposing (..)
 import Html.Attributes exposing (class, href)
-import Html.Events exposing (onClick)
 
 import Models exposing (Model)
 import Msgs exposing (Msg)
-import Game.View 
-import Routing exposing (gamePath)
+import Game.View
 
 -- VIEW
 view : Model -> Html Msg
