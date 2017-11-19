@@ -22,10 +22,10 @@ page model =
     case model.route of
         Models.Init ->
             init
-        Models.Play gameId ->
-            Game.View.view model.game 
-        Models.Watch gameId ->
-            Game.View.view model.game 
+        Models.Play player gameId ->
+            Game.View.view model.route model.game 
+        Models.Watch player gameId ->
+            Game.View.view model.route model.game 
         Models.NotFoundRoute ->
             notFoundView
 

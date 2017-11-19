@@ -24,10 +24,11 @@ var _user$project$Updates$update = F2(
 				return {
 					ctor: '_Tuple2',
 					_0: model,
-					_1: A2(
+					_1: A3(
 						_user$project$Commands$fetchGame,
 						model.gameId,
-						{ctor: '_Tuple2', _0: _p0._0._0, _1: _p0._0._1})
+						{ctor: '_Tuple2', _0: _p0._0._0, _1: _p0._0._1},
+						_p0._1)
 				};
 			default:
 				return {

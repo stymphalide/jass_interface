@@ -8,8 +8,10 @@ var _user$project$Game_View$init = A2(
 			{
 				ctor: '::',
 				_0: _elm_lang$html$Html_Events$onClick(
-					_user$project$Msgs$FetchGame(
-						{ctor: '_Tuple2', _0: 0, _1: 0})),
+					A2(
+						_user$project$Msgs$FetchGame,
+						{ctor: '_Tuple2', _0: 0, _1: 0},
+						'pl_1')),
 				_1: {ctor: '[]'}
 			},
 			{
@@ -19,21 +21,46 @@ var _user$project$Game_View$init = A2(
 			}),
 		_1: {ctor: '[]'}
 	});
-var _user$project$Game_View$page = function (game) {
-	var _p0 = game;
-	if (_p0.ctor === 'Nothing') {
-		return _user$project$Game_View$init;
-	} else {
-		return _user$project$Game_Views_Game$viewGame(_p0._0);
-	}
-};
-var _user$project$Game_View$view = function (game) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: _user$project$Game_View$page(game),
-			_1: {ctor: '[]'}
-		});
-};
+var _user$project$Game_View$page = F2(
+	function (isWatch, game) {
+		var _p0 = game;
+		if (_p0.ctor === 'Nothing') {
+			return _user$project$Game_View$init;
+		} else {
+			return A2(_user$project$Game_Views_Game$viewGame, isWatch, _p0._0);
+		}
+	});
+var _user$project$Game_View$view = F2(
+	function (route, game) {
+		var _p1 = route;
+		switch (_p1.ctor) {
+			case 'Init':
+				return A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{ctor: '[]'});
+			case 'Watch':
+				return A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(_user$project$Game_View$page, true, game),
+						_1: {ctor: '[]'}
+					});
+			case 'Play':
+				return A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(_user$project$Game_View$page, false, game),
+						_1: {ctor: '[]'}
+					});
+			default:
+				return A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{ctor: '[]'});
+		}
+	});

@@ -42,8 +42,37 @@ var _user$project$Game_Views_Players$viewPlayerCards = function (cards) {
 		return A2(_elm_lang$core$List$map, _user$project$Game_Views_Players$viewPlayerCard, _p0._0);
 	}
 };
-var _user$project$Game_Views_Players$viewPlayer = F3(
-	function (activePlayer, onTurnPlayer, player) {
+var _user$project$Game_Views_Players$noAction = A2(_elm_lang$html$Html_Attributes$attribute, 'none', '');
+var _user$project$Game_Views_Players$changePlayer = F3(
+	function (gameCoord, player, isWatch) {
+		return isWatch ? _elm_lang$html$Html_Events$onClick(
+			A2(_user$project$Msgs$FetchGame, gameCoord, player)) : _user$project$Game_Views_Players$noAction;
+	});
+var _user$project$Game_Views_Players$getImage = F4(
+	function (isWatch, gameCoord, player, icon) {
+		return A2(
+			_elm_lang$html$Html$img,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$src(
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						_user$project$Globals$imgSourcePath,
+						A2(_elm_lang$core$Basics_ops['++'], icon, '_icon.png'))),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$width(50),
+					_1: {
+						ctor: '::',
+						_0: A3(_user$project$Game_Views_Players$changePlayer, gameCoord, player, isWatch),
+						_1: {ctor: '[]'}
+					}
+				}
+			},
+			{ctor: '[]'});
+	});
+var _user$project$Game_Views_Players$viewPlayer = F5(
+	function (isWatch, gameCoord, activePlayer, onTurnPlayer, player) {
 		return _elm_lang$core$Native_Utils.eq(player, activePlayer) ? (_elm_lang$core$Native_Utils.eq(player, onTurnPlayer) ? A2(
 			_elm_lang$html$Html$li,
 			{
@@ -67,19 +96,7 @@ var _user$project$Game_Views_Players$viewPlayer = F3(
 					}),
 				_1: {
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$img,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$src(
-								A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'playerActiveOnTurn_icon.png')),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$width(50),
-								_1: {ctor: '[]'}
-							}
-						},
-						{ctor: '[]'}),
+					_0: A4(_user$project$Game_Views_Players$getImage, isWatch, gameCoord, player, 'playerActiveOnTurn'),
 					_1: {ctor: '[]'}
 				}
 			}) : A2(
@@ -105,19 +122,7 @@ var _user$project$Game_Views_Players$viewPlayer = F3(
 					}),
 				_1: {
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$img,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$src(
-								A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'playerActive_icon.png')),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$width(50),
-								_1: {ctor: '[]'}
-							}
-						},
-						{ctor: '[]'}),
+					_0: A4(_user$project$Game_Views_Players$getImage, isWatch, gameCoord, player, 'playerActive'),
 					_1: {ctor: '[]'}
 				}
 			})) : (_elm_lang$core$Native_Utils.eq(player, onTurnPlayer) ? A2(
@@ -143,19 +148,7 @@ var _user$project$Game_Views_Players$viewPlayer = F3(
 					}),
 				_1: {
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$img,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$src(
-								A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'playerOnTurn_icon.png')),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$width(50),
-								_1: {ctor: '[]'}
-							}
-						},
-						{ctor: '[]'}),
+					_0: A4(_user$project$Game_Views_Players$getImage, isWatch, gameCoord, player, 'playerOnTurn'),
 					_1: {ctor: '[]'}
 				}
 			}) : A2(
@@ -181,27 +174,15 @@ var _user$project$Game_Views_Players$viewPlayer = F3(
 					}),
 				_1: {
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$img,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$src(
-								A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'player_icon.png')),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$width(50),
-								_1: {ctor: '[]'}
-							}
-						},
-						{ctor: '[]'}),
+					_0: A4(_user$project$Game_Views_Players$getImage, isWatch, gameCoord, player, 'player'),
 					_1: {ctor: '[]'}
 				}
 			}));
 	});
-var _user$project$Game_Views_Players$viewPlayers = F3(
-	function (activePlayer, onTurnPlayer, players) {
+var _user$project$Game_Views_Players$viewPlayers = F5(
+	function (isWatch, gameCoord, activePlayer, onTurnPlayer, players) {
 		return A2(
 			_elm_lang$core$List$map,
-			A2(_user$project$Game_Views_Players$viewPlayer, activePlayer, onTurnPlayer),
+			A4(_user$project$Game_Views_Players$viewPlayer, isWatch, gameCoord, activePlayer, onTurnPlayer),
 			players);
 	});

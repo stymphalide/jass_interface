@@ -28,7 +28,7 @@ update msg model =
                 newGame = updateGame gameString
             in
                 ({model | game = newGame}, Cmd.none)
-        Msgs.FetchGame (round, turn) ->
-            (model, fetchGame model.gameId (round, turn))
+        Msgs.FetchGame (round, turn) player ->
+            (model, fetchGame model.gameId (round, turn) player)
         Msgs.SizeUpdated newSize ->
             ({model | windowSize = newSize}, Cmd.none)

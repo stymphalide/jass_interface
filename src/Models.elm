@@ -1,13 +1,13 @@
 module Models exposing (..)
 
 import Window exposing (Size)
-import Game.Model exposing (Game)
+import Game.Model exposing (Game, Player)
 
 
 type Route
     = Init
-    | Watch String
-    | Play String
+    | Watch Player GameId
+    | Play Player GameId
     | NotFoundRoute
 
 type alias GameId =
@@ -18,6 +18,7 @@ type alias Model =
     , game : Maybe Game
     , windowSize : Size
     , gameId : GameId
+    , player : Player
     }
 
 
@@ -27,4 +28,5 @@ initialModel route =
     , game = Nothing
     , windowSize = Size 0 0
     , gameId = "3"
+    , player = "pl_1"
     }

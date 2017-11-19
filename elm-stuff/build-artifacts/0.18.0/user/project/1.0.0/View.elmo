@@ -43,9 +43,9 @@ var _user$project$View$page = function (model) {
 		case 'Init':
 			return _user$project$View$init;
 		case 'Play':
-			return _user$project$Game_View$view(model.game);
+			return A2(_user$project$Game_View$view, model.route, model.game);
 		case 'Watch':
-			return _user$project$Game_View$view(model.game);
+			return A2(_user$project$Game_View$view, model.route, model.game);
 		default:
 			return _user$project$View$notFoundView;
 	}

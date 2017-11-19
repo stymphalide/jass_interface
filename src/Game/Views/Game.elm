@@ -8,22 +8,22 @@ import Html.Events exposing (onClick)
 import Msgs exposing (Msg)
 import Globals exposing (imgSourcePath)
 
-import Game.Model exposing (Game)
+import Game.Model exposing (Game, GameCoord, Player)
 import Game.Translate exposing (colorTranslate)
 
 import Game.Views.Players exposing (viewPlayers, viewPlayerCards)
 import Game.Views.Groups exposing (viewGroup, unwrapMaybeGroups)
 import Game.Views.Table exposing (viewTable)
 
-viewGame : Game -> Html Msg
-viewGame game =
+viewGame : Bool -> Game -> Html Msg
+viewGame isWatch game =
     div [] 
     [ h1 [] [viewGameType game.gameType]
     , h2 [] [text game.activePlayer]
     , h2 [] [text ("Round #" ++ (toString (game.round, game.turn)))]
-    , div [] [nav game.round game.turn]
+    , div [] [nav game.activePlayer game.round game.turn]
     , ol [class "list-reset"] (viewPlayerCards game.cardsPlayer)
-    , ol [class "list-reset"] (viewPlayers game.activePlayer game.onTurnPlayer game.players)
+    , ol [class "list-reset"] (viewPlayers isWatch (game.round, game.turn) game.activePlayer game.onTurnPlayer game.players)
     , viewTable game.table
     , div [] 
         [ viewGroup (List.head game.groups)
@@ -41,20 +41,20 @@ viewGameType gameType =
         div []
         [img [src (imgSourcePath ++ (colorTranslate gameType)++ "_icon.png") ] []]
 
-nav : Int -> Int -> Html Msg
-nav round turn =
+nav : Player -> Int -> Int -> Html Msg
+nav player round turn =
     div [] 
-    [ prev round turn 
-    , next round turn
+    [ prev player round turn 
+    , next player round turn 
     ]
 
-next : Int -> Int -> Html Msg
-next round turn =
+next : Player -> Int -> Int -> Html Msg
+next player round turn =
     if not (isEnd round turn) then
         img 
         [ src (imgSourcePath ++ "right_arrow.png")
-        , (nextRound round turn)
-            |> Msgs.FetchGame
+        ,  player
+            |> Msgs.FetchGame (nextRound round turn)
             |> onClick
         ] []
     else 
@@ -73,13 +73,13 @@ nextRound round turn =
         (round, turn + 1)
 
 
-prev : Int -> Int -> Html Msg
-prev round turn =
+prev : Player -> Int -> Int -> Html Msg
+prev player round turn =
     if not (isBegin round turn) then
         img
         [ src (imgSourcePath ++ "left_arrow.png")
-        , (prevRound round turn)
-            |> Msgs.FetchGame
+        , player
+            |> Msgs.FetchGame (prevRound round turn) 
             |> onClick
         ][]
     else

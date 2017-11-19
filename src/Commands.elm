@@ -21,20 +21,20 @@ routeCommand route =
     case route of
         Models.Init ->
             Cmd.none
-        Models.Play gameId ->
-            fetchGame gameId (-1, -1)
-        Models.Watch gameId ->
-            fetchGame gameId (-1, -1)
+        Models.Play gameId player->
+            fetchGame gameId (-1, -1) player
+        Models.Watch gameId player->
+            fetchGame gameId (-1, -1) player
         Models.NotFoundRoute ->
             Cmd.none
 
-fetchGame : GameId -> (Int, Int) -> Cmd Msg
-fetchGame gameId (round, turn) =
-    WebSocket.send serverUrl (encodeGame round turn gameId)
+fetchGame : GameId -> (Int, Int) -> Player -> Cmd Msg
+fetchGame gameId (round, turn) player =
+    WebSocket.send serverUrl (encodeGame round turn gameId player)
 
-encodeGame : Int -> Int -> Player -> GameId
-encodeGame round turn gameId =
-    encode 4 (gameObject round turn gameId "pl_2" )
+encodeGame : Int -> Int -> GameId -> Player -> String
+encodeGame round turn gameId player =
+    encode 4 (gameObject round turn gameId player)
 
 gameObject : Int -> Int ->  GameId -> Player -> Value
 gameObject round turn gameId player  =
