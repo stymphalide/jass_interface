@@ -21,6 +21,7 @@ wss.on('connection', function connection(ws) {
 		gameState.activePlayer = data.player
 		gameState.cardsPlayer = gameState.cards[data.player]
 		console.log(gameState)
+		//console.log(gameState)
 		console.log("I will send the game")
 		ws.send(JSON.stringify(gameState));
 	});

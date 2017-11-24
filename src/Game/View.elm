@@ -6,39 +6,35 @@ import Html.Events exposing (onClick)
 
 -- Client Model
 import Msgs exposing (Msg)
-import Models exposing (Route)
+
 
 -- Game specific
-import Game.Model exposing(Game)
+import Game.Model exposing(Game, Player)
 
 import Game.Views.Game exposing (viewGame)
 
-view : Route -> Maybe Game -> Html Msg
-view route game =
-    case route of
-        Models.Init ->
-            div [] []
-        Models.Watch player gameId  ->
-            div []  
-            [ page True game
-            ]
-        Models.Play player gameId  ->
-            div []
-            [ page False game
-            ]
-        Models.NotFoundRoute ->
-            div [] []
-            
+viewPlay :  Player -> Maybe Game -> Html Msg
+viewPlay player game =
+    div []  
+    [ page False player game
+    ]
+        
+viewWatch : Player -> Maybe Game -> Html Msg
+viewWatch player game =
+    div []
+    [ page True player game
+    ]       
 
-page : Bool -> Maybe Game -> Html Msg
-page isWatch game =
+
+page : Bool -> Player -> Maybe Game -> Html Msg
+page isWatch player game =
     case game of
         Nothing ->
-            init 
+            init player
         Just g ->
             viewGame isWatch g
-init : Html Msg
-init =
+init : Player -> Html Msg
+init player =
     div [] 
-        [ a [onClick (Msgs.FetchGame (0, 0) "pl_1")] [text "Start Game"]
+        [ a [onClick (Msgs.FetchGame (0, 0) player)] [text "Start Game"]
         ]

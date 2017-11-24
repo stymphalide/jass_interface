@@ -50,25 +50,4 @@ var _user$project$Commands$fetchGame = F3(
 			_user$project$Globals$serverUrl,
 			A4(_user$project$Commands$encodeGame, _p1._0, _p1._1, gameId, player));
 	});
-var _user$project$Commands$routeCommand = function (route) {
-	var _p2 = route;
-	switch (_p2.ctor) {
-		case 'Init':
-			return _elm_lang$core$Platform_Cmd$none;
-		case 'Play':
-			return A3(
-				_user$project$Commands$fetchGame,
-				_p2._0,
-				{ctor: '_Tuple2', _0: -1, _1: -1},
-				_p2._1);
-		case 'Watch':
-			return A3(
-				_user$project$Commands$fetchGame,
-				_p2._0,
-				{ctor: '_Tuple2', _0: -1, _1: -1},
-				_p2._1);
-		default:
-			return _elm_lang$core$Platform_Cmd$none;
-	}
-};
 var _user$project$Commands$getWindowSize = A2(_elm_lang$core$Task$perform, _user$project$Msgs$SizeUpdated, _elm_lang$window$Window$size);

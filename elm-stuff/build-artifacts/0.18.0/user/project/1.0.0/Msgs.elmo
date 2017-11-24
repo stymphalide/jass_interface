@@ -1,6 +1,9 @@
 var _user$project$Msgs$SizeUpdated = function (a) {
 	return {ctor: 'SizeUpdated', _0: a};
 };
+var _user$project$Msgs$GameIdUpdate = function (a) {
+	return {ctor: 'GameIdUpdate', _0: a};
+};
 var _user$project$Msgs$FetchGame = F2(
 	function (a, b) {
 		return {ctor: 'FetchGame', _0: a, _1: b};

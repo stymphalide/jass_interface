@@ -64,10 +64,25 @@ var _user$project$Game_Views_Groups$viewGroup = function (mGroup) {
 				_1: {
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$div,
+						_elm_lang$html$Html$h3,
 						{ctor: '[]'},
-						_user$project$Game_Views_Groups$viewWonTurns(_p3.wonCards)),
-					_1: {ctor: '[]'}
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									'Points: ',
+									_elm_lang$core$Basics$toString(_p3.points))),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{ctor: '[]'},
+							_user$project$Game_Views_Groups$viewWonTurns(_p3.wonCards)),
+						_1: {ctor: '[]'}
+					}
 				}
 			});
 	}

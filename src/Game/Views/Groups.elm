@@ -18,6 +18,7 @@ viewGroup mGroup =
         Just group ->
             div [] 
             [ h2 [] [ text (groupName group.players)]
+            , h3 [] ["Points: " ++ (toString group.points) |> text]
             , div [] (viewWonTurns group.wonCards)
             ]
 

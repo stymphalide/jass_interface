@@ -26,9 +26,21 @@ update msg model =
         Msgs.GameUpdate gameString ->
             let
                 newGame = updateGame gameString
+                newPlayer = 
+                    case newGame of
+                        Nothing ->
+                            model.player
+                        Just g ->
+                            g.activePlayer
             in
-                ({model | game = newGame}, Cmd.none)
-        Msgs.FetchGame (round, turn) player ->
-            (model, fetchGame model.gameId (round, turn) player)
+                ({model | game = newGame, player = newPlayer}, Cmd.none)
+        Msgs.FetchGame (round, turn) player->
+            case model.gameId of
+                Nothing ->
+                    (model, Cmd.none)
+                Just gameId ->
+                    (model, fetchGame gameId (round, turn) player)
+        Msgs.GameIdUpdate gameId ->
+            ({model | gameId = Just gameId}, Cmd.none)
         Msgs.SizeUpdated newSize ->
             ({model | windowSize = newSize}, Cmd.none)

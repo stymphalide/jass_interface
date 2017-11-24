@@ -11,8 +11,8 @@ matchers : Parser (Route -> a) a
 matchers =
     oneOf
         [ map Init top
-        , map (Play "pl_1") (s "play" </> string)
-        , map (Watch "pl_1") (s "watch" </> string)
+        , map Play  (s "play" )
+        , map Watch  (s "watch" )
         ]
 
 parseLocation : Location -> Route

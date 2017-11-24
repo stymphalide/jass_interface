@@ -6,6 +6,41 @@ var _user$project$View$notFoundView = A2(
 		_0: _elm_lang$html$Html$text('Not found'),
 		_1: {ctor: '[]'}
 	});
+var _user$project$View$viewOption = function (gameId) {
+	return A2(
+		_elm_lang$html$Html$option,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$value(gameId),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(
+				A2(_elm_lang$core$Basics_ops['++'], 'Game ', gameId)),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$View$slct = function (gameIds) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$select,
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html_Events$on,
+						'change',
+						A2(_elm_lang$core$Json_Decode$map, _user$project$Msgs$GameIdUpdate, _user$project$Decoders$gameIdDecoder)),
+					_1: {ctor: '[]'}
+				},
+				A2(_elm_lang$core$List$map, _user$project$View$viewOption, gameIds)),
+			_1: {ctor: '[]'}
+		});
+};
 var _user$project$View$btn = F2(
 	function (txt, path) {
 		return A2(
@@ -30,11 +65,32 @@ var _user$project$View$init = A2(
 	{ctor: '[]'},
 	{
 		ctor: '::',
-		_0: A2(_user$project$View$btn, 'Play New Game', 'play/0'),
+		_0: A2(_user$project$View$btn, 'Play New Game', 'play'),
 		_1: {
 			ctor: '::',
-			_0: A2(_user$project$View$btn, 'Watch Previous Game', 'watch/0'),
-			_1: {ctor: '[]'}
+			_0: A2(_user$project$View$btn, 'Watch Previous Game', 'watch'),
+			_1: {
+				ctor: '::',
+				_0: _user$project$View$slct(
+					{
+						ctor: '::',
+						_0: '0',
+						_1: {
+							ctor: '::',
+							_0: '1',
+							_1: {
+								ctor: '::',
+								_0: '2',
+								_1: {
+									ctor: '::',
+									_0: '3',
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}),
+				_1: {ctor: '[]'}
+			}
 		}
 	});
 var _user$project$View$page = function (model) {
@@ -43,9 +99,9 @@ var _user$project$View$page = function (model) {
 		case 'Init':
 			return _user$project$View$init;
 		case 'Play':
-			return A2(_user$project$Game_View$view, model.route, model.game);
+			return A2(_user$project$Game_View$viewPlay, model.player, model.game);
 		case 'Watch':
-			return A2(_user$project$Game_View$view, model.route, model.game);
+			return A2(_user$project$Game_View$viewWatch, model.player, model.game);
 		default:
 			return _user$project$View$notFoundView;
 	}
@@ -65,7 +121,12 @@ var _user$project$View$view = function (model) {
 					ctor: '::',
 					_0: _elm_lang$html$Html$text(
 						_elm_lang$core$Basics$toString(model.game)),
-					_1: {ctor: '[]'}
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(
+							_elm_lang$core$Basics$toString(model.gameId)),
+						_1: {ctor: '[]'}
+					}
 				}
 			}
 		});

@@ -11,7 +11,7 @@ import Game.Model exposing (..)
 gameDecoder : Decode.Decoder Game
 gameDecoder =
     decode Game
-    |> required "type" Decode.string
+    |> required "gameType" Decode.string
     |> required "round" Decode.int
     |> required "turn" Decode.int
     |> required "players" (Decode.list playerDecoder)
@@ -19,7 +19,7 @@ gameDecoder =
     |> required "activePlayer" playerDecoder
     |> required "onTurnPlayer" playerDecoder
     |> required "cardsPlayer" (Decode.maybe(Decode.list cardDecoder) )
-    |> required "cardsTable" tableDecoder
+    |> required "table" tableDecoder
 
 
 playerDecoder : Decode.Decoder Player
@@ -53,3 +53,7 @@ historyDecoder : Decode.Decoder History
 historyDecoder =
     Decode.maybe (Decode.list (Decode.list cardDecoder))
 
+gameIdDecoder : Decode.Decoder GameId
+gameIdDecoder =
+    decode Decode.string
+    |> required "value" Decode.string

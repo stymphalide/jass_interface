@@ -35,7 +35,7 @@ var _user$project$Game_Views_Game$nextRound = F2(
 	});
 var _user$project$Game_Views_Game$isEnd = F2(
 	function (round, turn) {
-		return _elm_lang$core$Native_Utils.eq(round, 8) && _elm_lang$core$Native_Utils.eq(turn, 4);
+		return _elm_lang$core$Native_Utils.eq(round, 9) && _elm_lang$core$Native_Utils.eq(turn, 0);
 	});
 var _user$project$Game_Views_Game$next = F3(
 	function (player, round, turn) {

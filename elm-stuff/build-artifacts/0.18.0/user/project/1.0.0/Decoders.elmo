@@ -1,3 +1,4 @@
+var _user$project$Decoders$gameIdDecoder = _elm_lang$core$Json_Decode$string;
 var _user$project$Decoders$cardDecoder = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'number',
@@ -43,7 +44,7 @@ var _user$project$Decoders$groupDecoder = A3(
 			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Game_Model$Group))));
 var _user$project$Decoders$gameDecoder = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-	'cardsTable',
+	'table',
 	_user$project$Decoders$tableDecoder,
 	A3(
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
@@ -76,6 +77,6 @@ var _user$project$Decoders$gameDecoder = A3(
 								_elm_lang$core$Json_Decode$int,
 								A3(
 									_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-									'type',
+									'gameType',
 									_elm_lang$core$Json_Decode$string,
 									_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Game_Model$Game))))))))));

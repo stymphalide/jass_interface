@@ -63,7 +63,7 @@ next player round turn =
 
 isEnd : Int -> Int -> Bool
 isEnd round turn =
-    round == 8 && turn == 4
+    round == 9 && turn == 0
 
 nextRound : Int -> Int -> (Int, Int)
 nextRound round turn =
