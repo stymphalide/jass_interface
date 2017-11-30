@@ -10590,9 +10590,9 @@ var _user$project$Msgs$SizeUpdated = function (a) {
 var _user$project$Msgs$GameIdUpdate = function (a) {
 	return {ctor: 'GameIdUpdate', _0: a};
 };
-var _user$project$Msgs$FetchGame = F2(
-	function (a, b) {
-		return {ctor: 'FetchGame', _0: a, _1: b};
+var _user$project$Msgs$FetchGame = F4(
+	function (a, b, c, d) {
+		return {ctor: 'FetchGame', _0: a, _1: b, _2: c, _3: d};
 	});
 var _user$project$Msgs$GameUpdate = function (a) {
 	return {ctor: 'GameUpdate', _0: a};
@@ -10601,21 +10601,22 @@ var _user$project$Msgs$OnLocationChange = function (a) {
 	return {ctor: 'OnLocationChange', _0: a};
 };
 var _user$project$Commands$gameObject = F4(
-	function (round, turn, gameId, player) {
+	function (_p0, gameId, player, mode) {
+		var _p1 = _p0;
 		return _elm_lang$core$Json_Encode$object(
 			{
 				ctor: '::',
 				_0: {
 					ctor: '_Tuple2',
 					_0: 'round',
-					_1: _elm_lang$core$Json_Encode$int(round)
+					_1: _elm_lang$core$Json_Encode$int(_p1._0)
 				},
 				_1: {
 					ctor: '::',
 					_0: {
 						ctor: '_Tuple2',
 						_0: 'turn',
-						_1: _elm_lang$core$Json_Encode$int(turn)
+						_1: _elm_lang$core$Json_Encode$int(_p1._1)
 					},
 					_1: {
 						ctor: '::',
@@ -10631,26 +10632,36 @@ var _user$project$Commands$gameObject = F4(
 								_0: 'player',
 								_1: _elm_lang$core$Json_Encode$string(player)
 							},
-							_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: {
+									ctor: '_Tuple2',
+									_0: 'mode',
+									_1: _elm_lang$core$Json_Encode$string(mode)
+								},
+								_1: {ctor: '[]'}
+							}
 						}
 					}
 				}
 			});
 	});
 var _user$project$Commands$encodeGame = F4(
-	function (round, turn, gameId, player) {
-		return A2(
+	function (gameCoord, gameId, player, isWatch) {
+		return isWatch ? A2(
 			_elm_lang$core$Json_Encode$encode,
 			4,
-			A4(_user$project$Commands$gameObject, round, turn, gameId, player));
+			A4(_user$project$Commands$gameObject, gameCoord, gameId, player, 'watch')) : A2(
+			_elm_lang$core$Json_Encode$encode,
+			4,
+			A4(_user$project$Commands$gameObject, gameCoord, gameId, player, 'play'));
 	});
-var _user$project$Commands$fetchGame = F3(
-	function (gameId, _p0, player) {
-		var _p1 = _p0;
+var _user$project$Commands$fetchGame = F4(
+	function (gameId, gameCoord, player, isWatch) {
 		return A2(
 			_elm_lang$websocket$WebSocket$send,
 			_user$project$Globals$serverUrl,
-			A4(_user$project$Commands$encodeGame, _p1._0, _p1._1, gameId, player));
+			A4(_user$project$Commands$encodeGame, gameCoord, gameId, player, isWatch));
 	});
 var _user$project$Commands$getWindowSize = A2(_elm_lang$core$Task$perform, _user$project$Msgs$SizeUpdated, _elm_lang$window$Window$size);
 var _user$project$Models$initialModel = function (route) {
@@ -10664,13 +10675,16 @@ var _user$project$Models$initialModel = function (route) {
 };
 var _user$project$Models$Model = F5(
 	function (a, b, c, d, e) {
-		return {route: a, game: b, windowSize: c, gameId: d, player: e};
+		return {route: a, game: b, windowSize: c, player: d, gameId: e};
 	});
 var _user$project$Models$NotFoundRoute = {ctor: 'NotFoundRoute'};
-var _user$project$Models$Play = {ctor: 'Play'};
-var _user$project$Models$Watch = {ctor: 'Watch'};
+var _user$project$Models$Play = function (a) {
+	return {ctor: 'Play', _0: a};
+};
+var _user$project$Models$Watch = function (a) {
+	return {ctor: 'Watch', _0: a};
+};
 var _user$project$Models$Init = {ctor: 'Init'};
-var _user$project$Decoders$gameIdDecoder = _elm_lang$core$Json_Decode$string;
 var _user$project$Decoders$cardDecoder = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'number',
@@ -10964,18 +10978,7 @@ var _user$project$Game_Translate$colorTranslate = function (color) {
 	return _elm_lang$core$Tuple$second(
 		A2(_user$project$Game_Translate$extractTuple, color, _user$project$Game_Translate$mappedColors));
 };
-var _user$project$Game_Update$decodeGame = function (gameString) {
-	return A2(_elm_lang$core$Json_Decode$decodeString, _user$project$Decoders$gameDecoder, gameString);
-};
-var _user$project$Game_Update$updateGame = function (gameString) {
-	var _p0 = _user$project$Game_Update$decodeGame(gameString);
-	if (_p0.ctor === 'Ok') {
-		return _elm_lang$core$Maybe$Just(_p0._0);
-	} else {
-		return _elm_lang$core$Maybe$Nothing;
-	}
-};
-var _user$project$Game_Views_Card$getImagePath = F2(
+var _user$project$Game_Play_Card$getImagePath = F2(
 	function (color, number) {
 		return A2(
 			_elm_lang$core$Basics_ops['++'],
@@ -10991,13 +10994,13 @@ var _user$project$Game_Views_Card$getImagePath = F2(
 						_user$project$Game_Translate$numberTranslate(number),
 						'.png'))));
 	});
-var _user$project$Game_Views_Card$viewCard = function (card) {
+var _user$project$Game_Play_Card$viewCard = function (card) {
 	return A2(
 		_elm_lang$html$Html$img,
 		{
 			ctor: '::',
 			_0: _elm_lang$html$Html_Attributes$src(
-				A2(_user$project$Game_Views_Card$getImagePath, card.color, card.number)),
+				A2(_user$project$Game_Play_Card$getImagePath, card.color, card.number)),
 			_1: {
 				ctor: '::',
 				_0: _elm_lang$html$Html_Attributes$width(100),
@@ -11006,7 +11009,7 @@ var _user$project$Game_Views_Card$viewCard = function (card) {
 		},
 		{ctor: '[]'});
 };
-var _user$project$Game_Views_Players$viewPlayerCard = function (card) {
+var _user$project$Game_Play_Players$viewPlayerCard = function (card) {
 	return A2(
 		_elm_lang$html$Html$li,
 		{
@@ -11025,13 +11028,13 @@ var _user$project$Game_Views_Players$viewPlayerCard = function (card) {
 				},
 				{
 					ctor: '::',
-					_0: _user$project$Game_Views_Card$viewCard(card),
+					_0: _user$project$Game_Play_Card$viewCard(card),
 					_1: {ctor: '[]'}
 				}),
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Game_Views_Players$viewPlayerCards = function (cards) {
+var _user$project$Game_Play_Players$viewPlayerCards = function (cards) {
 	var _p0 = cards;
 	if (_p0.ctor === 'Nothing') {
 		return {
@@ -11047,40 +11050,29 @@ var _user$project$Game_Views_Players$viewPlayerCards = function (cards) {
 			_1: {ctor: '[]'}
 		};
 	} else {
-		return A2(_elm_lang$core$List$map, _user$project$Game_Views_Players$viewPlayerCard, _p0._0);
+		return A2(_elm_lang$core$List$map, _user$project$Game_Play_Players$viewPlayerCard, _p0._0);
 	}
 };
-var _user$project$Game_Views_Players$noAction = A2(_elm_lang$html$Html_Attributes$attribute, 'none', '');
-var _user$project$Game_Views_Players$changePlayer = F3(
-	function (gameCoord, player, isWatch) {
-		return isWatch ? _elm_lang$html$Html_Events$onClick(
-			A2(_user$project$Msgs$FetchGame, gameCoord, player)) : _user$project$Game_Views_Players$noAction;
-	});
-var _user$project$Game_Views_Players$getImage = F4(
-	function (isWatch, gameCoord, player, icon) {
-		return A2(
-			_elm_lang$html$Html$img,
-			{
+var _user$project$Game_Play_Players$getImage = function (icon) {
+	return A2(
+		_elm_lang$html$Html$img,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$src(
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					_user$project$Globals$imgSourcePath,
+					A2(_elm_lang$core$Basics_ops['++'], icon, '_icon.png'))),
+			_1: {
 				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$src(
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						_user$project$Globals$imgSourcePath,
-						A2(_elm_lang$core$Basics_ops['++'], icon, '_icon.png'))),
-				_1: {
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$width(50),
-					_1: {
-						ctor: '::',
-						_0: A3(_user$project$Game_Views_Players$changePlayer, gameCoord, player, isWatch),
-						_1: {ctor: '[]'}
-					}
-				}
-			},
-			{ctor: '[]'});
-	});
-var _user$project$Game_Views_Players$viewPlayer = F5(
-	function (isWatch, gameCoord, activePlayer, onTurnPlayer, player) {
+				_0: _elm_lang$html$Html_Attributes$width(50),
+				_1: {ctor: '[]'}
+			}
+		},
+		{ctor: '[]'});
+};
+var _user$project$Game_Play_Players$viewPlayer = F3(
+	function (activePlayer, onTurnPlayer, player) {
 		return _elm_lang$core$Native_Utils.eq(player, activePlayer) ? (_elm_lang$core$Native_Utils.eq(player, onTurnPlayer) ? A2(
 			_elm_lang$html$Html$li,
 			{
@@ -11104,7 +11096,7 @@ var _user$project$Game_Views_Players$viewPlayer = F5(
 					}),
 				_1: {
 					ctor: '::',
-					_0: A4(_user$project$Game_Views_Players$getImage, isWatch, gameCoord, player, 'playerActiveOnTurn'),
+					_0: _user$project$Game_Play_Players$getImage('playerActiveOnTurn'),
 					_1: {ctor: '[]'}
 				}
 			}) : A2(
@@ -11130,7 +11122,7 @@ var _user$project$Game_Views_Players$viewPlayer = F5(
 					}),
 				_1: {
 					ctor: '::',
-					_0: A4(_user$project$Game_Views_Players$getImage, isWatch, gameCoord, player, 'playerActive'),
+					_0: _user$project$Game_Play_Players$getImage('playerActive'),
 					_1: {ctor: '[]'}
 				}
 			})) : (_elm_lang$core$Native_Utils.eq(player, onTurnPlayer) ? A2(
@@ -11156,7 +11148,7 @@ var _user$project$Game_Views_Players$viewPlayer = F5(
 					}),
 				_1: {
 					ctor: '::',
-					_0: A4(_user$project$Game_Views_Players$getImage, isWatch, gameCoord, player, 'playerOnTurn'),
+					_0: _user$project$Game_Play_Players$getImage('playerOnTurn'),
 					_1: {ctor: '[]'}
 				}
 			}) : A2(
@@ -11182,33 +11174,33 @@ var _user$project$Game_Views_Players$viewPlayer = F5(
 					}),
 				_1: {
 					ctor: '::',
-					_0: A4(_user$project$Game_Views_Players$getImage, isWatch, gameCoord, player, 'player'),
+					_0: _user$project$Game_Play_Players$getImage('player'),
 					_1: {ctor: '[]'}
 				}
 			}));
 	});
-var _user$project$Game_Views_Players$viewPlayers = F5(
-	function (isWatch, gameCoord, activePlayer, onTurnPlayer, players) {
+var _user$project$Game_Play_Players$viewPlayers = F3(
+	function (activePlayer, onTurnPlayer, players) {
 		return A2(
 			_elm_lang$core$List$map,
-			A4(_user$project$Game_Views_Players$viewPlayer, isWatch, gameCoord, activePlayer, onTurnPlayer),
+			A2(_user$project$Game_Play_Players$viewPlayer, activePlayer, onTurnPlayer),
 			players);
 	});
-var _user$project$Game_Views_Groups$viewWonTurn = function (cards) {
+var _user$project$Game_Play_Groups$viewWonTurn = function (cards) {
 	return A2(
 		_elm_lang$html$Html$li,
 		{ctor: '[]'},
-		A2(_elm_lang$core$List$map, _user$project$Game_Views_Card$viewCard, cards));
+		A2(_elm_lang$core$List$map, _user$project$Game_Play_Card$viewCard, cards));
 };
-var _user$project$Game_Views_Groups$viewWonTurns = function (mTurns) {
+var _user$project$Game_Play_Groups$viewWonTurns = function (mTurns) {
 	var _p0 = mTurns;
 	if (_p0.ctor === 'Nothing') {
 		return {ctor: '[]'};
 	} else {
-		return A2(_elm_lang$core$List$map, _user$project$Game_Views_Groups$viewWonTurn, _p0._0);
+		return A2(_elm_lang$core$List$map, _user$project$Game_Play_Groups$viewWonTurn, _p0._0);
 	}
 };
-var _user$project$Game_Views_Groups$unwrapMaybeGroups = function (mGroups) {
+var _user$project$Game_Play_Groups$unwrapMaybeGroups = function (mGroups) {
 	var _p1 = mGroups;
 	if (_p1.ctor === 'Nothing') {
 		return {ctor: '[]'};
@@ -11216,21 +11208,21 @@ var _user$project$Game_Views_Groups$unwrapMaybeGroups = function (mGroups) {
 		return _p1._0;
 	}
 };
-var _user$project$Game_Views_Groups$concat = F2(
+var _user$project$Game_Play_Groups$concat = F2(
 	function (a, b) {
 		return A2(
 			_elm_lang$core$Basics_ops['++'],
 			a,
 			A2(_elm_lang$core$Basics_ops['++'], ' ', b));
 	});
-var _user$project$Game_Views_Groups$groupName = function (players) {
+var _user$project$Game_Play_Groups$groupName = function (players) {
 	return A3(
 		_elm_lang$core$List$foldr,
-		_user$project$Game_Views_Groups$concat,
+		_user$project$Game_Play_Groups$concat,
 		'',
 		{ctor: '::', _0: 'Group', _1: players});
 };
-var _user$project$Game_Views_Groups$viewGroup = function (mGroup) {
+var _user$project$Game_Play_Groups$viewGroup = function (mGroup) {
 	var _p2 = mGroup;
 	if (_p2.ctor === 'Nothing') {
 		return A2(
@@ -11254,7 +11246,7 @@ var _user$project$Game_Views_Groups$viewGroup = function (mGroup) {
 					{
 						ctor: '::',
 						_0: _elm_lang$html$Html$text(
-							_user$project$Game_Views_Groups$groupName(_p3.players)),
+							_user$project$Game_Play_Groups$groupName(_p3.players)),
 						_1: {ctor: '[]'}
 					}),
 				_1: {
@@ -11276,14 +11268,14 @@ var _user$project$Game_Views_Groups$viewGroup = function (mGroup) {
 						_0: A2(
 							_elm_lang$html$Html$div,
 							{ctor: '[]'},
-							_user$project$Game_Views_Groups$viewWonTurns(_p3.wonCards)),
+							_user$project$Game_Play_Groups$viewWonTurns(_p3.wonCards)),
 						_1: {ctor: '[]'}
 					}
 				}
 			});
 	}
 };
-var _user$project$Game_Views_Table$viewEmptyCard = A2(
+var _user$project$Game_Play_Table$viewEmptyCard = A2(
 	_elm_lang$html$Html$img,
 	{
 		ctor: '::',
@@ -11296,114 +11288,37 @@ var _user$project$Game_Views_Table$viewEmptyCard = A2(
 		}
 	},
 	{ctor: '[]'});
-var _user$project$Game_Views_Table$viewTableCard = function (mCard) {
+var _user$project$Game_Play_Table$viewTableCard = function (mCard) {
 	var _p0 = mCard;
 	if (_p0.ctor === 'Nothing') {
-		return _user$project$Game_Views_Table$viewEmptyCard;
+		return _user$project$Game_Play_Table$viewEmptyCard;
 	} else {
-		return _user$project$Game_Views_Card$viewCard(_p0._0);
+		return _user$project$Game_Play_Card$viewCard(_p0._0);
 	}
 };
-var _user$project$Game_Views_Table$viewTable = function (table) {
+var _user$project$Game_Play_Table$viewTable = function (table) {
 	return A2(
 		_elm_lang$html$Html$ol,
 		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: _user$project$Game_Views_Table$viewTableCard(table.pos1),
+			_0: _user$project$Game_Play_Table$viewTableCard(table.pos1),
 			_1: {
 				ctor: '::',
-				_0: _user$project$Game_Views_Table$viewTableCard(table.pos2),
+				_0: _user$project$Game_Play_Table$viewTableCard(table.pos2),
 				_1: {
 					ctor: '::',
-					_0: _user$project$Game_Views_Table$viewTableCard(table.pos3),
+					_0: _user$project$Game_Play_Table$viewTableCard(table.pos3),
 					_1: {
 						ctor: '::',
-						_0: _user$project$Game_Views_Table$viewTableCard(table.pos4),
+						_0: _user$project$Game_Play_Table$viewTableCard(table.pos4),
 						_1: {ctor: '[]'}
 					}
 				}
 			}
 		});
 };
-var _user$project$Game_Views_Game$prevRound = F2(
-	function (round, turn) {
-		return _elm_lang$core$Native_Utils.eq(turn, 0) ? {ctor: '_Tuple2', _0: round - 1, _1: 4} : {ctor: '_Tuple2', _0: round, _1: turn - 1};
-	});
-var _user$project$Game_Views_Game$isBegin = F2(
-	function (round, turn) {
-		return _elm_lang$core$Native_Utils.eq(round, 0) && _elm_lang$core$Native_Utils.eq(turn, 0);
-	});
-var _user$project$Game_Views_Game$prev = F3(
-	function (player, round, turn) {
-		return (!A2(_user$project$Game_Views_Game$isBegin, round, turn)) ? A2(
-			_elm_lang$html$Html$img,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$src(
-					A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'left_arrow.png')),
-				_1: {
-					ctor: '::',
-					_0: _elm_lang$html$Html_Events$onClick(
-						A2(
-							_user$project$Msgs$FetchGame,
-							A2(_user$project$Game_Views_Game$prevRound, round, turn),
-							player)),
-					_1: {ctor: '[]'}
-				}
-			},
-			{ctor: '[]'}) : A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{ctor: '[]'});
-	});
-var _user$project$Game_Views_Game$nextRound = F2(
-	function (round, turn) {
-		return _elm_lang$core$Native_Utils.eq(turn, 4) ? {ctor: '_Tuple2', _0: round + 1, _1: 0} : {ctor: '_Tuple2', _0: round, _1: turn + 1};
-	});
-var _user$project$Game_Views_Game$isEnd = F2(
-	function (round, turn) {
-		return _elm_lang$core$Native_Utils.eq(round, 9) && _elm_lang$core$Native_Utils.eq(turn, 0);
-	});
-var _user$project$Game_Views_Game$next = F3(
-	function (player, round, turn) {
-		return (!A2(_user$project$Game_Views_Game$isEnd, round, turn)) ? A2(
-			_elm_lang$html$Html$img,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$src(
-					A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'right_arrow.png')),
-				_1: {
-					ctor: '::',
-					_0: _elm_lang$html$Html_Events$onClick(
-						A2(
-							_user$project$Msgs$FetchGame,
-							A2(_user$project$Game_Views_Game$nextRound, round, turn),
-							player)),
-					_1: {ctor: '[]'}
-				}
-			},
-			{ctor: '[]'}) : A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{ctor: '[]'});
-	});
-var _user$project$Game_Views_Game$nav = F3(
-	function (player, round, turn) {
-		return A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A3(_user$project$Game_Views_Game$prev, player, round, turn),
-				_1: {
-					ctor: '::',
-					_0: A3(_user$project$Game_Views_Game$next, player, round, turn),
-					_1: {ctor: '[]'}
-				}
-			});
-	});
-var _user$project$Game_Views_Game$viewGameType = function (gameType) {
+var _user$project$Game_Play_Game$viewGameType = function (gameType) {
 	return _elm_lang$core$Native_Utils.eq(gameType, 'up') ? A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -11457,8 +11372,8 @@ var _user$project$Game_Views_Game$viewGameType = function (gameType) {
 			_1: {ctor: '[]'}
 		}));
 };
-var _user$project$Game_Views_Game$viewGame = F2(
-	function (isWatch, game) {
+var _user$project$Game_Play_Game$viewGame = F2(
+	function (game, gameId) {
 		return A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
@@ -11469,7 +11384,597 @@ var _user$project$Game_Views_Game$viewGame = F2(
 					{ctor: '[]'},
 					{
 						ctor: '::',
-						_0: _user$project$Game_Views_Game$viewGameType(game.gameType),
+						_0: _user$project$Game_Play_Game$viewGameType(game.gameType),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$h2,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(game.activePlayer),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$h2,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										'Round #',
+										_elm_lang$core$Basics$toString(
+											{ctor: '_Tuple2', _0: game.round, _1: game.turn}))),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$ol,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('list-reset'),
+									_1: {ctor: '[]'}
+								},
+								_user$project$Game_Play_Players$viewPlayerCards(game.cardsPlayer)),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$ol,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('list-reset'),
+										_1: {ctor: '[]'}
+									},
+									A3(_user$project$Game_Play_Players$viewPlayers, game.activePlayer, game.onTurnPlayer, game.players)),
+								_1: {
+									ctor: '::',
+									_0: _user$project$Game_Play_Table$viewTable(game.table),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$div,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: _user$project$Game_Play_Groups$viewGroup(
+													_elm_lang$core$List$head(game.groups)),
+												_1: {
+													ctor: '::',
+													_0: _user$project$Game_Play_Groups$viewGroup(
+														_elm_lang$core$List$head(
+															_user$project$Game_Play_Groups$unwrapMaybeGroups(
+																_elm_lang$core$List$tail(game.groups)))),
+													_1: {ctor: '[]'}
+												}
+											}),
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
+					}
+				}
+			});
+	});
+var _user$project$Game_Update$decodeGame = function (gameString) {
+	return A2(_elm_lang$core$Json_Decode$decodeString, _user$project$Decoders$gameDecoder, gameString);
+};
+var _user$project$Game_Update$updateGame = function (gameString) {
+	var _p0 = _user$project$Game_Update$decodeGame(gameString);
+	if (_p0.ctor === 'Ok') {
+		return _elm_lang$core$Maybe$Just(_p0._0);
+	} else {
+		return _elm_lang$core$Maybe$Nothing;
+	}
+};
+var _user$project$Game_Watch_Card$getImagePath = F2(
+	function (color, number) {
+		return A2(
+			_elm_lang$core$Basics_ops['++'],
+			_user$project$Globals$imgSourcePath,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_user$project$Game_Translate$colorTranslate(color),
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'_',
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						_user$project$Game_Translate$numberTranslate(number),
+						'.png'))));
+	});
+var _user$project$Game_Watch_Card$viewCard = function (card) {
+	return A2(
+		_elm_lang$html$Html$img,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$src(
+				A2(_user$project$Game_Watch_Card$getImagePath, card.color, card.number)),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$width(100),
+				_1: {ctor: '[]'}
+			}
+		},
+		{ctor: '[]'});
+};
+var _user$project$Game_Watch_Players$viewPlayerCard = function (card) {
+	return A2(
+		_elm_lang$html$Html$li,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('inline-block'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('sm-col sm-col-9'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _user$project$Game_Watch_Card$viewCard(card),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Game_Watch_Players$viewPlayerCards = function (cards) {
+	var _p0 = cards;
+	if (_p0.ctor === 'Nothing') {
+		return {
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('No Cards received'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		};
+	} else {
+		return A2(_elm_lang$core$List$map, _user$project$Game_Watch_Players$viewPlayerCard, _p0._0);
+	}
+};
+var _user$project$Game_Watch_Players$changePlayer = F3(
+	function (gameCoord, player, gameId) {
+		return _elm_lang$html$Html_Events$onClick(
+			A4(_user$project$Msgs$FetchGame, gameCoord, player, gameId, true));
+	});
+var _user$project$Game_Watch_Players$getImage = F4(
+	function (gameCoord, player, gameId, icon) {
+		return A2(
+			_elm_lang$html$Html$img,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$src(
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						_user$project$Globals$imgSourcePath,
+						A2(_elm_lang$core$Basics_ops['++'], icon, '_icon.png'))),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$width(50),
+					_1: {
+						ctor: '::',
+						_0: A3(_user$project$Game_Watch_Players$changePlayer, gameCoord, player, gameId),
+						_1: {ctor: '[]'}
+					}
+				}
+			},
+			{ctor: '[]'});
+	});
+var _user$project$Game_Watch_Players$viewPlayer = F5(
+	function (gameCoord, gameId, activePlayer, onTurnPlayer, player) {
+		return _elm_lang$core$Native_Utils.eq(player, activePlayer) ? (_elm_lang$core$Native_Utils.eq(player, onTurnPlayer) ? A2(
+			_elm_lang$html$Html$li,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('inline-block mr1'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('col-9'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(player),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A4(_user$project$Game_Watch_Players$getImage, gameCoord, player, gameId, 'playerActiveOnTurn'),
+					_1: {ctor: '[]'}
+				}
+			}) : A2(
+			_elm_lang$html$Html$li,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('inline-block mr1'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('col-9'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(player),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A4(_user$project$Game_Watch_Players$getImage, gameCoord, player, gameId, 'playerActive'),
+					_1: {ctor: '[]'}
+				}
+			})) : (_elm_lang$core$Native_Utils.eq(player, onTurnPlayer) ? A2(
+			_elm_lang$html$Html$li,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('inline-block mr1'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('col-9'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(player),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A4(_user$project$Game_Watch_Players$getImage, gameCoord, player, gameId, 'playerOnTurn'),
+					_1: {ctor: '[]'}
+				}
+			}) : A2(
+			_elm_lang$html$Html$li,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('inline-block mr1'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('col-9'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(player),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A4(_user$project$Game_Watch_Players$getImage, gameCoord, player, gameId, 'player'),
+					_1: {ctor: '[]'}
+				}
+			}));
+	});
+var _user$project$Game_Watch_Players$viewPlayers = F5(
+	function (gameCoord, gameId, activePlayer, onTurnPlayer, players) {
+		return A2(
+			_elm_lang$core$List$map,
+			A4(_user$project$Game_Watch_Players$viewPlayer, gameCoord, gameId, activePlayer, onTurnPlayer),
+			players);
+	});
+var _user$project$Game_Watch_Groups$viewWonTurn = function (cards) {
+	return A2(
+		_elm_lang$html$Html$li,
+		{ctor: '[]'},
+		A2(_elm_lang$core$List$map, _user$project$Game_Watch_Card$viewCard, cards));
+};
+var _user$project$Game_Watch_Groups$viewWonTurns = function (mTurns) {
+	var _p0 = mTurns;
+	if (_p0.ctor === 'Nothing') {
+		return {ctor: '[]'};
+	} else {
+		return A2(_elm_lang$core$List$map, _user$project$Game_Watch_Groups$viewWonTurn, _p0._0);
+	}
+};
+var _user$project$Game_Watch_Groups$unwrapMaybeGroups = function (mGroups) {
+	var _p1 = mGroups;
+	if (_p1.ctor === 'Nothing') {
+		return {ctor: '[]'};
+	} else {
+		return _p1._0;
+	}
+};
+var _user$project$Game_Watch_Groups$concat = F2(
+	function (a, b) {
+		return A2(
+			_elm_lang$core$Basics_ops['++'],
+			a,
+			A2(_elm_lang$core$Basics_ops['++'], ' ', b));
+	});
+var _user$project$Game_Watch_Groups$groupName = function (players) {
+	return A3(
+		_elm_lang$core$List$foldr,
+		_user$project$Game_Watch_Groups$concat,
+		'',
+		{ctor: '::', _0: 'Group', _1: players});
+};
+var _user$project$Game_Watch_Groups$viewGroup = function (mGroup) {
+	var _p2 = mGroup;
+	if (_p2.ctor === 'Nothing') {
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text('No Group Found!'),
+				_1: {ctor: '[]'}
+			});
+	} else {
+		var _p3 = _p2._0;
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$h2,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(
+							_user$project$Game_Watch_Groups$groupName(_p3.players)),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$h3,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									'Points: ',
+									_elm_lang$core$Basics$toString(_p3.points))),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{ctor: '[]'},
+							_user$project$Game_Watch_Groups$viewWonTurns(_p3.wonCards)),
+						_1: {ctor: '[]'}
+					}
+				}
+			});
+	}
+};
+var _user$project$Game_Watch_Table$viewEmptyCard = A2(
+	_elm_lang$html$Html$img,
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$src(
+			A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'empty_card.png')),
+		_1: {
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$width(70),
+			_1: {ctor: '[]'}
+		}
+	},
+	{ctor: '[]'});
+var _user$project$Game_Watch_Table$viewTableCard = function (mCard) {
+	var _p0 = mCard;
+	if (_p0.ctor === 'Nothing') {
+		return _user$project$Game_Watch_Table$viewEmptyCard;
+	} else {
+		return _user$project$Game_Watch_Card$viewCard(_p0._0);
+	}
+};
+var _user$project$Game_Watch_Table$viewTable = function (table) {
+	return A2(
+		_elm_lang$html$Html$ol,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _user$project$Game_Watch_Table$viewTableCard(table.pos1),
+			_1: {
+				ctor: '::',
+				_0: _user$project$Game_Watch_Table$viewTableCard(table.pos2),
+				_1: {
+					ctor: '::',
+					_0: _user$project$Game_Watch_Table$viewTableCard(table.pos3),
+					_1: {
+						ctor: '::',
+						_0: _user$project$Game_Watch_Table$viewTableCard(table.pos4),
+						_1: {ctor: '[]'}
+					}
+				}
+			}
+		});
+};
+var _user$project$Game_Watch_Game$prevRound = function (_p0) {
+	var _p1 = _p0;
+	var _p3 = _p1._1;
+	var _p2 = _p1._0;
+	return _elm_lang$core$Native_Utils.eq(_p3, 0) ? {ctor: '_Tuple2', _0: _p2 - 1, _1: 4} : {ctor: '_Tuple2', _0: _p2, _1: _p3 - 1};
+};
+var _user$project$Game_Watch_Game$isBegin = function (_p4) {
+	var _p5 = _p4;
+	return _elm_lang$core$Native_Utils.eq(_p5._0, 0) && _elm_lang$core$Native_Utils.eq(_p5._1, 0);
+};
+var _user$project$Game_Watch_Game$prev = F3(
+	function (player, gameCoord, gameId) {
+		return (!_user$project$Game_Watch_Game$isBegin(gameCoord)) ? A2(
+			_elm_lang$html$Html$img,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$src(
+					A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'left_arrow.png')),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Events$onClick(
+						A4(
+							_user$project$Msgs$FetchGame,
+							_user$project$Game_Watch_Game$prevRound(gameCoord),
+							player,
+							gameId,
+							true)),
+					_1: {ctor: '[]'}
+				}
+			},
+			{ctor: '[]'}) : A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{ctor: '[]'});
+	});
+var _user$project$Game_Watch_Game$nextRound = function (_p6) {
+	var _p7 = _p6;
+	var _p9 = _p7._1;
+	var _p8 = _p7._0;
+	return _elm_lang$core$Native_Utils.eq(_p9, 4) ? {ctor: '_Tuple2', _0: _p8 + 1, _1: 0} : {ctor: '_Tuple2', _0: _p8, _1: _p9 + 1};
+};
+var _user$project$Game_Watch_Game$isEnd = function (_p10) {
+	var _p11 = _p10;
+	return _elm_lang$core$Native_Utils.eq(_p11._0, 9) && _elm_lang$core$Native_Utils.eq(_p11._1, 0);
+};
+var _user$project$Game_Watch_Game$next = F3(
+	function (player, gameCoord, gameId) {
+		return (!_user$project$Game_Watch_Game$isEnd(gameCoord)) ? A2(
+			_elm_lang$html$Html$img,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$src(
+					A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'right_arrow.png')),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Events$onClick(
+						A4(
+							_user$project$Msgs$FetchGame,
+							_user$project$Game_Watch_Game$nextRound(gameCoord),
+							player,
+							gameId,
+							true)),
+					_1: {ctor: '[]'}
+				}
+			},
+			{ctor: '[]'}) : A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{ctor: '[]'});
+	});
+var _user$project$Game_Watch_Game$nav = F3(
+	function (player, gameCoord, gameId) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A3(_user$project$Game_Watch_Game$prev, player, gameCoord, gameId),
+				_1: {
+					ctor: '::',
+					_0: A3(_user$project$Game_Watch_Game$next, player, gameCoord, gameId),
+					_1: {ctor: '[]'}
+				}
+			});
+	});
+var _user$project$Game_Watch_Game$viewGameType = function (gameType) {
+	return _elm_lang$core$Native_Utils.eq(gameType, 'up') ? A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$img,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$src(
+						A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'obenabe.png')),
+					_1: {ctor: '[]'}
+				},
+				{ctor: '[]'}),
+			_1: {ctor: '[]'}
+		}) : (_elm_lang$core$Native_Utils.eq(gameType, 'down') ? A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$img,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$src(
+						A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'undenufe.png')),
+					_1: {ctor: '[]'}
+				},
+				{ctor: '[]'}),
+			_1: {ctor: '[]'}
+		}) : A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$img,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$src(
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							_user$project$Globals$imgSourcePath,
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								_user$project$Game_Translate$colorTranslate(gameType),
+								'_icon.png'))),
+					_1: {ctor: '[]'}
+				},
+				{ctor: '[]'}),
+			_1: {ctor: '[]'}
+		}));
+};
+var _user$project$Game_Watch_Game$viewGame = F2(
+	function (game, gameId) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$h1,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _user$project$Game_Watch_Game$viewGameType(game.gameType),
 						_1: {ctor: '[]'}
 					}),
 				_1: {
@@ -11504,7 +12009,11 @@ var _user$project$Game_Views_Game$viewGame = F2(
 								{ctor: '[]'},
 								{
 									ctor: '::',
-									_0: A3(_user$project$Game_Views_Game$nav, game.activePlayer, game.round, game.turn),
+									_0: A3(
+										_user$project$Game_Watch_Game$nav,
+										game.activePlayer,
+										{ctor: '_Tuple2', _0: game.round, _1: game.turn},
+										gameId),
 									_1: {ctor: '[]'}
 								}),
 							_1: {
@@ -11516,7 +12025,7 @@ var _user$project$Game_Views_Game$viewGame = F2(
 										_0: _elm_lang$html$Html_Attributes$class('list-reset'),
 										_1: {ctor: '[]'}
 									},
-									_user$project$Game_Views_Players$viewPlayerCards(game.cardsPlayer)),
+									_user$project$Game_Watch_Players$viewPlayerCards(game.cardsPlayer)),
 								_1: {
 									ctor: '::',
 									_0: A2(
@@ -11527,15 +12036,15 @@ var _user$project$Game_Views_Game$viewGame = F2(
 											_1: {ctor: '[]'}
 										},
 										A5(
-											_user$project$Game_Views_Players$viewPlayers,
-											isWatch,
+											_user$project$Game_Watch_Players$viewPlayers,
 											{ctor: '_Tuple2', _0: game.round, _1: game.turn},
+											gameId,
 											game.activePlayer,
 											game.onTurnPlayer,
 											game.players)),
 									_1: {
 										ctor: '::',
-										_0: _user$project$Game_Views_Table$viewTable(game.table),
+										_0: _user$project$Game_Watch_Table$viewTable(game.table),
 										_1: {
 											ctor: '::',
 											_0: A2(
@@ -11543,13 +12052,13 @@ var _user$project$Game_Views_Game$viewGame = F2(
 												{ctor: '[]'},
 												{
 													ctor: '::',
-													_0: _user$project$Game_Views_Groups$viewGroup(
+													_0: _user$project$Game_Watch_Groups$viewGroup(
 														_elm_lang$core$List$head(game.groups)),
 													_1: {
 														ctor: '::',
-														_0: _user$project$Game_Views_Groups$viewGroup(
+														_0: _user$project$Game_Watch_Groups$viewGroup(
 															_elm_lang$core$List$head(
-																_user$project$Game_Views_Groups$unwrapMaybeGroups(
+																_user$project$Game_Watch_Groups$unwrapMaybeGroups(
 																	_elm_lang$core$List$tail(game.groups)))),
 														_1: {ctor: '[]'}
 													}
@@ -11564,68 +12073,62 @@ var _user$project$Game_Views_Game$viewGame = F2(
 				}
 			});
 	});
-var _user$project$Game_View$init = function (player) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$a,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Events$onClick(
-						A2(
-							_user$project$Msgs$FetchGame,
-							{ctor: '_Tuple2', _0: 0, _1: 0},
-							player)),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('Start Game'),
-					_1: {ctor: '[]'}
-				}),
-			_1: {ctor: '[]'}
-		});
-};
-var _user$project$Game_View$page = F3(
-	function (isWatch, player, game) {
+var _user$project$Game_View$init = F2(
+	function (player, gameId) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$a,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(
+							A4(
+								_user$project$Msgs$FetchGame,
+								{ctor: '_Tuple2', _0: 0, _1: 0},
+								player,
+								gameId,
+								true)),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('Start Game'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$Game_View$viewWatch = F3(
+	function (player, game, gameId) {
 		var _p0 = game;
 		if (_p0.ctor === 'Nothing') {
-			return _user$project$Game_View$init(player);
+			return A2(_user$project$Game_View$init, player, gameId);
 		} else {
-			return A2(_user$project$Game_Views_Game$viewGame, isWatch, _p0._0);
+			return A2(_user$project$Game_Watch_Game$viewGame, _p0._0, gameId);
 		}
 	});
-var _user$project$Game_View$viewWatch = F2(
-	function (player, game) {
-		return A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A3(_user$project$Game_View$page, true, player, game),
-				_1: {ctor: '[]'}
-			});
+var _user$project$Game_View$viewPlay = F3(
+	function (player, game, gameId) {
+		var _p1 = game;
+		if (_p1.ctor === 'Nothing') {
+			return A2(_user$project$Game_View$init, player, gameId);
+		} else {
+			return A2(_user$project$Game_Play_Game$viewGame, _p1._0, gameId);
+		}
 	});
-var _user$project$Game_View$viewPlay = F2(
-	function (player, game) {
+var _user$project$Routing$gamePath = F2(
+	function (path, gameId) {
 		return A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A3(_user$project$Game_View$page, false, player, game),
-				_1: {ctor: '[]'}
-			});
+			_elm_lang$core$Basics_ops['++'],
+			'/',
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				path,
+				A2(_elm_lang$core$Basics_ops['++'], '/', gameId)));
 	});
-var _user$project$Routing$gamePath = function (path) {
-	return A2(
-		_elm_lang$core$Basics_ops['++'],
-		'/',
-		A2(_elm_lang$core$Basics_ops['++'], path, '/'));
-};
 var _user$project$Routing$matchers = _evancz$url_parser$UrlParser$oneOf(
 	{
 		ctor: '::',
@@ -11635,13 +12138,19 @@ var _user$project$Routing$matchers = _evancz$url_parser$UrlParser$oneOf(
 			_0: A2(
 				_evancz$url_parser$UrlParser$map,
 				_user$project$Models$Play,
-				_evancz$url_parser$UrlParser$s('play')),
+				A2(
+					_evancz$url_parser$UrlParser_ops['</>'],
+					_evancz$url_parser$UrlParser$s('play'),
+					_evancz$url_parser$UrlParser$string)),
 			_1: {
 				ctor: '::',
 				_0: A2(
 					_evancz$url_parser$UrlParser$map,
 					_user$project$Models$Watch,
-					_evancz$url_parser$UrlParser$s('watch')),
+					A2(
+						_evancz$url_parser$UrlParser_ops['</>'],
+						_evancz$url_parser$UrlParser$s('watch'),
+						_evancz$url_parser$UrlParser$string)),
 				_1: {ctor: '[]'}
 			}
 		}
@@ -11685,20 +12194,16 @@ var _user$project$Updates$update = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'FetchGame':
-				var _p2 = model.gameId;
-				if (_p2.ctor === 'Nothing') {
-					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-				} else {
-					return {
-						ctor: '_Tuple2',
-						_0: model,
-						_1: A3(
-							_user$project$Commands$fetchGame,
-							_p2._0,
-							{ctor: '_Tuple2', _0: _p0._0._0, _1: _p0._0._1},
-							_p0._1)
-					};
-				}
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: A4(
+						_user$project$Commands$fetchGame,
+						_p0._2,
+						{ctor: '_Tuple2', _0: _p0._0._0, _1: _p0._0._1},
+						_p0._1,
+						_p0._3)
+				};
 			case 'GameIdUpdate':
 				return {
 					ctor: '_Tuple2',
@@ -11755,7 +12260,7 @@ var _user$project$View$slct = function (gameIds) {
 					_0: A2(
 						_elm_lang$html$Html_Events$on,
 						'change',
-						A2(_elm_lang$core$Json_Decode$map, _user$project$Msgs$GameIdUpdate, _user$project$Decoders$gameIdDecoder)),
+						A2(_elm_lang$core$Json_Decode$map, _user$project$Msgs$GameIdUpdate, _elm_lang$html$Html_Events$targetValue)),
 					_1: {ctor: '[]'}
 				},
 				A2(_elm_lang$core$List$map, _user$project$View$viewOption, gameIds)),
@@ -11781,48 +12286,90 @@ var _user$project$View$btn = F2(
 				_1: {ctor: '[]'}
 			});
 	});
-var _user$project$View$init = A2(
-	_elm_lang$html$Html$div,
-	{ctor: '[]'},
-	{
-		ctor: '::',
-		_0: A2(_user$project$View$btn, 'Play New Game', 'play'),
-		_1: {
-			ctor: '::',
-			_0: A2(_user$project$View$btn, 'Watch Previous Game', 'watch'),
-			_1: {
+var _user$project$View$init = function (gId) {
+	var _p0 = gId;
+	if (_p0.ctor === 'Nothing') {
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
 				ctor: '::',
-				_0: _user$project$View$slct(
-					{
+				_0: A2(_user$project$View$btn, 'Play New Game', 'play/0'),
+				_1: {
+					ctor: '::',
+					_0: A2(_user$project$View$btn, 'Watch Previous Game', 'watch/0'),
+					_1: {
 						ctor: '::',
-						_0: '0',
-						_1: {
-							ctor: '::',
-							_0: '1',
-							_1: {
+						_0: _user$project$View$slct(
+							{
 								ctor: '::',
-								_0: '2',
+								_0: '0',
 								_1: {
 									ctor: '::',
-									_0: '3',
-									_1: {ctor: '[]'}
+									_0: '1',
+									_1: {
+										ctor: '::',
+										_0: '2',
+										_1: {
+											ctor: '::',
+											_0: '3',
+											_1: {ctor: '[]'}
+										}
+									}
 								}
-							}
-						}
-					}),
-				_1: {ctor: '[]'}
-			}
-		}
-	});
+							}),
+						_1: {ctor: '[]'}
+					}
+				}
+			});
+	} else {
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(_user$project$View$btn, 'Play New Game', 'play/'),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_user$project$View$btn,
+						'Watch Previous Game',
+						A2(_elm_lang$core$Basics_ops['++'], 'watch/', _p0._0)),
+					_1: {
+						ctor: '::',
+						_0: _user$project$View$slct(
+							{
+								ctor: '::',
+								_0: '0',
+								_1: {
+									ctor: '::',
+									_0: '1',
+									_1: {
+										ctor: '::',
+										_0: '2',
+										_1: {
+											ctor: '::',
+											_0: '3',
+											_1: {ctor: '[]'}
+										}
+									}
+								}
+							}),
+						_1: {ctor: '[]'}
+					}
+				}
+			});
+	}
+};
 var _user$project$View$page = function (model) {
-	var _p0 = model.route;
-	switch (_p0.ctor) {
+	var _p1 = model.route;
+	switch (_p1.ctor) {
 		case 'Init':
-			return _user$project$View$init;
+			return _user$project$View$init(model.gameId);
 		case 'Play':
-			return A2(_user$project$Game_View$viewPlay, model.player, model.game);
+			return A3(_user$project$Game_View$viewPlay, model.player, model.game, _p1._0);
 		case 'Watch':
-			return A2(_user$project$Game_View$viewWatch, model.player, model.game);
+			return A3(_user$project$Game_View$viewWatch, model.player, model.game, _p1._0);
 		default:
 			return _user$project$View$notFoundView;
 	}
@@ -11841,11 +12388,23 @@ var _user$project$View$view = function (model) {
 				_1: {
 					ctor: '::',
 					_0: _elm_lang$html$Html$text(
-						_elm_lang$core$Basics$toString(model.game)),
+						A2(
+							F2(
+								function (x, y) {
+									return A2(_elm_lang$core$Basics_ops['++'], x, y);
+								}),
+							'GameString: ',
+							_elm_lang$core$Basics$toString(model.game))),
 					_1: {
 						ctor: '::',
 						_0: _elm_lang$html$Html$text(
-							_elm_lang$core$Basics$toString(model.gameId)),
+							A2(
+								F2(
+									function (x, y) {
+										return A2(_elm_lang$core$Basics_ops['++'], x, y);
+									}),
+								'\nGameId: ',
+								_elm_lang$core$Basics$toString(model.gameId))),
 						_1: {ctor: '[]'}
 					}
 				}

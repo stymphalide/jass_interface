@@ -1,16 +1,16 @@
-var _user$project$Game_Views_Game$prevRound = function (_p0) {
+var _user$project$Game_Watch_Game$prevRound = function (_p0) {
 	var _p1 = _p0;
 	var _p3 = _p1._1;
 	var _p2 = _p1._0;
 	return _elm_lang$core$Native_Utils.eq(_p3, 0) ? {ctor: '_Tuple2', _0: _p2 - 1, _1: 4} : {ctor: '_Tuple2', _0: _p2, _1: _p3 - 1};
 };
-var _user$project$Game_Views_Game$isBegin = function (_p4) {
+var _user$project$Game_Watch_Game$isBegin = function (_p4) {
 	var _p5 = _p4;
 	return _elm_lang$core$Native_Utils.eq(_p5._0, 0) && _elm_lang$core$Native_Utils.eq(_p5._1, 0);
 };
-var _user$project$Game_Views_Game$prev = F3(
+var _user$project$Game_Watch_Game$prev = F3(
 	function (player, gameCoord, gameId) {
-		return (!_user$project$Game_Views_Game$isBegin(gameCoord)) ? A2(
+		return (!_user$project$Game_Watch_Game$isBegin(gameCoord)) ? A2(
 			_elm_lang$html$Html$img,
 			{
 				ctor: '::',
@@ -19,11 +19,12 @@ var _user$project$Game_Views_Game$prev = F3(
 				_1: {
 					ctor: '::',
 					_0: _elm_lang$html$Html_Events$onClick(
-						A3(
+						A4(
 							_user$project$Msgs$FetchGame,
-							_user$project$Game_Views_Game$prevRound(gameCoord),
+							_user$project$Game_Watch_Game$prevRound(gameCoord),
 							player,
-							gameId)),
+							gameId,
+							true)),
 					_1: {ctor: '[]'}
 				}
 			},
@@ -32,19 +33,19 @@ var _user$project$Game_Views_Game$prev = F3(
 			{ctor: '[]'},
 			{ctor: '[]'});
 	});
-var _user$project$Game_Views_Game$nextRound = function (_p6) {
+var _user$project$Game_Watch_Game$nextRound = function (_p6) {
 	var _p7 = _p6;
 	var _p9 = _p7._1;
 	var _p8 = _p7._0;
 	return _elm_lang$core$Native_Utils.eq(_p9, 4) ? {ctor: '_Tuple2', _0: _p8 + 1, _1: 0} : {ctor: '_Tuple2', _0: _p8, _1: _p9 + 1};
 };
-var _user$project$Game_Views_Game$isEnd = function (_p10) {
+var _user$project$Game_Watch_Game$isEnd = function (_p10) {
 	var _p11 = _p10;
 	return _elm_lang$core$Native_Utils.eq(_p11._0, 9) && _elm_lang$core$Native_Utils.eq(_p11._1, 0);
 };
-var _user$project$Game_Views_Game$next = F3(
+var _user$project$Game_Watch_Game$next = F3(
 	function (player, gameCoord, gameId) {
-		return (!_user$project$Game_Views_Game$isEnd(gameCoord)) ? A2(
+		return (!_user$project$Game_Watch_Game$isEnd(gameCoord)) ? A2(
 			_elm_lang$html$Html$img,
 			{
 				ctor: '::',
@@ -53,11 +54,12 @@ var _user$project$Game_Views_Game$next = F3(
 				_1: {
 					ctor: '::',
 					_0: _elm_lang$html$Html_Events$onClick(
-						A3(
+						A4(
 							_user$project$Msgs$FetchGame,
-							_user$project$Game_Views_Game$nextRound(gameCoord),
+							_user$project$Game_Watch_Game$nextRound(gameCoord),
 							player,
-							gameId)),
+							gameId,
+							true)),
 					_1: {ctor: '[]'}
 				}
 			},
@@ -66,22 +68,22 @@ var _user$project$Game_Views_Game$next = F3(
 			{ctor: '[]'},
 			{ctor: '[]'});
 	});
-var _user$project$Game_Views_Game$nav = F3(
+var _user$project$Game_Watch_Game$nav = F3(
 	function (player, gameCoord, gameId) {
 		return A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
 			{
 				ctor: '::',
-				_0: A3(_user$project$Game_Views_Game$prev, player, gameCoord, gameId),
+				_0: A3(_user$project$Game_Watch_Game$prev, player, gameCoord, gameId),
 				_1: {
 					ctor: '::',
-					_0: A3(_user$project$Game_Views_Game$next, player, gameCoord, gameId),
+					_0: A3(_user$project$Game_Watch_Game$next, player, gameCoord, gameId),
 					_1: {ctor: '[]'}
 				}
 			});
 	});
-var _user$project$Game_Views_Game$viewGameType = function (gameType) {
+var _user$project$Game_Watch_Game$viewGameType = function (gameType) {
 	return _elm_lang$core$Native_Utils.eq(gameType, 'up') ? A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -135,8 +137,8 @@ var _user$project$Game_Views_Game$viewGameType = function (gameType) {
 			_1: {ctor: '[]'}
 		}));
 };
-var _user$project$Game_Views_Game$viewGame = F3(
-	function (isWatch, game, gameId) {
+var _user$project$Game_Watch_Game$viewGame = F2(
+	function (game, gameId) {
 		return A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
@@ -147,7 +149,7 @@ var _user$project$Game_Views_Game$viewGame = F3(
 					{ctor: '[]'},
 					{
 						ctor: '::',
-						_0: _user$project$Game_Views_Game$viewGameType(game.gameType),
+						_0: _user$project$Game_Watch_Game$viewGameType(game.gameType),
 						_1: {ctor: '[]'}
 					}),
 				_1: {
@@ -183,7 +185,7 @@ var _user$project$Game_Views_Game$viewGame = F3(
 								{
 									ctor: '::',
 									_0: A3(
-										_user$project$Game_Views_Game$nav,
+										_user$project$Game_Watch_Game$nav,
 										game.activePlayer,
 										{ctor: '_Tuple2', _0: game.round, _1: game.turn},
 										gameId),
@@ -198,7 +200,7 @@ var _user$project$Game_Views_Game$viewGame = F3(
 										_0: _elm_lang$html$Html_Attributes$class('list-reset'),
 										_1: {ctor: '[]'}
 									},
-									_user$project$Game_Views_Players$viewPlayerCards(game.cardsPlayer)),
+									_user$project$Game_Watch_Players$viewPlayerCards(game.cardsPlayer)),
 								_1: {
 									ctor: '::',
 									_0: A2(
@@ -208,9 +210,8 @@ var _user$project$Game_Views_Game$viewGame = F3(
 											_0: _elm_lang$html$Html_Attributes$class('list-reset'),
 											_1: {ctor: '[]'}
 										},
-										A6(
-											_user$project$Game_Views_Players$viewPlayers,
-											isWatch,
+										A5(
+											_user$project$Game_Watch_Players$viewPlayers,
 											{ctor: '_Tuple2', _0: game.round, _1: game.turn},
 											gameId,
 											game.activePlayer,
@@ -218,7 +219,7 @@ var _user$project$Game_Views_Game$viewGame = F3(
 											game.players)),
 									_1: {
 										ctor: '::',
-										_0: _user$project$Game_Views_Table$viewTable(game.table),
+										_0: _user$project$Game_Watch_Table$viewTable(game.table),
 										_1: {
 											ctor: '::',
 											_0: A2(
@@ -226,13 +227,13 @@ var _user$project$Game_Views_Game$viewGame = F3(
 												{ctor: '[]'},
 												{
 													ctor: '::',
-													_0: _user$project$Game_Views_Groups$viewGroup(
+													_0: _user$project$Game_Watch_Groups$viewGroup(
 														_elm_lang$core$List$head(game.groups)),
 													_1: {
 														ctor: '::',
-														_0: _user$project$Game_Views_Groups$viewGroup(
+														_0: _user$project$Game_Watch_Groups$viewGroup(
 															_elm_lang$core$List$head(
-																_user$project$Game_Views_Groups$unwrapMaybeGroups(
+																_user$project$Game_Watch_Groups$unwrapMaybeGroups(
 																	_elm_lang$core$List$tail(game.groups)))),
 														_1: {ctor: '[]'}
 													}

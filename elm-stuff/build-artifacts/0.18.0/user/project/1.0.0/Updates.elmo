@@ -29,20 +29,16 @@ var _user$project$Updates$update = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'FetchGame':
-				var _p2 = model.gameId;
-				if (_p2.ctor === 'Nothing') {
-					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-				} else {
-					return {
-						ctor: '_Tuple2',
-						_0: model,
-						_1: A3(
-							_user$project$Commands$fetchGame,
-							_p2._0,
-							{ctor: '_Tuple2', _0: _p0._0._0, _1: _p0._0._1},
-							_p0._1)
-					};
-				}
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: A4(
+						_user$project$Commands$fetchGame,
+						_p0._2,
+						{ctor: '_Tuple2', _0: _p0._0._0, _1: _p0._0._1},
+						_p0._1,
+						_p0._3)
+				};
 			case 'GameIdUpdate':
 				return {
 					ctor: '_Tuple2',

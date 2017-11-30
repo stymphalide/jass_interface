@@ -1,9 +1,13 @@
-var _user$project$Routing$gamePath = function (path) {
-	return A2(
-		_elm_lang$core$Basics_ops['++'],
-		'/',
-		A2(_elm_lang$core$Basics_ops['++'], path, '/'));
-};
+var _user$project$Routing$gamePath = F2(
+	function (path, gameId) {
+		return A2(
+			_elm_lang$core$Basics_ops['++'],
+			'/',
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				path,
+				A2(_elm_lang$core$Basics_ops['++'], '/', gameId)));
+	});
 var _user$project$Routing$matchers = _evancz$url_parser$UrlParser$oneOf(
 	{
 		ctor: '::',
@@ -13,13 +17,19 @@ var _user$project$Routing$matchers = _evancz$url_parser$UrlParser$oneOf(
 			_0: A2(
 				_evancz$url_parser$UrlParser$map,
 				_user$project$Models$Play,
-				_evancz$url_parser$UrlParser$s('play')),
+				A2(
+					_evancz$url_parser$UrlParser_ops['</>'],
+					_evancz$url_parser$UrlParser$s('play'),
+					_evancz$url_parser$UrlParser$string)),
 			_1: {
 				ctor: '::',
 				_0: A2(
 					_evancz$url_parser$UrlParser$map,
 					_user$project$Models$Watch,
-					_evancz$url_parser$UrlParser$s('watch')),
+					A2(
+						_evancz$url_parser$UrlParser_ops['</>'],
+						_evancz$url_parser$UrlParser$s('watch'),
+						_evancz$url_parser$UrlParser$string)),
 				_1: {ctor: '[]'}
 			}
 		}

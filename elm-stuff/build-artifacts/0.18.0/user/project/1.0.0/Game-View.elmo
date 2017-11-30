@@ -1,56 +1,46 @@
-var _user$project$Game_View$init = function (player) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$a,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Events$onClick(
-						A2(
-							_user$project$Msgs$FetchGame,
-							{ctor: '_Tuple2', _0: 0, _1: 0},
-							player)),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('Start Game'),
-					_1: {ctor: '[]'}
-				}),
-			_1: {ctor: '[]'}
-		});
-};
-var _user$project$Game_View$page = F3(
-	function (isWatch, player, game) {
+var _user$project$Game_View$init = F2(
+	function (player, gameId) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$a,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(
+							A4(
+								_user$project$Msgs$FetchGame,
+								{ctor: '_Tuple2', _0: 0, _1: 0},
+								player,
+								gameId,
+								true)),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('Start Game'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$Game_View$viewWatch = F3(
+	function (player, game, gameId) {
 		var _p0 = game;
 		if (_p0.ctor === 'Nothing') {
-			return _user$project$Game_View$init(player);
+			return A2(_user$project$Game_View$init, player, gameId);
 		} else {
-			return A2(_user$project$Game_Views_Game$viewGame, isWatch, _p0._0);
+			return A2(_user$project$Game_Watch_Game$viewGame, _p0._0, gameId);
 		}
 	});
-var _user$project$Game_View$viewWatch = F2(
-	function (player, game) {
-		return A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A3(_user$project$Game_View$page, true, player, game),
-				_1: {ctor: '[]'}
-			});
-	});
-var _user$project$Game_View$viewPlay = F2(
-	function (player, game) {
-		return A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A3(_user$project$Game_View$page, false, player, game),
-				_1: {ctor: '[]'}
-			});
+var _user$project$Game_View$viewPlay = F3(
+	function (player, game, gameId) {
+		var _p1 = game;
+		if (_p1.ctor === 'Nothing') {
+			return A2(_user$project$Game_View$init, player, gameId);
+		} else {
+			return A2(_user$project$Game_Play_Game$viewGame, _p1._0, gameId);
+		}
 	});

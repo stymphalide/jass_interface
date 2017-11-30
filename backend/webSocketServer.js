@@ -11,19 +11,54 @@ wss.on('connection', function connection(ws) {
 		console.log("I got a message.")
 		data = JSON.parse(data)
 		console.log(data)
-		console.log(data.player, data.gameId)
-		console.log("I will fetch the game.")
-		var gamePath = path.resolve(__dirname + "/../db/")+  "/game_" + data.gameId +"/r" + data.round + "t"+data.turn + ".json"
-		console.log("@" + gamePath)
-		const game = require(gamePath)
-		var gameState = game
-		console.log("I will update the game")
-		gameState.activePlayer = data.player
-		gameState.cardsPlayer = gameState.cards[data.player]
-		console.log(gameState)
-		//console.log(gameState)
-		console.log("I will send the game")
-		ws.send(JSON.stringify(gameState));
+		if(data.mode != undefined) {
+			switch(data.mode) {
+				case "init":
+					init(ws, data);
+					break;
+				case "play":
+					play(ws, data);
+					break;
+				case "watch":
+					watch(ws, data);
+					break;
+				default:
+					console.log("Invalid mode sent!");
+			}
+		} else {
+			console.log("Invalid data sent!")
+		}
 	});
 });
 
+var init = function(ws, data) {
+	// Have a look at the db
+
+	// Send all games corresponding to data.player
+}
+
+
+var play = function(ws, data) {
+	// Is there a gameId?
+	// If not look for open lobbies
+	// Or Create a new one ==> Lobby
+
+	// If there is a gameId ==> Game
+	// Send action to the gameProcess	
+}
+
+var watch = function(ws, data) {
+	gameId = data.gameId;
+	// Check whether the game exists
+	
+	// Fetch the appropriate game data
+
+	// Filter unnecessary information
+
+	// Send the updated game
+}
+
+var listGames = function() {
+	const util = require('util');
+	sys.
+}

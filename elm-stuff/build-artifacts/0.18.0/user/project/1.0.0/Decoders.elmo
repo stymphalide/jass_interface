@@ -1,4 +1,3 @@
-var _user$project$Decoders$gameIdDecoder = _elm_lang$core$Json_Decode$string;
 var _user$project$Decoders$cardDecoder = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'number',
