@@ -11,8 +11,8 @@ matchers : Parser (Route -> a) a
 matchers =
     oneOf
         [ map Init top
-        , map Play  (s "play" )
-        , map Watch  (s "watch" )
+        , map Play (s "play" </> string)
+        , map Watch (s "watch" </> string)
         ]
 
 parseLocation : Location -> Route
@@ -22,8 +22,8 @@ parseLocation location =
             route
         Nothing ->
             NotFoundRoute
-
+{-
 gamePath : String -> String
 gamePath path =
     "/" ++ path ++ "/"
-
+-}

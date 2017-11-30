@@ -31,9 +31,9 @@ webSocketSubscripiton model =
     case model.route of 
         Models.Init ->
             Sub.none
-        Models.Play ->
+        Models.Play gmaeId->
             listen serverUrl Msgs.GameUpdate
-        Models.Watch ->
+        Models.Watch gmaeId->
             listen serverUrl Msgs.GameUpdate
         Models.NotFoundRoute ->
             Sub.none

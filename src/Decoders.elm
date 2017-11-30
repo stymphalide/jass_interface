@@ -52,8 +52,3 @@ groupDecoder =
 historyDecoder : Decode.Decoder History
 historyDecoder =
     Decode.maybe (Decode.list (Decode.list cardDecoder))
-
-gameIdDecoder : Decode.Decoder GameId
-gameIdDecoder =
-    decode Decode.string
-    |> required "value" Decode.string

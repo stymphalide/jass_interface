@@ -34,13 +34,11 @@ update msg model =
                             g.activePlayer
             in
                 ({model | game = newGame, player = newPlayer}, Cmd.none)
-        Msgs.FetchGame (round, turn) player->
-            case model.gameId of
-                Nothing ->
-                    (model, Cmd.none)
-                Just gameId ->
-                    (model, fetchGame gameId (round, turn) player)
-        Msgs.GameIdUpdate gameId ->
-            ({model | gameId = Just gameId}, Cmd.none)
+        Msgs.FetchGame (round, turn) player gameId->
+            (model, fetchGame gameId (round, turn) player)
+        Msgs.ActiveGameIdUpdate gameId ->
+            ({model | activeGameId = Just gameId}, Cmd.none)
+        Msgs.GameIdUpdate ->
+            ({model | gameId = model.activeGameId}, Cmd.none)
         Msgs.SizeUpdated newSize ->
             ({model | windowSize = newSize}, Cmd.none)

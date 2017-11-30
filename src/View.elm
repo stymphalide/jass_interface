@@ -2,13 +2,12 @@ module View exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (class, href, value)
-import Html.Events exposing (on)
+import Html.Events exposing (on, targetValue, onClick)
 import Json.Decode
 import List
 
 import Models exposing (Model)
 import Msgs exposing (Msg)
-import Decoders exposing (gameIdDecoder)
 
 import Game.Model exposing (GameId)
 import Game.View
@@ -19,8 +18,8 @@ view model =
     div [] 
         [ page model
         , text (toString model.windowSize)
-        , text (toString model.game)
-        , text (toString model.gameId)
+        , (toString model.game) |> (++) "GameString: " |> text
+        , (toString model.gameId) |> (++) "GameId: " |> text 
         ]
 
 page : Model -> Html Msg
@@ -28,21 +27,20 @@ page model =
     case model.route of
         Models.Init ->
             init
-        Models.Play ->
-            Game.View.viewPlay model.player model.game 
-        Models.Watch ->
-            Game.View.viewWatch model.player model.game 
+        Models.Play gameId ->
+            Game.View.viewPlay model.player model.game gameId
+        Models.Watch gameId ->
+            Game.View.viewWatch model.player model.game gameId
         Models.NotFoundRoute ->
             notFoundView
 
 init : Html Msg
 init =
     div []
-        [ btn "Play New Game" "play"
-        , btn "Watch Previous Game" "watch"
+        [ btn "Play New Game" ("play/0")
+        , btn "Watch Previous Game" ("watch/0")
         , slct ["0", "1", "2", "3"]
         ]
-
 btn : String -> String -> Html Msg
 btn txt path =
     a [class "btn block mx-auto", href path] 
@@ -52,8 +50,9 @@ btn txt path =
 slct : List GameId ->  Html Msg
 slct gameIds =
     div [] 
-    [ select [ on "change" (Json.Decode.map Msgs.GameIdUpdate Decoders.gameIdDecoder ) ]
-        ( List.map viewOption gameIds)
+    [ select [ on "change" (Json.Decode.map Msgs.ActiveGameIdUpdate targetValue ) ]
+        (List.map viewOption gameIds)
+    , a [onClick (Msgs.GameIdUpdate)] [text "Select"]
     ]
 
 viewOption : GameId -> Html Msg

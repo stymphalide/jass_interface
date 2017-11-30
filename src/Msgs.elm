@@ -8,6 +8,7 @@ import Game.Model exposing (Player, GameId)
 type Msg
     = OnLocationChange Location
     | GameUpdate String 
-    | FetchGame (Int, Int) Player
-    | GameIdUpdate GameId
+    | FetchGame (Int, Int) Player GameId
+    | GameIdUpdate
+    | ActiveGameIdUpdate GameId
     | SizeUpdated Size

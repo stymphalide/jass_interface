@@ -6,8 +6,8 @@ import Game.Model exposing (Game, Player, GameId)
 
 type Route
     = Init
-    | Watch
-    | Play
+    | Watch GameId
+    | Play GameId
     | NotFoundRoute
 
 type alias Model =
@@ -16,8 +16,8 @@ type alias Model =
     , windowSize : Size
     , gameId : Maybe GameId
     , player : Player
+    , activeGameId : Maybe GameId
     }
-
 
 initialModel : Route -> Model
 initialModel route =
@@ -26,4 +26,5 @@ initialModel route =
     , windowSize = Size 0 0
     , gameId = Nothing
     , player = "pl_1"
+    , activeGameId = Nothing
     }
