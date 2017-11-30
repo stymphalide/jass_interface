@@ -7,7 +7,7 @@ import Game.Model exposing (Game, Player, GameId)
 type Route
     = Init
     | Watch GameId
-    | Play GameId
+    | Play
     | NotFoundRoute
 
 type alias Model =

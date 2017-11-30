@@ -17,10 +17,7 @@ var _user$project$Routing$matchers = _evancz$url_parser$UrlParser$oneOf(
 			_0: A2(
 				_evancz$url_parser$UrlParser$map,
 				_user$project$Models$Play,
-				A2(
-					_evancz$url_parser$UrlParser_ops['</>'],
-					_evancz$url_parser$UrlParser$s('play'),
-					_evancz$url_parser$UrlParser$string)),
+				_evancz$url_parser$UrlParser$s('play')),
 			_1: {
 				ctor: '::',
 				_0: A2(

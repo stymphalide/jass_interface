@@ -10566,8 +10566,6 @@ var _evancz$url_parser$UrlParser$stringParam = function (name) {
 var _evancz$url_parser$UrlParser$intParam = function (name) {
 	return A2(_evancz$url_parser$UrlParser$customParam, name, _evancz$url_parser$UrlParser$intParamHelp);
 };
-var _user$project$Globals$imgSourcePath = '../../img/';
-var _user$project$Globals$serverUrl = 'ws://localhost:5000';
 var _user$project$Game_Model$Game = F9(
 	function (a, b, c, d, e, f, g, h, i) {
 		return {gameType: a, round: b, turn: c, players: d, groups: e, activePlayer: f, onTurnPlayer: g, cardsPlayer: h, table: i};
@@ -10600,6 +10598,16 @@ var _user$project$Msgs$GameUpdate = function (a) {
 var _user$project$Msgs$OnLocationChange = function (a) {
 	return {ctor: 'OnLocationChange', _0: a};
 };
+var _user$project$Globals$error = A2(
+	_elm_lang$html$Html$div,
+	{ctor: '[]'},
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html$text('An error has occurred...'),
+		_1: {ctor: '[]'}
+	});
+var _user$project$Globals$imgSourcePath = '../../img/';
+var _user$project$Globals$serverUrl = 'ws://localhost:5000';
 var _user$project$Commands$gameObject = F4(
 	function (_p0, gameId, player, mode) {
 		var _p1 = _p0;
@@ -10678,9 +10686,7 @@ var _user$project$Models$Model = F5(
 		return {route: a, game: b, windowSize: c, player: d, gameId: e};
 	});
 var _user$project$Models$NotFoundRoute = {ctor: 'NotFoundRoute'};
-var _user$project$Models$Play = function (a) {
-	return {ctor: 'Play', _0: a};
-};
+var _user$project$Models$Play = {ctor: 'Play'};
 var _user$project$Models$Watch = function (a) {
 	return {ctor: 'Watch', _0: a};
 };
@@ -11318,6 +11324,16 @@ var _user$project$Game_Play_Table$viewTable = function (table) {
 			}
 		});
 };
+var _user$project$Game_Play_Game$lobby = function (player) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(player),
+			_1: {ctor: '[]'}
+		});
+};
 var _user$project$Game_Play_Game$viewGameType = function (gameType) {
 	return _elm_lang$core$Native_Utils.eq(gameType, 'up') ? A2(
 		_elm_lang$html$Html$div,
@@ -11460,6 +11476,34 @@ var _user$project$Game_Play_Game$viewGame = F2(
 						}
 					}
 				}
+			});
+	});
+var _user$project$Game_Play_Game$init = F2(
+	function (player, gameId) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$a,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(
+							A4(
+								_user$project$Msgs$FetchGame,
+								{ctor: '_Tuple2', _0: -1, _1: -1},
+								player,
+								gameId,
+								false)),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('Start Game'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
 			});
 	});
 var _user$project$Game_Update$decodeGame = function (gameString) {
@@ -12073,7 +12117,7 @@ var _user$project$Game_Watch_Game$viewGame = F2(
 				}
 			});
 	});
-var _user$project$Game_View$init = F2(
+var _user$project$Game_Watch_Game$init = F2(
 	function (player, gameId) {
 		return A2(
 			_elm_lang$html$Html$div,
@@ -12102,21 +12146,31 @@ var _user$project$Game_View$init = F2(
 			});
 	});
 var _user$project$Game_View$viewWatch = F3(
-	function (player, game, gameId) {
-		var _p0 = game;
+	function (player, mGame, gameId) {
+		var _p0 = mGame;
 		if (_p0.ctor === 'Nothing') {
-			return A2(_user$project$Game_View$init, player, gameId);
+			return A2(_user$project$Game_Watch_Game$init, player, gameId);
 		} else {
 			return A2(_user$project$Game_Watch_Game$viewGame, _p0._0, gameId);
 		}
 	});
 var _user$project$Game_View$viewPlay = F3(
-	function (player, game, gameId) {
-		var _p1 = game;
+	function (player, mGame, mGameId) {
+		var _p1 = mGame;
 		if (_p1.ctor === 'Nothing') {
-			return A2(_user$project$Game_View$init, player, gameId);
+			var _p2 = mGameId;
+			if (_p2.ctor === 'Nothing') {
+				return _user$project$Game_Play_Game$lobby(player);
+			} else {
+				return A2(_user$project$Game_Play_Game$init, player, _p2._0);
+			}
 		} else {
-			return A2(_user$project$Game_Play_Game$viewGame, _p1._0, gameId);
+			var _p3 = mGameId;
+			if (_p3.ctor === 'Nothing') {
+				return _user$project$Globals$error;
+			} else {
+				return A2(_user$project$Game_Play_Game$viewGame, _p1._0, _p3._0);
+			}
 		}
 	});
 var _user$project$Routing$gamePath = F2(
@@ -12138,10 +12192,7 @@ var _user$project$Routing$matchers = _evancz$url_parser$UrlParser$oneOf(
 			_0: A2(
 				_evancz$url_parser$UrlParser$map,
 				_user$project$Models$Play,
-				A2(
-					_evancz$url_parser$UrlParser_ops['</>'],
-					_evancz$url_parser$UrlParser$s('play'),
-					_evancz$url_parser$UrlParser$string)),
+				_evancz$url_parser$UrlParser$s('play')),
 			_1: {
 				ctor: '::',
 				_0: A2(
@@ -12294,7 +12345,7 @@ var _user$project$View$init = function (gId) {
 			{ctor: '[]'},
 			{
 				ctor: '::',
-				_0: A2(_user$project$View$btn, 'Play New Game', 'play/0'),
+				_0: A2(_user$project$View$btn, 'Play New Game', 'play'),
 				_1: {
 					ctor: '::',
 					_0: A2(_user$project$View$btn, 'Watch Previous Game', 'watch/0'),
@@ -12367,7 +12418,7 @@ var _user$project$View$page = function (model) {
 		case 'Init':
 			return _user$project$View$init(model.gameId);
 		case 'Play':
-			return A3(_user$project$Game_View$viewPlay, model.player, model.game, _p1._0);
+			return A3(_user$project$Game_View$viewPlay, model.player, model.game, model.gameId);
 		case 'Watch':
 			return A3(_user$project$Game_View$viewWatch, model.player, model.game, _p1._0);
 		default:

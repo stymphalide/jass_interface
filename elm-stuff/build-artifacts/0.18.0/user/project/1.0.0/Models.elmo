@@ -12,9 +12,7 @@ var _user$project$Models$Model = F5(
 		return {route: a, game: b, windowSize: c, player: d, gameId: e};
 	});
 var _user$project$Models$NotFoundRoute = {ctor: 'NotFoundRoute'};
-var _user$project$Models$Play = function (a) {
-	return {ctor: 'Play', _0: a};
-};
+var _user$project$Models$Play = {ctor: 'Play'};
 var _user$project$Models$Watch = function (a) {
 	return {ctor: 'Watch', _0: a};
 };

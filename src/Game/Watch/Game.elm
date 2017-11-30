@@ -16,6 +16,13 @@ import Game.Watch.Groups exposing (viewGroup, unwrapMaybeGroups)
 import Game.Watch.Table exposing (viewTable)
 
 
+init : Player -> GameId -> Html Msg
+init player gameId =
+    div [] 
+        [ a [onClick (Msgs.FetchGame (0, 0) player gameId True)] [text "Start Game"]
+        ]
+
+
 viewGame : Game -> GameId -> Html Msg
 viewGame game gameId =
     div [] 
@@ -31,6 +38,9 @@ viewGame game gameId =
         , viewGroup (List.head (unwrapMaybeGroups (List.tail game.groups)))
         ]
     ]
+
+
+
 
 viewGameType : String -> Html Msg
 viewGameType gameType =

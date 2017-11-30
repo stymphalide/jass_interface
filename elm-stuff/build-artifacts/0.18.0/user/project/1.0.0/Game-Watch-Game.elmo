@@ -248,3 +248,31 @@ var _user$project$Game_Watch_Game$viewGame = F2(
 				}
 			});
 	});
+var _user$project$Game_Watch_Game$init = F2(
+	function (player, gameId) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$a,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(
+							A4(
+								_user$project$Msgs$FetchGame,
+								{ctor: '_Tuple2', _0: 0, _1: 0},
+								player,
+								gameId,
+								true)),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('Start Game'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			});
+	});

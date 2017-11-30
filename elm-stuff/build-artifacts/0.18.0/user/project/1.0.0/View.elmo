@@ -68,7 +68,7 @@ var _user$project$View$init = function (gId) {
 			{ctor: '[]'},
 			{
 				ctor: '::',
-				_0: A2(_user$project$View$btn, 'Play New Game', 'play/0'),
+				_0: A2(_user$project$View$btn, 'Play New Game', 'play'),
 				_1: {
 					ctor: '::',
 					_0: A2(_user$project$View$btn, 'Watch Previous Game', 'watch/0'),
@@ -141,7 +141,7 @@ var _user$project$View$page = function (model) {
 		case 'Init':
 			return _user$project$View$init(model.gameId);
 		case 'Play':
-			return A3(_user$project$Game_View$viewPlay, model.player, model.game, _p1._0);
+			return A3(_user$project$Game_View$viewPlay, model.player, model.game, model.gameId);
 		case 'Watch':
 			return A3(_user$project$Game_View$viewWatch, model.player, model.game, _p1._0);
 		default:

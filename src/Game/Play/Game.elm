@@ -15,6 +15,12 @@ import Game.Play.Players exposing (viewPlayers, viewPlayerCards)
 import Game.Play.Groups exposing (viewGroup, unwrapMaybeGroups)
 import Game.Play.Table exposing (viewTable)
 
+init : Player -> GameId-> Html Msg
+init player gameId  =
+    div [] 
+        [ a [Msgs.FetchGame (-1, -1) player gameId False |> onClick ] [text "Start Game"]
+        ]
+
 viewGame : Game -> GameId -> Html Msg
 viewGame game gameId =
     div [] 
@@ -39,3 +45,8 @@ viewGameType gameType =
     else
         div []
         [img [src (imgSourcePath ++ (colorTranslate gameType)++ "_icon.png") ] []]
+
+
+lobby : Player -> Html Msg
+lobby player = 
+    div [] [ text player]

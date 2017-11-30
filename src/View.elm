@@ -27,8 +27,8 @@ page model =
     case model.route of
         Models.Init ->
             init model.gameId
-        Models.Play gameId ->
-            Game.View.viewPlay model.player model.game gameId
+        Models.Play ->
+            Game.View.viewPlay model.player model.game model.gameId
         Models.Watch gameId ->
             Game.View.viewWatch model.player model.game gameId
         Models.NotFoundRoute ->
@@ -39,7 +39,7 @@ init gId =
     case gId of
         Nothing ->
             div []
-                [ btn "Play New Game" ("play/0")
+                [ btn "Play New Game" ("play")
                 , btn "Watch Previous Game" ("watch/0")
                 , slct ["0", "1", "2", "3"]
                 ]

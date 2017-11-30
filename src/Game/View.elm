@@ -4,9 +4,9 @@ module Game.View exposing (..)
 import Html exposing (..)
 import Html.Events exposing (onClick)
 
--- Client Model
+-- General
+import Globals exposing (error)
 import Msgs exposing (Msg)
-
 
 -- Game specific
 import Game.Model exposing(Game, Player, GameId)
@@ -14,24 +14,30 @@ import Game.Model exposing(Game, Player, GameId)
 import Game.Play.Game as Play
 import Game.Watch.Game as Watch
 
-viewPlay :  Player -> Maybe Game -> GameId -> Html Msg
-viewPlay player game gameId =
-    case game of
+viewPlay :  Player -> Maybe Game -> Maybe GameId-> Html Msg
+viewPlay player mGame mGameId =
+    case mGame of
         Nothing ->
-            init player gameId
-        Just g ->
-            Play.viewGame g gameId
-viewWatch : Player -> Maybe Game -> GameId-> Html Msg
-viewWatch player game gameId =
-    case game of
-        Nothing ->
-            init player gameId
-        Just g ->
-            Watch.viewGame g gameId
+            case mGameId of
+                Nothing ->
+                    Play.lobby player
+                Just gameId ->
+                    Play.init player gameId
+        Just game ->
+            case mGameId of
+                Nothing ->
+                    error
+                Just gameId ->
+                    Play.viewGame game gameId
 
 
-init : Player-> GameId -> Html Msg
-init player gameId =
-    div [] 
-        [ a [onClick (Msgs.FetchGame (0, 0) player gameId True)] [text "Start Game"]
-        ]
+viewWatch : Player -> Maybe Game -> GameId -> Html Msg
+viewWatch player mGame gameId =
+    case mGame of
+        Nothing ->
+            Watch.init player gameId
+        Just game ->
+            Watch.viewGame game gameId
+
+
+
