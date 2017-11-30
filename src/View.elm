@@ -26,7 +26,7 @@ page : Model -> Html Msg
 page model =
     case model.route of
         Models.Init ->
-            init
+            init model.gameId
         Models.Play gameId ->
             Game.View.viewPlay model.player model.game gameId
         Models.Watch gameId ->
@@ -34,13 +34,22 @@ page model =
         Models.NotFoundRoute ->
             notFoundView
 
-init : Html Msg
-init =
-    div []
-        [ btn "Play New Game" ("play/0")
-        , btn "Watch Previous Game" ("watch/0")
-        , slct ["0", "1", "2", "3"]
-        ]
+init : Maybe GameId -> Html Msg
+init gId =
+    case gId of
+        Nothing ->
+            div []
+                [ btn "Play New Game" ("play/0")
+                , btn "Watch Previous Game" ("watch/0")
+                , slct ["0", "1", "2", "3"]
+                ]
+        Just gameId ->
+            div []
+                [ btn "Play New Game" ("play/")
+                , btn "Watch Previous Game" ("watch/" ++ gameId)
+                , slct ["0", "1", "2", "3"]
+                ]
+            
 btn : String -> String -> Html Msg
 btn txt path =
     a [class "btn block mx-auto", href path] 
@@ -50,9 +59,8 @@ btn txt path =
 slct : List GameId ->  Html Msg
 slct gameIds =
     div [] 
-    [ select [ on "change" (Json.Decode.map Msgs.ActiveGameIdUpdate targetValue ) ]
+    [ select [ on "change" (Json.Decode.map Msgs.GameIdUpdate targetValue ) ]
         (List.map viewOption gameIds)
-    , a [onClick (Msgs.GameIdUpdate)] [text "Select"]
     ]
 
 viewOption : GameId -> Html Msg

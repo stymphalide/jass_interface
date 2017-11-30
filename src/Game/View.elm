@@ -13,7 +13,7 @@ import Game.Model exposing(Game, Player, GameId)
 
 import Game.Views.Game exposing (viewGame)
 
-viewPlay :  Player -> Maybe Game -> GameId-> Html Msg
+viewPlay :  Player -> Maybe Game -> GameId -> Html Msg
 viewPlay player game gameId =
     div []
     [ page False player game gameId
@@ -38,7 +38,3 @@ init player gameId =
     div [] 
         [ a [onClick (Msgs.FetchGame (0, 0) player gameId)] [text "Start Game"]
         ]
-
-errorWatch : Html Msg
-errorWatch =
-    div [] [text "No Game Id found!"]

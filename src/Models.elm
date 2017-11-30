@@ -14,9 +14,8 @@ type alias Model =
     { route : Route
     , game : Maybe Game
     , windowSize : Size
-    , gameId : Maybe GameId
     , player : Player
-    , activeGameId : Maybe GameId
+    , gameId : Maybe GameId
     }
 
 initialModel : Route -> Model
@@ -26,5 +25,4 @@ initialModel route =
     , windowSize = Size 0 0
     , gameId = Nothing
     , player = "pl_1"
-    , activeGameId = Nothing
     }

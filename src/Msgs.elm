@@ -9,6 +9,5 @@ type Msg
     = OnLocationChange Location
     | GameUpdate String 
     | FetchGame (Int, Int) Player GameId
-    | GameIdUpdate
-    | ActiveGameIdUpdate GameId
+    | GameIdUpdate GameId
     | SizeUpdated Size

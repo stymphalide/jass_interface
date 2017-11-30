@@ -15,7 +15,7 @@ import Game.Views.Players exposing (viewPlayers, viewPlayerCards)
 import Game.Views.Groups exposing (viewGroup, unwrapMaybeGroups)
 import Game.Views.Table exposing (viewTable)
 
-viewGame : Bool -> Game -> GameId-> Html Msg
+viewGame : Bool -> Game -> GameId -> Html Msg
 viewGame isWatch game gameId =
     div [] 
     [ h1 [] [viewGameType game.gameType]
@@ -53,8 +53,7 @@ next player gameCoord gameId =
     if not (isEnd gameCoord) then
         img 
         [ src (imgSourcePath ++ "right_arrow.png")
-        ,  player
-            |> Msgs.FetchGame (nextRound gameCoord) gameId
+        ,  Msgs.FetchGame (nextRound gameCoord) player gameId
             |> onClick
         ] []
     else 
@@ -78,8 +77,7 @@ prev player gameCoord gameId =
     if not (isBegin gameCoord) then
         img
         [ src (imgSourcePath ++ "left_arrow.png")
-        , player
-            |> Msgs.FetchGame (prevRound gameCoord) gameId
+        , Msgs.FetchGame (prevRound gameCoord) player gameId
             |> onClick
         ][]
     else

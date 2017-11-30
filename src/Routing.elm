@@ -22,8 +22,7 @@ parseLocation location =
             route
         Nothing ->
             NotFoundRoute
-{-
-gamePath : String -> String
-gamePath path =
-    "/" ++ path ++ "/"
--}
+
+gamePath : String -> String -> String
+gamePath path gameId =
+    "/" ++ path ++ "/" ++ gameId
