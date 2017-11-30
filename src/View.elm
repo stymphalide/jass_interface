@@ -19,7 +19,7 @@ view model =
         [ page model
         , text (toString model.windowSize)
         , (toString model.game) |> (++) "GameString: " |> text
-        , (toString model.gameId) |> (++) "GameId: " |> text 
+        , (toString model.gameId) |> (++) "\nGameId: " |> text 
         ]
 
 page : Model -> Html Msg

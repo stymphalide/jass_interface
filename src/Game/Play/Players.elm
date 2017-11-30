@@ -1,4 +1,4 @@
-module Game.Views.Players exposing (..)
+module Game.Play.Players exposing (..)
 
 import List
 import Html exposing (..)
@@ -10,10 +10,10 @@ import Globals exposing (imgSourcePath)
 
 import Game.Model exposing (Card, Player, GameCoord, GameId)
 
-import Game.Views.Card exposing (viewCard)
+import Game.Play.Card exposing (viewCard)
 
 
-viewPlayers:Bool -> GameCoord -> GameId -> Player -> Player -> List Player -> List (Html Msg)
+viewPlayers: Bool -> GameCoord -> GameId -> Player -> Player -> List Player -> List (Html Msg)
 viewPlayers isWatch gameCoord gameId activePlayer onTurnPlayer players=
     List.map (viewPlayer isWatch gameCoord gameId activePlayer onTurnPlayer) players
 

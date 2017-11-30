@@ -11,27 +11,27 @@ import Msgs exposing (Msg)
 -- Game specific
 import Game.Model exposing(Game, Player, GameId)
 
-import Game.Views.Game exposing (viewGame)
+import Game.Play.Game as Play
+import Game.Watch.Game as Watch
 
 viewPlay :  Player -> Maybe Game -> GameId -> Html Msg
 viewPlay player game gameId =
+    case game of
+        Nothing ->
+            init player gameId
+        Just g ->
+            Play.viewGame 
     div []
     [ page False player game gameId
     ]
 viewWatch : Player -> Maybe Game -> GameId-> Html Msg
 viewWatch player game gameId =
-    div []
-    [ page True player game gameId
-    ]       
-
-
-page : Bool -> Player -> Maybe Game ->  GameId-> Html Msg
-page isWatch player game gameId =
     case game of
         Nothing ->
             init player gameId
         Just g ->
-            viewGame isWatch g gameId
+            Watch.viewGame
+
 
 init : Player-> GameId -> Html Msg
 init player gameId =

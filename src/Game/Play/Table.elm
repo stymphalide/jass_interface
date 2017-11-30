@@ -1,4 +1,4 @@
-module Game.Views.Table exposing (..)
+module Game.Play.Table exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (src, width)
@@ -8,7 +8,7 @@ import Globals exposing (imgSourcePath)
 
 import Game.Model exposing (Table, Card)
 
-import Game.Views.Card exposing (viewCard)
+import Game.Play.Card exposing (viewCard)
 
 
 viewTable : Table -> Html Msg

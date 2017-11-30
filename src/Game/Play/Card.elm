@@ -1,4 +1,4 @@
-module Game.Views.Card exposing (..)
+module Game.Play.Card exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (src, width)

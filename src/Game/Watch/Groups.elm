@@ -1,4 +1,4 @@
-module Game.Views.Groups exposing (..)
+module Game.Watch.Groups exposing (..)
 
 import List
 import Html exposing (..)
@@ -7,7 +7,7 @@ import Msgs exposing (Msg)
 
 import Game.Model exposing (Group, Card, Player, History)
 
-import Game.Views.Card exposing (viewCard)
+import Game.Watch.Card exposing (viewCard)
 
 
 viewGroup : Maybe Group -> Html Msg

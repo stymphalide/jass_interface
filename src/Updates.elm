@@ -34,8 +34,8 @@ update msg model =
                             g.activePlayer
             in
                 ({model | game = newGame, player = newPlayer}, Cmd.none)
-        Msgs.FetchGame (round, turn) player gameId->
-            (model, fetchGame gameId (round, turn) player)
+        Msgs.FetchGame (round, turn) player gameId isWatch->
+            (model, fetchGame gameId (round, turn) player isWatch)
         Msgs.GameIdUpdate gameId ->
             ({model | gameId = Just gameId}, Cmd.none)
         Msgs.SizeUpdated newSize ->

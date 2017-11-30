@@ -1,4 +1,4 @@
-module Game.Views.Game exposing (..)
+module Game.Watch.Game exposing (..)
 
 import List
 import Html exposing (..)
@@ -11,12 +11,12 @@ import Globals exposing (imgSourcePath)
 import Game.Model exposing (Game, GameCoord, Player, GameId)
 import Game.Translate exposing (colorTranslate)
 
-import Game.Views.Players exposing (viewPlayers, viewPlayerCards)
-import Game.Views.Groups exposing (viewGroup, unwrapMaybeGroups)
-import Game.Views.Table exposing (viewTable)
+import Game.Watch.Players exposing (viewPlayers, viewPlayerCards)
+import Game.Watch.Groups exposing (viewGroup, unwrapMaybeGroups)
+import Game.Watch.Table exposing (viewTable)
 
 viewGame : Bool -> Game -> GameId -> Html Msg
-viewGame isWatch game gameId =
+viewGame game gameId =
     div [] 
     [ h1 [] [viewGameType game.gameType]
     , h2 [] [text game.activePlayer]
