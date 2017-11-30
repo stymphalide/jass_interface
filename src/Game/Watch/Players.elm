@@ -13,54 +13,47 @@ import Game.Model exposing (Card, Player, GameCoord, GameId)
 import Game.Watch.Card exposing (viewCard)
 
 
-viewPlayers: Bool -> GameCoord -> GameId -> Player -> Player -> List Player -> List (Html Msg)
-viewPlayers isWatch gameCoord gameId activePlayer onTurnPlayer players=
-    List.map (viewPlayer isWatch gameCoord gameId activePlayer onTurnPlayer) players
+viewPlayers: GameCoord -> GameId -> Player -> Player -> List Player -> List (Html Msg)
+viewPlayers gameCoord gameId activePlayer onTurnPlayer players=
+    List.map (viewPlayer gameCoord gameId activePlayer onTurnPlayer) players
 
 
-viewPlayer : Bool -> GameCoord -> GameId-> Player -> Player -> Player -> Html Msg
-viewPlayer isWatch gameCoord gameId activePlayer onTurnPlayer player =
+viewPlayer : GameCoord -> GameId-> Player -> Player -> Player -> Html Msg
+viewPlayer gameCoord gameId activePlayer onTurnPlayer player =
     if player == activePlayer then
         if player == onTurnPlayer then 
             li [class "inline-block mr1"]
             [ div [class "col-9"] [text player]
-            , getImage isWatch gameCoord player gameId "playerActiveOnTurn"
+            , getImage gameCoord player gameId "playerActiveOnTurn"
             ]
         else
             li [class "inline-block mr1"]
             [ div [class "col-9"] [text player]
-            , getImage isWatch gameCoord player gameId "playerActive"
+            , getImage gameCoord player gameId "playerActive"
             ]
     else 
         if player == onTurnPlayer then 
             li [class "inline-block mr1"]
             [ div [class "col-9"] [text player]
-            , getImage isWatch gameCoord player gameId "playerOnTurn"
+            , getImage gameCoord player gameId "playerOnTurn"
             ]
         else 
             li [class "inline-block mr1"]
             [ div [class "col-9"] [text player]
-            , getImage isWatch gameCoord player gameId "player"
+            , getImage gameCoord player gameId "player"
             ]
 
-getImage : Bool -> GameCoord -> Player -> GameId -> String -> Html Msg
-getImage isWatch gameCoord player gameId icon =
+getImage : GameCoord -> Player -> GameId -> String -> Html Msg
+getImage gameCoord player gameId icon =
     img 
         [ src (imgSourcePath ++ icon ++"_icon.png")
         , width 50
-        , changePlayer gameCoord player isWatch gameId
+        , changePlayer gameCoord player gameId
         ] []
 
-changePlayer : GameCoord -> Player -> Bool -> GameId -> Attribute Msg
-changePlayer gameCoord player isWatch gameId =
-    if isWatch then 
-        onClick (Msgs.FetchGame gameCoord player gameId)
-    else
-        noAction
-
-noAction : Attribute msg
-noAction = 
-    Html.Attributes.attribute "none" ""
+changePlayer : GameCoord -> Player -> GameId -> Attribute Msg
+changePlayer gameCoord player gameId =
+    Msgs.FetchGame gameCoord player gameId True |> onClick
 
 viewPlayerCards : Maybe (List Card) -> List (Html Msg)
 viewPlayerCards cards =

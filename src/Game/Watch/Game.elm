@@ -15,7 +15,8 @@ import Game.Watch.Players exposing (viewPlayers, viewPlayerCards)
 import Game.Watch.Groups exposing (viewGroup, unwrapMaybeGroups)
 import Game.Watch.Table exposing (viewTable)
 
-viewGame : Bool -> Game -> GameId -> Html Msg
+
+viewGame : Game -> GameId -> Html Msg
 viewGame game gameId =
     div [] 
     [ h1 [] [viewGameType game.gameType]
@@ -23,7 +24,7 @@ viewGame game gameId =
     , h2 [] [text ("Round #" ++ (toString (game.round, game.turn)))]
     , div [] [nav game.activePlayer (game.round, game.turn) gameId]
     , ol [class "list-reset"] (viewPlayerCards game.cardsPlayer)
-    , ol [class "list-reset"] (viewPlayers isWatch (game.round, game.turn) gameId game.activePlayer game.onTurnPlayer game.players)
+    , ol [class "list-reset"] (viewPlayers (game.round, game.turn) gameId game.activePlayer game.onTurnPlayer game.players)
     , viewTable game.table
     , div [] 
         [ viewGroup (List.head game.groups)
@@ -53,7 +54,7 @@ next player gameCoord gameId =
     if not (isEnd gameCoord) then
         img 
         [ src (imgSourcePath ++ "right_arrow.png")
-        ,  Msgs.FetchGame (nextRound gameCoord) player gameId
+        ,  Msgs.FetchGame (nextRound gameCoord) player gameId True
             |> onClick
         ] []
     else 
@@ -77,7 +78,7 @@ prev player gameCoord gameId =
     if not (isBegin gameCoord) then
         img
         [ src (imgSourcePath ++ "left_arrow.png")
-        , Msgs.FetchGame (prevRound gameCoord) player gameId
+        , Msgs.FetchGame (prevRound gameCoord) player gameId True
             |> onClick
         ][]
     else

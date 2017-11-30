@@ -20,21 +20,18 @@ viewPlay player game gameId =
         Nothing ->
             init player gameId
         Just g ->
-            Play.viewGame 
-    div []
-    [ page False player game gameId
-    ]
+            Play.viewGame g gameId
 viewWatch : Player -> Maybe Game -> GameId-> Html Msg
 viewWatch player game gameId =
     case game of
         Nothing ->
             init player gameId
         Just g ->
-            Watch.viewGame
+            Watch.viewGame g gameId
 
 
 init : Player-> GameId -> Html Msg
 init player gameId =
     div [] 
-        [ a [onClick (Msgs.FetchGame (0, 0) player gameId)] [text "Start Game"]
+        [ a [onClick (Msgs.FetchGame (0, 0) player gameId True)] [text "Start Game"]
         ]
