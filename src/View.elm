@@ -28,21 +28,29 @@ page model =
         Models.Init ->
             init model.player model.gameId
         Models.Play ->
-            Game.View.viewPlay model.player model.game model.gameId
+            case model.player of
+                Models.Changing player ->
+                    init model.player model.gameId
+                Models.Constant player ->
+                    Game.View.viewPlay player model.game model.gameId
         Models.Watch gameId ->
-            Game.View.viewWatch model.player model.game gameId
+            case model.player of
+                Models.Changing player ->
+                    init model.player model.gameId
+                Models.Constant player ->
+                    Game.View.viewWatch player model.game gameId
         Models.NotFoundRoute ->
             notFoundView
 
-init : Maybe Player -> Maybe GameId -> Html Msg
-init mPlayer mGameId =
-    case mPlayer of
-        Nothing ->
+init : Input Player -> Maybe GameId -> Html Msg
+init iPlayer mGameId =
+    case iPlayer of
+        Models.Changing player ->
             div [] 
-            [ input [ placeholder "Player name",  on "input" (Json.Decode.map (Msgs.PlayerChange Msgs.Update) targetValue) ] []
+            [ input [ placeholder "Player name",  onInput newInput ] []
             , a [class "btn", onClick (Msgs.PlayerChange Msgs.Approve)] [ text "Log In" ]
             ]
-        Just player ->
+        Models.Constant player ->
             case mGameId of
             Nothing ->
                 div []
@@ -56,6 +64,11 @@ init mPlayer mGameId =
                     , btn "Watch Previous Game" ("watch/" ++ gameId)
                     , slct ["0", "1", "2", "3"]
                     ]  
+
+newInput : String -> Msg
+newInput s =
+    Msgs.PlayerChange (Msgs.Update s)
+
 
 btn : String -> String -> Html Msg
 btn txt path =

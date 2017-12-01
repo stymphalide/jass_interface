@@ -10595,8 +10595,15 @@ var _user$project$Msgs$FetchGame = F4(
 var _user$project$Msgs$GameUpdate = function (a) {
 	return {ctor: 'GameUpdate', _0: a};
 };
+var _user$project$Msgs$PlayerChange = function (a) {
+	return {ctor: 'PlayerChange', _0: a};
+};
 var _user$project$Msgs$OnLocationChange = function (a) {
 	return {ctor: 'OnLocationChange', _0: a};
+};
+var _user$project$Msgs$Approve = {ctor: 'Approve'};
+var _user$project$Msgs$Update = function (a) {
+	return {ctor: 'Update', _0: a};
 };
 var _user$project$Globals$error = A2(
 	_elm_lang$html$Html$div,
@@ -10672,15 +10679,6 @@ var _user$project$Commands$fetchGame = F4(
 			A4(_user$project$Commands$encodeGame, gameCoord, gameId, player, isWatch));
 	});
 var _user$project$Commands$getWindowSize = A2(_elm_lang$core$Task$perform, _user$project$Msgs$SizeUpdated, _elm_lang$window$Window$size);
-var _user$project$Models$initialModel = function (route) {
-	return {
-		route: route,
-		game: _elm_lang$core$Maybe$Nothing,
-		windowSize: A2(_elm_lang$window$Window$Size, 0, 0),
-		gameId: _elm_lang$core$Maybe$Nothing,
-		player: 'pl_1'
-	};
-};
 var _user$project$Models$Model = F5(
 	function (a, b, c, d, e) {
 		return {route: a, game: b, windowSize: c, player: d, gameId: e};
@@ -10691,6 +10689,21 @@ var _user$project$Models$Watch = function (a) {
 	return {ctor: 'Watch', _0: a};
 };
 var _user$project$Models$Init = {ctor: 'Init'};
+var _user$project$Models$Constant = function (a) {
+	return {ctor: 'Constant', _0: a};
+};
+var _user$project$Models$Changing = function (a) {
+	return {ctor: 'Changing', _0: a};
+};
+var _user$project$Models$initialModel = function (route) {
+	return {
+		route: route,
+		game: _elm_lang$core$Maybe$Nothing,
+		windowSize: A2(_elm_lang$window$Window$Size, 0, 0),
+		gameId: _elm_lang$core$Maybe$Nothing,
+		player: _user$project$Models$Changing('')
+	};
+};
 var _user$project$Decoders$cardDecoder = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'number',
@@ -12214,12 +12227,20 @@ var _user$project$Routing$parseLocation = function (location) {
 		return _user$project$Models$NotFoundRoute;
 	}
 };
+var _user$project$Updates$makeConstant = function (iPlayer) {
+	var _p0 = iPlayer;
+	if (_p0.ctor === 'Changing') {
+		return _user$project$Models$Constant(_p0._0);
+	} else {
+		return iPlayer;
+	}
+};
 var _user$project$Updates$update = F2(
 	function (msg, model) {
-		var _p0 = msg;
-		switch (_p0.ctor) {
+		var _p1 = msg;
+		switch (_p1.ctor) {
 			case 'OnLocationChange':
-				var newRoute = _user$project$Routing$parseLocation(_p0._0);
+				var newRoute = _user$project$Routing$parseLocation(_p1._0);
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
@@ -12227,21 +12248,48 @@ var _user$project$Updates$update = F2(
 						{route: newRoute}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
+			case 'PlayerChange':
+				var _p2 = _p1._0;
+				if (_p2.ctor === 'Update') {
+					var _p3 = model.player;
+					if (_p3.ctor === 'Changing') {
+						return {
+							ctor: '_Tuple2',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{
+									player: _user$project$Models$Changing(_p3._0)
+								}),
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					} else {
+						return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+					}
+				} else {
+					var pl = _user$project$Updates$makeConstant(model.player);
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{player: pl}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				}
 			case 'GameUpdate':
-				var newGame = _user$project$Game_Update$updateGame(_p0._0);
+				var mNewGame = _user$project$Game_Update$updateGame(_p1._0);
 				var newPlayer = function () {
-					var _p1 = newGame;
-					if (_p1.ctor === 'Nothing') {
+					var _p4 = mNewGame;
+					if (_p4.ctor === 'Nothing') {
 						return model.player;
 					} else {
-						return _p1._0.activePlayer;
+						return _user$project$Models$Constant(_p4._0.activePlayer);
 					}
 				}();
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{game: newGame, player: newPlayer}),
+						{game: mNewGame, player: newPlayer}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'FetchGame':
@@ -12250,10 +12298,10 @@ var _user$project$Updates$update = F2(
 					_0: model,
 					_1: A4(
 						_user$project$Commands$fetchGame,
-						_p0._2,
-						{ctor: '_Tuple2', _0: _p0._0._0, _1: _p0._0._1},
-						_p0._1,
-						_p0._3)
+						_p1._2,
+						{ctor: '_Tuple2', _0: _p1._0._0, _1: _p1._0._1},
+						_p1._1,
+						_p1._3)
 				};
 			case 'GameIdUpdate':
 				return {
@@ -12261,7 +12309,7 @@ var _user$project$Updates$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							gameId: _elm_lang$core$Maybe$Just(_p0._0)
+							gameId: _elm_lang$core$Maybe$Just(_p1._0)
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -12270,7 +12318,7 @@ var _user$project$Updates$update = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{windowSize: _p0._0}),
+						{windowSize: _p1._0}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 		}
@@ -12337,90 +12385,148 @@ var _user$project$View$btn = F2(
 				_1: {ctor: '[]'}
 			});
 	});
-var _user$project$View$init = function (gId) {
-	var _p0 = gId;
-	if (_p0.ctor === 'Nothing') {
-		return A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A2(_user$project$View$btn, 'Play New Game', 'play'),
-				_1: {
-					ctor: '::',
-					_0: A2(_user$project$View$btn, 'Watch Previous Game', 'watch/0'),
-					_1: {
-						ctor: '::',
-						_0: _user$project$View$slct(
-							{
-								ctor: '::',
-								_0: '0',
-								_1: {
-									ctor: '::',
-									_0: '1',
-									_1: {
-										ctor: '::',
-										_0: '2',
-										_1: {
-											ctor: '::',
-											_0: '3',
-											_1: {ctor: '[]'}
-										}
-									}
-								}
-							}),
-						_1: {ctor: '[]'}
-					}
-				}
-			});
-	} else {
-		return A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A2(_user$project$View$btn, 'Play New Game', 'play/'),
-				_1: {
+var _user$project$View$newInput = function (s) {
+	return _user$project$Msgs$PlayerChange(
+		_user$project$Msgs$Update(s));
+};
+var _user$project$View$init = F2(
+	function (iPlayer, mGameId) {
+		var _p0 = iPlayer;
+		if (_p0.ctor === 'Changing') {
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{
 					ctor: '::',
 					_0: A2(
-						_user$project$View$btn,
-						'Watch Previous Game',
-						A2(_elm_lang$core$Basics_ops['++'], 'watch/', _p0._0)),
+						_elm_lang$html$Html$input,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$placeholder('Player name'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onInput(_user$project$View$newInput),
+								_1: {ctor: '[]'}
+							}
+						},
+						{ctor: '[]'}),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$slct(
+						_0: A2(
+							_elm_lang$html$Html$a,
 							{
 								ctor: '::',
-								_0: '0',
+								_0: _elm_lang$html$Html_Attributes$class('btn'),
 								_1: {
 									ctor: '::',
-									_0: '1',
-									_1: {
-										ctor: '::',
-										_0: '2',
-										_1: {
-											ctor: '::',
-											_0: '3',
-											_1: {ctor: '[]'}
-										}
-									}
+									_0: _elm_lang$html$Html_Events$onClick(
+										_user$project$Msgs$PlayerChange(_user$project$Msgs$Approve)),
+									_1: {ctor: '[]'}
 								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Log In'),
+								_1: {ctor: '[]'}
 							}),
 						_1: {ctor: '[]'}
 					}
-				}
-			});
-	}
-};
+				});
+		} else {
+			var _p1 = mGameId;
+			if (_p1.ctor === 'Nothing') {
+				return A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(_user$project$View$btn, 'Play New Game', 'play'),
+						_1: {
+							ctor: '::',
+							_0: A2(_user$project$View$btn, 'Watch Previous Game', 'watch/0'),
+							_1: {
+								ctor: '::',
+								_0: _user$project$View$slct(
+									{
+										ctor: '::',
+										_0: '0',
+										_1: {
+											ctor: '::',
+											_0: '1',
+											_1: {
+												ctor: '::',
+												_0: '2',
+												_1: {
+													ctor: '::',
+													_0: '3',
+													_1: {ctor: '[]'}
+												}
+											}
+										}
+									}),
+								_1: {ctor: '[]'}
+							}
+						}
+					});
+			} else {
+				return A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(_user$project$View$btn, 'Play New Game', 'play/'),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_user$project$View$btn,
+								'Watch Previous Game',
+								A2(_elm_lang$core$Basics_ops['++'], 'watch/', _p1._0)),
+							_1: {
+								ctor: '::',
+								_0: _user$project$View$slct(
+									{
+										ctor: '::',
+										_0: '0',
+										_1: {
+											ctor: '::',
+											_0: '1',
+											_1: {
+												ctor: '::',
+												_0: '2',
+												_1: {
+													ctor: '::',
+													_0: '3',
+													_1: {ctor: '[]'}
+												}
+											}
+										}
+									}),
+								_1: {ctor: '[]'}
+							}
+						}
+					});
+			}
+		}
+	});
 var _user$project$View$page = function (model) {
-	var _p1 = model.route;
-	switch (_p1.ctor) {
+	var _p2 = model.route;
+	switch (_p2.ctor) {
 		case 'Init':
-			return _user$project$View$init(model.gameId);
+			return A2(_user$project$View$init, model.player, model.gameId);
 		case 'Play':
-			return A3(_user$project$Game_View$viewPlay, model.player, model.game, model.gameId);
+			var _p3 = model.player;
+			if (_p3.ctor === 'Changing') {
+				return A2(_user$project$View$init, model.player, model.gameId);
+			} else {
+				return A3(_user$project$Game_View$viewPlay, _p3._0, model.game, model.gameId);
+			}
 		case 'Watch':
-			return A3(_user$project$Game_View$viewWatch, model.player, model.game, _p1._0);
+			var _p4 = model.player;
+			if (_p4.ctor === 'Changing') {
+				return A2(_user$project$View$init, model.player, model.gameId);
+			} else {
+				return A3(_user$project$Game_View$viewWatch, _p4._0, model.game, _p2._0);
+			}
 		default:
 			return _user$project$View$notFoundView;
 	}

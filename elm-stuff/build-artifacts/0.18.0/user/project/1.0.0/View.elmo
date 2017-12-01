@@ -60,90 +60,148 @@ var _user$project$View$btn = F2(
 				_1: {ctor: '[]'}
 			});
 	});
-var _user$project$View$init = function (gId) {
-	var _p0 = gId;
-	if (_p0.ctor === 'Nothing') {
-		return A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A2(_user$project$View$btn, 'Play New Game', 'play'),
-				_1: {
-					ctor: '::',
-					_0: A2(_user$project$View$btn, 'Watch Previous Game', 'watch/0'),
-					_1: {
-						ctor: '::',
-						_0: _user$project$View$slct(
-							{
-								ctor: '::',
-								_0: '0',
-								_1: {
-									ctor: '::',
-									_0: '1',
-									_1: {
-										ctor: '::',
-										_0: '2',
-										_1: {
-											ctor: '::',
-											_0: '3',
-											_1: {ctor: '[]'}
-										}
-									}
-								}
-							}),
-						_1: {ctor: '[]'}
-					}
-				}
-			});
-	} else {
-		return A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A2(_user$project$View$btn, 'Play New Game', 'play/'),
-				_1: {
+var _user$project$View$newInput = function (s) {
+	return _user$project$Msgs$PlayerChange(
+		_user$project$Msgs$Update(s));
+};
+var _user$project$View$init = F2(
+	function (iPlayer, mGameId) {
+		var _p0 = iPlayer;
+		if (_p0.ctor === 'Changing') {
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{
 					ctor: '::',
 					_0: A2(
-						_user$project$View$btn,
-						'Watch Previous Game',
-						A2(_elm_lang$core$Basics_ops['++'], 'watch/', _p0._0)),
+						_elm_lang$html$Html$input,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$placeholder('Player name'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onInput(_user$project$View$newInput),
+								_1: {ctor: '[]'}
+							}
+						},
+						{ctor: '[]'}),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$slct(
+						_0: A2(
+							_elm_lang$html$Html$a,
 							{
 								ctor: '::',
-								_0: '0',
+								_0: _elm_lang$html$Html_Attributes$class('btn'),
 								_1: {
 									ctor: '::',
-									_0: '1',
-									_1: {
-										ctor: '::',
-										_0: '2',
-										_1: {
-											ctor: '::',
-											_0: '3',
-											_1: {ctor: '[]'}
-										}
-									}
+									_0: _elm_lang$html$Html_Events$onClick(
+										_user$project$Msgs$PlayerChange(_user$project$Msgs$Approve)),
+									_1: {ctor: '[]'}
 								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Log In'),
+								_1: {ctor: '[]'}
 							}),
 						_1: {ctor: '[]'}
 					}
-				}
-			});
-	}
-};
+				});
+		} else {
+			var _p1 = mGameId;
+			if (_p1.ctor === 'Nothing') {
+				return A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(_user$project$View$btn, 'Play New Game', 'play'),
+						_1: {
+							ctor: '::',
+							_0: A2(_user$project$View$btn, 'Watch Previous Game', 'watch/0'),
+							_1: {
+								ctor: '::',
+								_0: _user$project$View$slct(
+									{
+										ctor: '::',
+										_0: '0',
+										_1: {
+											ctor: '::',
+											_0: '1',
+											_1: {
+												ctor: '::',
+												_0: '2',
+												_1: {
+													ctor: '::',
+													_0: '3',
+													_1: {ctor: '[]'}
+												}
+											}
+										}
+									}),
+								_1: {ctor: '[]'}
+							}
+						}
+					});
+			} else {
+				return A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(_user$project$View$btn, 'Play New Game', 'play/'),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_user$project$View$btn,
+								'Watch Previous Game',
+								A2(_elm_lang$core$Basics_ops['++'], 'watch/', _p1._0)),
+							_1: {
+								ctor: '::',
+								_0: _user$project$View$slct(
+									{
+										ctor: '::',
+										_0: '0',
+										_1: {
+											ctor: '::',
+											_0: '1',
+											_1: {
+												ctor: '::',
+												_0: '2',
+												_1: {
+													ctor: '::',
+													_0: '3',
+													_1: {ctor: '[]'}
+												}
+											}
+										}
+									}),
+								_1: {ctor: '[]'}
+							}
+						}
+					});
+			}
+		}
+	});
 var _user$project$View$page = function (model) {
-	var _p1 = model.route;
-	switch (_p1.ctor) {
+	var _p2 = model.route;
+	switch (_p2.ctor) {
 		case 'Init':
-			return _user$project$View$init(model.gameId);
+			return A2(_user$project$View$init, model.player, model.gameId);
 		case 'Play':
-			return A3(_user$project$Game_View$viewPlay, model.player, model.game, model.gameId);
+			var _p3 = model.player;
+			if (_p3.ctor === 'Changing') {
+				return A2(_user$project$View$init, model.player, model.gameId);
+			} else {
+				return A3(_user$project$Game_View$viewPlay, _p3._0, model.game, model.gameId);
+			}
 		case 'Watch':
-			return A3(_user$project$Game_View$viewWatch, model.player, model.game, _p1._0);
+			var _p4 = model.player;
+			if (_p4.ctor === 'Changing') {
+				return A2(_user$project$View$init, model.player, model.gameId);
+			} else {
+				return A3(_user$project$Game_View$viewWatch, _p4._0, model.game, _p2._0);
+			}
 		default:
 			return _user$project$View$notFoundView;
 	}
