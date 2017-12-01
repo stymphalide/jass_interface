@@ -5,12 +5,12 @@ import WebSocket
 --import RemoteData
 
 import Msgs exposing (Msg)
-import Models exposing (Model)
+import Models exposing (Model, Input)
 import Commands exposing (fetchGame)
 import Routing exposing (parseLocation)
 
 import Game.Update exposing (updateGame)
-
+import Game.Model exposing (Player)
 
 -- UPDATE
 
@@ -23,20 +23,43 @@ update msg model =
                     parseLocation location
             in
                 ({model | route = newRoute}, Cmd.none)
+        Msgs.PlayerChange input ->
+            case input of
+                Msgs.Update player ->
+                    case model.player of
+                        Models.Changing player ->
+                            ({model | player = Models.Changing player}, Cmd.none)
+                        Models.Constant player ->
+                            (model, Cmd.none)
+                Msgs.Approve ->
+                    let 
+                        pl = 
+                            makeConstant model.player
+                    in
+                        ({model | player = pl}, Cmd.none)
         Msgs.GameUpdate gameString ->
             let
-                newGame = updateGame gameString
+                mNewGame = updateGame gameString
                 newPlayer = 
-                    case newGame of
+                    case mNewGame of
                         Nothing ->
                             model.player
-                        Just g ->
-                            g.activePlayer
+                        Just game ->
+                            Models.Constant game.activePlayer
             in
-                ({model | game = newGame, player = newPlayer}, Cmd.none)
+                ({model | game = mNewGame, player = newPlayer}, Cmd.none)
         Msgs.FetchGame (round, turn) player gameId isWatch->
             (model, fetchGame gameId (round, turn) player isWatch)
         Msgs.GameIdUpdate gameId ->
             ({model | gameId = Just gameId}, Cmd.none)
         Msgs.SizeUpdated newSize ->
             ({model | windowSize = newSize}, Cmd.none)
+
+
+makeConstant : Input Player -> Input Player
+makeConstant iPlayer =
+    case iPlayer of 
+        Models.Changing player ->
+            Models.Constant player
+        Models.Constant player ->
+            iPlayer

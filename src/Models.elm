@@ -10,11 +10,15 @@ type Route
     | Play
     | NotFoundRoute
 
+type Input a
+    = Changing a
+    | Constant a
+
 type alias Model =
     { route : Route
     , game : Maybe Game
     , windowSize : Size
-    , player : Player
+    , player : Input Player
     , gameId : Maybe GameId
     }
 
@@ -24,5 +28,5 @@ initialModel route =
     , game = Nothing
     , windowSize = Size 0 0
     , gameId = Nothing
-    , player = "pl_1"
+    , player = Changing ""
     }

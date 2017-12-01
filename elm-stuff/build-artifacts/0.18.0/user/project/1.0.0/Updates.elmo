@@ -1,9 +1,17 @@
+var _user$project$Updates$makeConstant = function (iPlayer) {
+	var _p0 = iPlayer;
+	if (_p0.ctor === 'Changing') {
+		return _user$project$Models$Constant(_p0._0);
+	} else {
+		return iPlayer;
+	}
+};
 var _user$project$Updates$update = F2(
 	function (msg, model) {
-		var _p0 = msg;
-		switch (_p0.ctor) {
+		var _p1 = msg;
+		switch (_p1.ctor) {
 			case 'OnLocationChange':
-				var newRoute = _user$project$Routing$parseLocation(_p0._0);
+				var newRoute = _user$project$Routing$parseLocation(_p1._0);
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
@@ -11,21 +19,48 @@ var _user$project$Updates$update = F2(
 						{route: newRoute}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
+			case 'PlayerChange':
+				var _p2 = _p1._0;
+				if (_p2.ctor === 'Update') {
+					var _p3 = model.player;
+					if (_p3.ctor === 'Changing') {
+						return {
+							ctor: '_Tuple2',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{
+									player: _user$project$Models$Changing(_p3._0)
+								}),
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					} else {
+						return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+					}
+				} else {
+					var pl = _user$project$Updates$makeConstant(model.player);
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{player: pl}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				}
 			case 'GameUpdate':
-				var newGame = _user$project$Game_Update$updateGame(_p0._0);
+				var mNewGame = _user$project$Game_Update$updateGame(_p1._0);
 				var newPlayer = function () {
-					var _p1 = newGame;
-					if (_p1.ctor === 'Nothing') {
+					var _p4 = mNewGame;
+					if (_p4.ctor === 'Nothing') {
 						return model.player;
 					} else {
-						return _p1._0.activePlayer;
+						return _user$project$Models$Constant(_p4._0.activePlayer);
 					}
 				}();
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{game: newGame, player: newPlayer}),
+						{game: mNewGame, player: newPlayer}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'FetchGame':
@@ -34,10 +69,10 @@ var _user$project$Updates$update = F2(
 					_0: model,
 					_1: A4(
 						_user$project$Commands$fetchGame,
-						_p0._2,
-						{ctor: '_Tuple2', _0: _p0._0._0, _1: _p0._0._1},
-						_p0._1,
-						_p0._3)
+						_p1._2,
+						{ctor: '_Tuple2', _0: _p1._0._0, _1: _p1._0._1},
+						_p1._1,
+						_p1._3)
 				};
 			case 'GameIdUpdate':
 				return {
@@ -45,7 +80,7 @@ var _user$project$Updates$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							gameId: _elm_lang$core$Maybe$Just(_p0._0)
+							gameId: _elm_lang$core$Maybe$Just(_p1._0)
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -54,7 +89,7 @@ var _user$project$Updates$update = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{windowSize: _p0._0}),
+						{windowSize: _p1._0}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 		}

@@ -1,15 +1,15 @@
 module View exposing (..)
 
 import Html exposing (..)
-import Html.Attributes exposing (class, href, value)
-import Html.Events exposing (on, targetValue, onClick)
+import Html.Attributes exposing (class, href, value, placeholder)
+import Html.Events exposing (on, targetValue, onClick, onInput)
 import Json.Decode
 import List
 
-import Models exposing (Model)
+import Models exposing (Model, Input)
 import Msgs exposing (Msg)
 
-import Game.Model exposing (GameId)
+import Game.Model exposing (GameId, Player)
 import Game.View
 
 -- VIEW
@@ -26,7 +26,7 @@ page : Model -> Html Msg
 page model =
     case model.route of
         Models.Init ->
-            init model.gameId
+            init model.player model.gameId
         Models.Play ->
             Game.View.viewPlay model.player model.game model.gameId
         Models.Watch gameId ->
@@ -34,22 +34,29 @@ page model =
         Models.NotFoundRoute ->
             notFoundView
 
-init : Maybe GameId -> Html Msg
-init gId =
-    case gId of
+init : Maybe Player -> Maybe GameId -> Html Msg
+init mPlayer mGameId =
+    case mPlayer of
         Nothing ->
-            div []
-                [ btn "Play New Game" ("play")
-                , btn "Watch Previous Game" ("watch/0")
-                , slct ["0", "1", "2", "3"]
-                ]
-        Just gameId ->
-            div []
-                [ btn "Play New Game" ("play/")
-                , btn "Watch Previous Game" ("watch/" ++ gameId)
-                , slct ["0", "1", "2", "3"]
-                ]
-            
+            div [] 
+            [ input [ placeholder "Player name",  on "input" (Json.Decode.map (Msgs.PlayerChange Msgs.Update) targetValue) ] []
+            , a [class "btn", onClick (Msgs.PlayerChange Msgs.Approve)] [ text "Log In" ]
+            ]
+        Just player ->
+            case mGameId of
+            Nothing ->
+                div []
+                    [ btn "Play New Game" ("play")
+                    , btn "Watch Previous Game" ("watch/0")
+                    , slct ["0", "1", "2", "3"]
+                    ]
+            Just gameId ->
+                div []
+                    [ btn "Play New Game" ("play/")
+                    , btn "Watch Previous Game" ("watch/" ++ gameId)
+                    , slct ["0", "1", "2", "3"]
+                    ]  
+
 btn : String -> String -> Html Msg
 btn txt path =
     a [class "btn block mx-auto", href path] 
