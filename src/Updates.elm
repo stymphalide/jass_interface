@@ -5,9 +5,8 @@ import WebSocket
 --import RemoteData
 
 import Msgs exposing (Msg)
-import Models exposing (Model, Input)
+import Models exposing (Model, Input(..), Route(..))
 import Commands exposing (fetchGame)
-import Routing exposing (parseLocation)
 
 import Game.Update exposing (updateGame)
 import Game.Model exposing (Player)
@@ -17,19 +16,23 @@ import Game.Model exposing (Player)
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case msg of
-        Msgs.OnLocationChange location ->
-            let
-                newRoute =
-                    parseLocation location
-            in
-                ({model | route = newRoute}, Cmd.none)
+        Msgs.OnLocationChange route ->
+            case route of
+                Init ->
+                    ({model | route = Init}, Cmd.none)
+                Watch gameId player ->
+                    ({model | route = Watch gameId player}, Cmd.none)
+                Lobby player ->
+                    ({model | route = Lobby player}, Cmd.none)
+                Play gameId player ->
+                    ({model | route = Play gameId player}, Cmd.none)
         Msgs.PlayerChange input ->
             case input of
                 Msgs.Update player ->
                     case model.player of
-                        Models.Changing player ->
-                            ({model | player = Models.Changing player}, Cmd.none)
-                        Models.Constant player ->
+                        Changing pl ->
+                            ({model | player = Changing player}, Cmd.none)
+                        Constant player ->
                             (model, Cmd.none)
                 Msgs.Approve ->
                     let 
@@ -59,7 +62,7 @@ update msg model =
 makeConstant : Input Player -> Input Player
 makeConstant iPlayer =
     case iPlayer of 
-        Models.Changing player ->
-            Models.Constant player
-        Models.Constant player ->
+        Changing player ->
+            Constant player
+        Constant player ->
             iPlayer

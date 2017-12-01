@@ -1,12 +1,13 @@
 module Msgs exposing (..)
 
-import Navigation exposing (Location)
 import Window exposing (Size)
+
+import Models exposing (Route)
 
 import Game.Model exposing (Player, GameId)
 
 type Msg
-    = OnLocationChange Location
+    = OnLocationChange Route
     | PlayerChange InputUpdate
     | GameUpdate String
     | FetchGame (Int, Int) Player GameId Bool

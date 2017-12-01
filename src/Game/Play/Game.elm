@@ -45,8 +45,3 @@ viewGameType gameType =
     else
         div []
         [img [src (imgSourcePath ++ (colorTranslate gameType)++ "_icon.png") ] []]
-
-
-lobby : Player -> Html Msg
-lobby player = 
-    div [] [ text player]

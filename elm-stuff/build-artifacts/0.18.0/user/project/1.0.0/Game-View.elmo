@@ -1,3 +1,13 @@
+var _user$project$Game_View$viewLobby = function (player) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(player),
+			_1: {ctor: '[]'}
+		});
+};
 var _user$project$Game_View$viewWatch = F3(
 	function (player, mGame, gameId) {
 		var _p0 = mGame;
@@ -8,21 +18,11 @@ var _user$project$Game_View$viewWatch = F3(
 		}
 	});
 var _user$project$Game_View$viewPlay = F3(
-	function (player, mGame, mGameId) {
+	function (player, mGame, gameId) {
 		var _p1 = mGame;
 		if (_p1.ctor === 'Nothing') {
-			var _p2 = mGameId;
-			if (_p2.ctor === 'Nothing') {
-				return _user$project$Game_Play_Game$lobby(player);
-			} else {
-				return A2(_user$project$Game_Play_Game$init, player, _p2._0);
-			}
+			return A2(_user$project$Game_Play_Game$init, player, gameId);
 		} else {
-			var _p3 = mGameId;
-			if (_p3.ctor === 'Nothing') {
-				return _user$project$Globals$error;
-			} else {
-				return A2(_user$project$Game_Play_Game$viewGame, _p1._0, _p3._0);
-			}
+			return A2(_user$project$Game_Play_Game$viewGame, _p1._0, gameId);
 		}
 	});

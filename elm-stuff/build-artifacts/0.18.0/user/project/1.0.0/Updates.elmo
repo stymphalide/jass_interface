@@ -11,19 +11,52 @@ var _user$project$Updates$update = F2(
 		var _p1 = msg;
 		switch (_p1.ctor) {
 			case 'OnLocationChange':
-				var newRoute = _user$project$Routing$parseLocation(_p1._0);
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{route: newRoute}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'PlayerChange':
 				var _p2 = _p1._0;
-				if (_p2.ctor === 'Update') {
-					var _p3 = model.player;
-					if (_p3.ctor === 'Changing') {
+				switch (_p2.ctor) {
+					case 'Init':
+						return {
+							ctor: '_Tuple2',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{route: _user$project$Models$Init}),
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					case 'Watch':
+						return {
+							ctor: '_Tuple2',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{
+									route: A2(_user$project$Models$Watch, _p2._0, _p2._1)
+								}),
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					case 'Lobby':
+						return {
+							ctor: '_Tuple2',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{
+									route: _user$project$Models$Lobby(_p2._0)
+								}),
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					default:
+						return {
+							ctor: '_Tuple2',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{
+									route: A2(_user$project$Models$Play, _p2._0, _p2._1)
+								}),
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+				}
+			case 'PlayerChange':
+				var _p3 = _p1._0;
+				if (_p3.ctor === 'Update') {
+					var _p4 = model.player;
+					if (_p4.ctor === 'Changing') {
 						return {
 							ctor: '_Tuple2',
 							_0: _elm_lang$core$Native_Utils.update(
@@ -49,11 +82,11 @@ var _user$project$Updates$update = F2(
 			case 'GameUpdate':
 				var mNewGame = _user$project$Game_Update$updateGame(_p1._0);
 				var newPlayer = function () {
-					var _p4 = mNewGame;
-					if (_p4.ctor === 'Nothing') {
+					var _p5 = mNewGame;
+					if (_p5.ctor === 'Nothing') {
 						return model.player;
 					} else {
-						return _user$project$Models$Constant(_p4._0.activePlayer);
+						return _user$project$Models$Constant(_p5._0.activePlayer);
 					}
 				}();
 				return {

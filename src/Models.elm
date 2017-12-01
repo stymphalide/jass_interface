@@ -6,9 +6,9 @@ import Game.Model exposing (Game, Player, GameId)
 
 type Route
     = Init
-    | Watch GameId
-    | Play
-    | NotFoundRoute
+    | Watch GameId Player
+    | Play GameId Player
+    | Lobby Player
 
 type Input a
     = Changing a
@@ -22,9 +22,9 @@ type alias Model =
     , gameId : Maybe GameId
     }
 
-initialModel : Route -> Model
-initialModel route =
-    { route = route
+initialModel : Model
+initialModel =
+    { route = Init
     , game = Nothing
     , windowSize = Size 0 0
     , gameId = Nothing

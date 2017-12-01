@@ -2,11 +2,17 @@ var _user$project$Models$Model = F5(
 	function (a, b, c, d, e) {
 		return {route: a, game: b, windowSize: c, player: d, gameId: e};
 	});
-var _user$project$Models$NotFoundRoute = {ctor: 'NotFoundRoute'};
-var _user$project$Models$Play = {ctor: 'Play'};
-var _user$project$Models$Watch = function (a) {
-	return {ctor: 'Watch', _0: a};
+var _user$project$Models$Lobby = function (a) {
+	return {ctor: 'Lobby', _0: a};
 };
+var _user$project$Models$Play = F2(
+	function (a, b) {
+		return {ctor: 'Play', _0: a, _1: b};
+	});
+var _user$project$Models$Watch = F2(
+	function (a, b) {
+		return {ctor: 'Watch', _0: a, _1: b};
+	});
 var _user$project$Models$Init = {ctor: 'Init'};
 var _user$project$Models$Constant = function (a) {
 	return {ctor: 'Constant', _0: a};
@@ -14,12 +20,10 @@ var _user$project$Models$Constant = function (a) {
 var _user$project$Models$Changing = function (a) {
 	return {ctor: 'Changing', _0: a};
 };
-var _user$project$Models$initialModel = function (route) {
-	return {
-		route: route,
-		game: _elm_lang$core$Maybe$Nothing,
-		windowSize: A2(_elm_lang$window$Window$Size, 0, 0),
-		gameId: _elm_lang$core$Maybe$Nothing,
-		player: _user$project$Models$Changing('')
-	};
+var _user$project$Models$initialModel = {
+	route: _user$project$Models$Init,
+	game: _elm_lang$core$Maybe$Nothing,
+	windowSize: A2(_elm_lang$window$Window$Size, 0, 0),
+	gameId: _elm_lang$core$Maybe$Nothing,
+	player: _user$project$Models$Changing('')
 };

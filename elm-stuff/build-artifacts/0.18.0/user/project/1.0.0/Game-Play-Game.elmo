@@ -1,13 +1,3 @@
-var _user$project$Game_Play_Game$lobby = function (player) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html$text(player),
-			_1: {ctor: '[]'}
-		});
-};
 var _user$project$Game_Play_Game$viewGameType = function (gameType) {
 	return _elm_lang$core$Native_Utils.eq(gameType, 'up') ? A2(
 		_elm_lang$html$Html$div,
