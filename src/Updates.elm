@@ -6,10 +6,10 @@ import WebSocket
 
 import Msgs exposing (Msg)
 import Models exposing (Model, Input(..), Mode(..))
-import Commands exposing (fetchGame, fetchWatch, fetchLobby)
+import Commands exposing (fetchPlay, fetchWatch, fetchLobby)
 
 import Game.Update exposing (updateGame)
-import Game.Model exposing (Player)
+import Game.Model exposing (Player, GameCoord)
 
 -- UPDATE
 
@@ -17,61 +17,54 @@ update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case msg of
         Msgs.OnLocationChange mode ->
-            case mode of
-                Init ->
-                    ({model | mode = Init}, Cmd.none)
-                Watch gameId player ->
-                    ({model | mode = Watch gameId player}, Cmd.none)
-                Lobby player ->
-                    ({model | mode = Lobby player}, Cmd.none)
-                Play gameId player ->
-                    ({model | mode = Play gameId player}, Cmd.none)
+            onLocationChange mode model
         Msgs.PlayerChange input ->
-            case input of
-                Msgs.Update player ->
-                    case model.player of
-                        Changing pl ->
-                            ({model | player = Changing player}, Cmd.none)
-                        Constant player ->
-                            (model, Cmd.none)
-                Msgs.Approve ->
-                    let 
-                        pl = 
-                            makeConstant model.player
-                    in
-                        ({model | player = pl}, Cmd.none)
+            playerChange input model
         Msgs.GameUpdate gameString ->
             let
                 mNewGame = updateGame gameString
+
             in
                 ({model | game = mNewGame}, Cmd.none)
         Msgs.FetchGame mGameCoord mPlayer ->
-            case model.mode of
-                Init ->
-                    (model, Cmd.none)
-                Play gameId player ->
-                    (model, fetchGame gameId player)
-                Watch gameId player ->
-                    case mGameCoord of
-                        Nothing ->
-                            case mPlayer of
-                                Nothing ->
-                                    (model, fetchWatch gameId player (0, 0))
-                                Just pl ->
-                                    (model, fetchWatch gameId pl (0, 0))
-                        Just gameCoord ->
-                            case mPlayer of
-                                Nothing ->
-                                    (model, fetchWatch gameId player gameCoord)
-                                Just pl ->
-                                    (model, fetchWatch gameId pl gameCoord)
-                Lobby player ->
-                    (model, fetchLobby player)
+            fetchGame model model.mode mGameCoord mPlayer 
         Msgs.GameIdUpdate gameId ->
             ({model | gameId = Just gameId}, Cmd.none)
         Msgs.SizeUpdated newSize ->
             ({model | windowSize = newSize}, Cmd.none)
 
+
+
+
+
+onLocationChange : Mode -> Model -> (Model, Cmd Msg)
+onLocationChange mode model =
+    case mode of
+        Init ->
+            ({model | mode = Init}, Cmd.none)
+        Watch gameId player ->
+            ({model | mode = Watch gameId player}, Cmd.none)
+        Lobby player ->
+            ({model | mode = Lobby player}, Cmd.none)
+        Play gameId player ->
+            ({model | mode = Play gameId player}, Cmd.none)
+
+
+playerChange : Msgs.InputUpdate -> Model -> (Model, Cmd Msg)
+playerChange input model =
+    case input of
+        Msgs.Update player ->
+            case model.player of
+                Changing pl ->
+                    ({model | player = Changing player}, Cmd.none)
+                Constant player ->
+                    (model, Cmd.none)
+        Msgs.Approve ->
+            let 
+                pl = 
+                    makeConstant model.player
+            in
+                ({model | player = pl}, Cmd.none) 
 
 makeConstant : Input Player -> Input Player
 makeConstant iPlayer =
@@ -80,3 +73,28 @@ makeConstant iPlayer =
             Constant player
         Constant player ->
             iPlayer
+
+
+fetchGame : Model ->  Mode -> Maybe GameCoord -> Maybe Player -> (Model, Cmd Msg)
+fetchGame model mode mGameCoord mPlayer=
+    case mode of
+        Init ->
+            (model, Cmd.none)
+        Play gameId player ->
+            (model, fetchPlay gameId player)
+        Watch gameId player ->
+            case mGameCoord of
+                Nothing ->
+                    case mPlayer of
+                        Nothing ->
+                            (model, fetchWatch gameId player (0, 0))
+                        Just pl ->
+                            (model, fetchWatch gameId pl (0, 0))
+                Just gameCoord ->
+                    case mPlayer of
+                        Nothing ->
+                            (model, fetchWatch gameId player gameCoord)
+                        Just pl ->
+                            (model, fetchWatch gameId pl gameCoord)
+        Lobby player ->
+            (model, fetchLobby player)
