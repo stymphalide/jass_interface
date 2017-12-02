@@ -52,7 +52,12 @@ var _user$project$View$playBtn = F2(
 					ctor: '::',
 					_0: _elm_lang$html$Html_Events$onClick(
 						_user$project$Msgs$OnLocationChange(
-							_user$project$Models$Lobby(player))),
+							_user$project$Models$Lobby(
+								{
+									ctor: '::',
+									_0: player,
+									_1: {ctor: '[]'}
+								}))),
 					_1: {ctor: '[]'}
 				}
 			},
@@ -256,8 +261,8 @@ var _user$project$View$view = function (model) {
 										function (x, y) {
 											return A2(_elm_lang$core$Basics_ops['++'], x, y);
 										}),
-									'\n Player: ',
-									_elm_lang$core$Basics$toString(model.player))),
+									'\nmode: ',
+									_elm_lang$core$Basics$toString(model.mode))),
 							_1: {ctor: '[]'}
 						}
 					}

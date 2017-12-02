@@ -43,3 +43,8 @@ type alias Table =
     , pos3 : Maybe Card
     , pos4 : Maybe Card 
     }
+
+
+type Lobby 
+    = Players (List Player)
+    | GameInfo GameId

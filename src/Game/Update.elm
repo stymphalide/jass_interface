@@ -2,9 +2,9 @@ module Game.Update exposing (..)
 
 import Json.Decode as Decode
 
-import Decoders exposing (gameDecoder)
+import Decoders exposing (gameDecoder, lobbyDecoder)
 
-import Game.Model exposing (Game)
+import Game.Model exposing (Game, Lobby)
 
 
 
@@ -19,3 +19,17 @@ updateGame gameString =
 decodeGame : String -> Result String Game
 decodeGame gameString =
     Decode.decodeString gameDecoder gameString
+
+
+updateLobby : String -> Maybe Lobby
+updateLobby lobbyString =
+    case decodeLobby lobbyString of
+        Ok result ->
+            Just result
+        Err err ->
+            Nothing
+
+
+decodeLobby : String -> Result String Lobby
+decodeLobby lobbyString =
+    Decode.decodeString lobbyDecoder lobbyString

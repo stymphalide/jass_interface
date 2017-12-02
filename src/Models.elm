@@ -8,7 +8,7 @@ type Mode
     = Init
     | Watch GameId Player
     | Play GameId Player
-    | Lobby Player
+    | Lobby (List Player)
 
 type Input a
     = Changing a

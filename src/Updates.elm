@@ -8,8 +8,8 @@ import Msgs exposing (Msg)
 import Models exposing (Model, Input(..), Mode(..))
 import Commands exposing (fetchPlay, fetchWatch, fetchLobby)
 
-import Game.Update exposing (updateGame)
-import Game.Model exposing (Player, GameCoord)
+import Game.Update exposing (updateGame, updateLobby)
+import Game.Model exposing (Player, GameCoord, Lobby(..))
 
 -- UPDATE
 
@@ -23,13 +23,36 @@ update msg model =
         Msgs.GameUpdate gameString ->
             let
                 mNewGame = updateGame gameString
-
             in
                 ({model | game = mNewGame}, Cmd.none)
         Msgs.FetchGame mGameCoord mPlayer ->
             fetchGame model model.mode mGameCoord mPlayer 
         Msgs.GameIdUpdate gameId ->
             ({model | gameId = Just gameId}, Cmd.none)
+        Msgs.LobbyUpdate lobbyString ->
+            let
+                mLobby =
+                    updateLobby lobbyString
+                mPlayer =
+                    case model.player of
+                        Changing pl ->
+                            Nothing
+                        Constant pl ->
+                            Just pl
+            in
+                case mLobby of
+                    Nothing ->
+                        (model, Cmd.none)
+                    Just lobby ->
+                        case lobby of
+                            Players players ->
+                                ({model | mode = (Lobby players)}, Cmd.none)
+                            GameInfo gameId ->
+                                case mPlayer of
+                                    Nothing ->
+                                        ({model | mode = Init}, Cmd.none)
+                                    Just player ->
+                                        ({model | mode = (Play gameId player), gameId = Just gameId}, Cmd.none)
         Msgs.SizeUpdated newSize ->
             ({model | windowSize = newSize}, Cmd.none)
 
@@ -44,8 +67,8 @@ onLocationChange mode model =
             ({model | mode = Init}, Cmd.none)
         Watch gameId player ->
             ({model | mode = Watch gameId player}, Cmd.none)
-        Lobby player ->
-            ({model | mode = Lobby player}, Cmd.none)
+        Lobby players ->
+            ({model | mode = Lobby players}, fetchLobby players)
         Play gameId player ->
             ({model | mode = Play gameId player}, Cmd.none)
 
@@ -96,5 +119,5 @@ fetchGame model mode mGameCoord mPlayer=
                             (model, fetchWatch gameId player gameCoord)
                         Just pl ->
                             (model, fetchWatch gameId pl gameCoord)
-        Lobby player ->
-            (model, fetchLobby player)
+        Lobby players ->
+            (model, fetchLobby players)

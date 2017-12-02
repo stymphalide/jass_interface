@@ -12,6 +12,7 @@ type Msg
     | GameUpdate String
     | FetchGame (Maybe GameCoord) (Maybe Player)
     | GameIdUpdate GameId
+    | LobbyUpdate String
     | SizeUpdated Size
 
 type InputUpdate 

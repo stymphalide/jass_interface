@@ -1,8 +1,13 @@
-var _user$project$Commands$fetchLobby = function (player) {
-	return A2(
-		_elm_lang$websocket$WebSocket$send,
-		_user$project$Globals$serverUrl,
-		_user$project$Encoders$encodeLobby(player));
+var _user$project$Commands$fetchLobby = function (players) {
+	var _p0 = _elm_lang$core$List$head(players);
+	if (_p0.ctor === 'Nothing') {
+		return _elm_lang$core$Platform_Cmd$none;
+	} else {
+		return A2(
+			_elm_lang$websocket$WebSocket$send,
+			_user$project$Globals$serverUrl,
+			_user$project$Encoders$encodeLobby(_p0._0));
+	}
 };
 var _user$project$Commands$fetchWatch = F3(
 	function (gameId, player, gameCoord) {
@@ -11,11 +16,11 @@ var _user$project$Commands$fetchWatch = F3(
 			_user$project$Globals$serverUrl,
 			A3(_user$project$Encoders$encodeWatch, gameId, player, gameCoord));
 	});
-var _user$project$Commands$fetchGame = F2(
+var _user$project$Commands$fetchPlay = F2(
 	function (gameId, player) {
 		return A2(
 			_elm_lang$websocket$WebSocket$send,
 			_user$project$Globals$serverUrl,
-			A2(_user$project$Encoders$encodeGame, gameId, player));
+			A2(_user$project$Encoders$encodePlay, gameId, player));
 	});
 var _user$project$Commands$getWindowSize = A2(_elm_lang$core$Task$perform, _user$project$Msgs$SizeUpdated, _elm_lang$window$Window$size);

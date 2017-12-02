@@ -20,7 +20,7 @@ view model =
         , text (toString model.windowSize)
         , (toString model.game) |> (++) "GameString: " |> text
         , (toString model.gameId) |> (++) "\nGameId: " |> text 
-        , (toString model.player) |> (++) "\n Player: " |> text
+        , (toString model.mode) |> (++) "\nmode: " |> text
         ]
 
 page : Model -> Html Msg
@@ -30,8 +30,8 @@ page model =
             init model.player model.gameId
         Play gameId player ->
             Game.View.viewPlay model.game
-        Lobby player ->
-            Game.View.viewLobby player
+        Lobby players ->
+            Game.View.viewLobby players
         Watch gameId player ->
             Game.View.viewWatch model.game
         
@@ -72,7 +72,7 @@ watchBtn txt gameId player =
 
 playBtn : String -> Player -> Html Msg
 playBtn txt player =
-    a [class "btn block mx-auto", onClick (Msgs.OnLocationChange(Lobby player))]
+    a [class "btn block mx-auto", onClick (Msgs.OnLocationChange (Lobby [player]))]
         [ text txt
         ]
 

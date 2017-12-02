@@ -6,7 +6,7 @@ var _user$project$Subscriptions$webSocketSubscripiton = function (model) {
 		case 'Play':
 			return A2(_elm_lang$websocket$WebSocket$listen, _user$project$Globals$serverUrl, _user$project$Msgs$GameUpdate);
 		case 'Lobby':
-			return A2(_elm_lang$websocket$WebSocket$listen, _user$project$Globals$serverUrl, _user$project$Msgs$GameIdUpdate);
+			return A2(_elm_lang$websocket$WebSocket$listen, _user$project$Globals$serverUrl, _user$project$Msgs$LobbyUpdate);
 		default:
 			return A2(_elm_lang$websocket$WebSocket$listen, _user$project$Globals$serverUrl, _user$project$Msgs$GameUpdate);
 	}

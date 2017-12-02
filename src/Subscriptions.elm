@@ -34,6 +34,6 @@ webSocketSubscripiton model =
         Play gameId player ->
             listen serverUrl Msgs.GameUpdate
         Lobby player ->
-            listen serverUrl Msgs.GameIdUpdate
+            listen serverUrl Msgs.LobbyUpdate
         Watch  gameId player->
             listen serverUrl Msgs.GameUpdate

@@ -1,7 +1,7 @@
 var _user$project$Encoders$encodeObject = function (object) {
 	return A2(_elm_lang$core$Json_Encode$encode, 4, object);
 };
-var _user$project$Encoders$encodeGame = F2(
+var _user$project$Encoders$encodePlay = F2(
 	function (gameId, player) {
 		return _user$project$Encoders$encodeObject(
 			_elm_lang$core$Json_Encode$object(
@@ -93,7 +93,7 @@ var _user$project$Encoders$encodeLobby = function (player) {
 					_0: {
 						ctor: '_Tuple2',
 						_0: 'player',
-						_1: _elm_lang$core$Json_Encode$string('player')
+						_1: _elm_lang$core$Json_Encode$string(player)
 					},
 					_1: {ctor: '[]'}
 				}

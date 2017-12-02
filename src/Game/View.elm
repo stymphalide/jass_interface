@@ -1,6 +1,7 @@
 module Game.View exposing (..)
 
 -- elm Libraries
+import List
 import Html exposing (..)
 import Html.Events exposing (onClick)
 
@@ -30,8 +31,12 @@ viewWatch mGame  =
         Just game ->
             Watch.viewGame game
 
-viewLobby : Player -> Html Msg
-viewLobby player  =
-    div [] [text player]
+viewLobby : List Player -> Html Msg
+viewLobby players  =
+    div [] 
+        (List.map viewPlayer players)
 
+viewPlayer : Player -> Html Msg
+viewPlayer player =
+    div [] [text player]
 

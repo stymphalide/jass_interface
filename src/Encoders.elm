@@ -10,8 +10,8 @@ encodeObject object =
     encode 4 object
 
 
-encodeGame : GameId -> Player -> String
-encodeGame gameId player =
+encodePlay : GameId -> Player -> String
+encodePlay gameId player =
     object
         [ ("mode", string "play")
         , ("gameId", string gameId)
@@ -34,6 +34,6 @@ encodeLobby : Player -> String
 encodeLobby player =
     object
         [ ("mode", string "lobby")
-        , ("player", string "player")
+        , ("player", string player)
         ]
     |> encodeObject

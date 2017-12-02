@@ -4,15 +4,18 @@ const WebSocket = require('ws');
 // Create Server
 const wss = new WebSocket.Server({host:"localhost", port: 5000});
 
-console.log("Socket serving at ws://localhost:5000" )
+
+// Holder for the lobbies. Consists of arrays with max length 3
+var lobbies = [];
+// Consists of objects with four players and a game instance
+var games = [];
+
+console.log("Socket serving at ws://localhost:5000" );
 
 wss.on('connection', function connection(ws) {
 	console.log("Connection established")
 	ws.on('close', function close() {
 		console.log('Disconnected');
-	});
-	ws.on('open', () => {
-		console.log('Connection opened')
 	});
 	ws.on('message', function incoming(data) {
 		console.log("I got a message.")
@@ -22,6 +25,9 @@ wss.on('connection', function connection(ws) {
 			switch(data.mode) {
 				case "init":
 					init(ws, data);
+					break;
+				case "lobby":
+					lobby(ws, data);
 					break;
 				case "play":
 					play(ws, data);
@@ -33,7 +39,7 @@ wss.on('connection', function connection(ws) {
 					console.log("Invalid mode sent!");
 			}
 		} else {
-			console.log("Invalid data sent!")
+			console.log("Invalid data sent!");
 		}
 	});
 });
@@ -61,9 +67,68 @@ var play = function(ws, data) {
 	// Is there a gameId?
 	// If not look for open lobbies
 	// Or Create a new one ==> Lobby
-
 	// If there is a gameId ==> Game
 	// Send action to the gameProcess	
+}
+var initialiseGame = function(players) {
+	console.log("Initialise Game");
+	// Split the objects up into
+	// List of players
+	// List of objects with ws
+	// Game Process
+	// Make new object, and add to games
+
+
+	// Hack: Simply send a message to all players with a fake gameId
+	// Get names
+	var names = [];
+	for(var i = 0; i < players.length; i++) {
+		names.push(Object.keys(players[i])[0]);
+	}
+	// Actually send them to ws.
+	for (var i = 0; i < players.length; i++) {
+		var gameId = "42";
+		var ws = players[i][names[i]];
+		ws.send(gameId);
+	}
+}
+
+
+var lobby = function(ws, data) {
+	// Is there a lobby active?
+	var info = {};
+	info[data.player] = ws;
+	console.log("Looking for lobbies.");
+	if(lobbies.length > 0) {
+		console.log("Lobby found.");
+		// Yes => add player to lobby and initialise game if ready and close lobby
+		var l = lobbies[lobbies.length - 1]; // Get the last lobby
+		if(l.length == 3) {
+			console.log("Lobby is full now.");
+			// Initialise Game
+			var g = lobbies.pop();
+			initialiseGame(g);
+		} else {
+			console.log("Player added to lobby");
+			l.push(info);
+			console.log("Send updated lobby to players");
+			// Get names
+			var names = [];
+			for(var i = 0; i < l.length; i++) {
+				names.push(Object.keys(l[i])[0]);
+			}
+			// Actually send them to ws.
+			for (var i = 0; i < l.length; i++) {
+				var stringNames = JSON.stringify(names);
+				var ws = l[i][names[i]];
+				ws.send(stringNames);
+			}
+		}
+	} else {
+		// No => Initialise one
+		console.log("New Lobby created")
+		lobbies.push([info]);
+	}
 }
 
 var watch = function(ws, data) {

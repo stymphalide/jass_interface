@@ -1,4 +1,4 @@
-var _user$project$Game_View$viewLobby = function (player) {
+var _user$project$Game_View$viewPlayer = function (player) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -7,6 +7,12 @@ var _user$project$Game_View$viewLobby = function (player) {
 			_0: _elm_lang$html$Html$text(player),
 			_1: {ctor: '[]'}
 		});
+};
+var _user$project$Game_View$viewLobby = function (players) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		A2(_elm_lang$core$List$map, _user$project$Game_View$viewPlayer, players));
 };
 var _user$project$Game_View$viewWatch = function (mGame) {
 	var _p0 = mGame;
