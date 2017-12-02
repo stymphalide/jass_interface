@@ -37,3 +37,12 @@ encodeLobby player =
         , ("player", string player)
         ]
     |> encodeObject
+
+
+encodeInit : Player -> String
+encodeInit player =
+    object
+        [ ("mode", string "init")
+        , ("player", string player)
+        ]
+    |> encodeObject

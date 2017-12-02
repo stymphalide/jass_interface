@@ -49,18 +49,24 @@ var init = function(ws, data) {
 	// Send all games corresponding to data.player
 
 	// A little hack as long as I don't hava a db
+	var games = undefined;
 	switch(data.player) {
 		case "pl_1":
-			return ['0', '1', '2', '3'];
+			games = ['0', '1', '2', '3'];
+			break;
 		case "pl_2":
-			return ['0', '1', '2', '3'];
+			games = ['0', '1', '2', '3'];
+			break;
 		case "pl_3":
-			return ['0', '1', '2', '3'];
+			games = ['0', '1', '2', '3'];
+			break;
 		case "pl_4":
-			return ['0', '1', '2', '3'];
+			games = ['0', '1', '2', '3'];
+			break;
 		default:
-			return [];
 	}
+	var gamesString = JSON.stringify(games);
+	ws.send(gamesString);
 }
 
 var play = function(ws, data) {
@@ -68,7 +74,8 @@ var play = function(ws, data) {
 	// If not look for open lobbies
 	// Or Create a new one ==> Lobby
 	// If there is a gameId ==> Game
-	// Send action to the gameProcess	
+	// Send action to the gameProcess
+
 }
 var initialiseGame = function(players) {
 	console.log("Initialise Game");
@@ -77,7 +84,6 @@ var initialiseGame = function(players) {
 	// List of objects with ws
 	// Game Process
 	// Make new object, and add to games
-
 
 	// Hack: Simply send a message to all players with a fake gameId
 	// Get names

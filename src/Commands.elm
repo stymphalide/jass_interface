@@ -6,7 +6,7 @@ import Task
 
 import Globals exposing (serverUrl)
 import Msgs exposing (Msg)
-import Models exposing (Mode)
+import Models exposing (Mode, Input(..))
 import Encoders exposing (..)
 
 import Game.Model exposing (Game, Player, GameId, GameCoord)
@@ -31,3 +31,11 @@ fetchLobby players =
             Cmd.none
         Just player ->
             WebSocket.send serverUrl (encodeLobby player)
+
+fetchGames : Input Player -> Cmd Msg
+fetchGames iPlayer =
+    case iPlayer of
+        Changing player ->
+            Cmd.none 
+        Constant player ->
+            WebSocket.send serverUrl (encodeInit player)

@@ -2,7 +2,7 @@ var _user$project$Subscriptions$webSocketSubscripiton = function (model) {
 	var _p0 = model.mode;
 	switch (_p0.ctor) {
 		case 'Init':
-			return _elm_lang$core$Platform_Sub$none;
+			return A2(_elm_lang$websocket$WebSocket$listen, _user$project$Globals$serverUrl, _user$project$Msgs$InitUpdate);
 		case 'Play':
 			return A2(_elm_lang$websocket$WebSocket$listen, _user$project$Globals$serverUrl, _user$project$Msgs$GameUpdate);
 		case 'Lobby':

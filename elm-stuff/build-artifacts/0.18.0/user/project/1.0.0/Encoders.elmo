@@ -99,3 +99,24 @@ var _user$project$Encoders$encodeLobby = function (player) {
 				}
 			}));
 };
+var _user$project$Encoders$encodeInit = function (player) {
+	return _user$project$Encoders$encodeObject(
+		_elm_lang$core$Json_Encode$object(
+			{
+				ctor: '::',
+				_0: {
+					ctor: '_Tuple2',
+					_0: 'mode',
+					_1: _elm_lang$core$Json_Encode$string('init')
+				},
+				_1: {
+					ctor: '::',
+					_0: {
+						ctor: '_Tuple2',
+						_0: 'player',
+						_1: _elm_lang$core$Json_Encode$string(player)
+					},
+					_1: {ctor: '[]'}
+				}
+			}));
+};

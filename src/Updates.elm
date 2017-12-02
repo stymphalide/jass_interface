@@ -6,9 +6,9 @@ import WebSocket
 
 import Msgs exposing (Msg)
 import Models exposing (Model, Input(..), Mode(..))
-import Commands exposing (fetchPlay, fetchWatch, fetchLobby)
+import Commands exposing (..)
 
-import Game.Update exposing (updateGame, updateLobby)
+import Game.Update exposing (updateGame, updateLobby, updateInit)
 import Game.Model exposing (Player, GameCoord, Lobby(..))
 
 -- UPDATE
@@ -31,6 +31,12 @@ update msg model =
             ({model | gameId = Just gameId}, Cmd.none)
         Msgs.LobbyUpdate lobbyString ->
             lobbyUpdate model lobbyString
+        Msgs.InitUpdate gamesString ->
+            let
+                mGames =
+                    updateInit gamesString
+            in
+                ({model | games = mGames }, Cmd.none)
         Msgs.SizeUpdated newSize ->
             ({model | windowSize = newSize}, Cmd.none)
 
@@ -60,7 +66,7 @@ playerChange input model =
                 pl = 
                     makeConstant model.player
             in
-                ({model | player = pl}, Cmd.none) 
+                ({model | player = pl}, fetchGames pl) 
 
 makeConstant : Input Player -> Input Player
 makeConstant iPlayer =

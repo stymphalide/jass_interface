@@ -92,8 +92,8 @@ var _user$project$View$newInput = function (s) {
 	return _user$project$Msgs$PlayerChange(
 		_user$project$Msgs$Update(s));
 };
-var _user$project$View$init = F2(
-	function (iPlayer, mGameId) {
+var _user$project$View$init = F3(
+	function (iPlayer, mGameId, mGameIds) {
 		var _p0 = iPlayer;
 		if (_p0.ctor === 'Changing') {
 			return A2(
@@ -136,88 +136,67 @@ var _user$project$View$init = F2(
 					}
 				});
 		} else {
-			var _p2 = _p0._0;
-			var _p1 = mGameId;
+			var _p4 = _p0._0;
+			var _p1 = mGameIds;
 			if (_p1.ctor === 'Nothing') {
 				return A2(
 					_elm_lang$html$Html$div,
 					{ctor: '[]'},
 					{
 						ctor: '::',
-						_0: A2(_user$project$View$playBtn, 'Play New Game', _p2),
-						_1: {
-							ctor: '::',
-							_0: A3(_user$project$View$watchBtn, 'Watch Previous Game', '0', _p2),
-							_1: {
-								ctor: '::',
-								_0: _user$project$View$slct(
-									{
-										ctor: '::',
-										_0: '0',
-										_1: {
-											ctor: '::',
-											_0: '1',
-											_1: {
-												ctor: '::',
-												_0: '2',
-												_1: {
-													ctor: '::',
-													_0: '3',
-													_1: {ctor: '[]'}
-												}
-											}
-										}
-									}),
-								_1: {ctor: '[]'}
-							}
-						}
+						_0: A2(_user$project$View$playBtn, 'Play New Game', _p4),
+						_1: {ctor: '[]'}
 					});
 			} else {
-				return A2(
-					_elm_lang$html$Html$div,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: A2(_user$project$View$playBtn, 'Play New Game', _p2),
-						_1: {
+				var _p3 = _p1._0;
+				var _p2 = mGameId;
+				if (_p2.ctor === 'Nothing') {
+					return A2(
+						_elm_lang$html$Html$div,
+						{ctor: '[]'},
+						{
 							ctor: '::',
-							_0: A3(_user$project$View$watchBtn, 'Watch Previous Game', _p1._0, _p2),
+							_0: A2(_user$project$View$playBtn, 'Play New Game', _p4),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$slct(
-									{
-										ctor: '::',
-										_0: '0',
-										_1: {
-											ctor: '::',
-											_0: '1',
-											_1: {
-												ctor: '::',
-												_0: '2',
-												_1: {
-													ctor: '::',
-													_0: '3',
-													_1: {ctor: '[]'}
-												}
-											}
-										}
-									}),
-								_1: {ctor: '[]'}
+								_0: A3(_user$project$View$watchBtn, 'Watch Previous Game', '0', _p4),
+								_1: {
+									ctor: '::',
+									_0: _user$project$View$slct(_p3),
+									_1: {ctor: '[]'}
+								}
 							}
-						}
-					});
+						});
+				} else {
+					return A2(
+						_elm_lang$html$Html$div,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(_user$project$View$playBtn, 'Play New Game', _p4),
+							_1: {
+								ctor: '::',
+								_0: A3(_user$project$View$watchBtn, 'Watch Previous Game', _p2._0, _p4),
+								_1: {
+									ctor: '::',
+									_0: _user$project$View$slct(_p3),
+									_1: {ctor: '[]'}
+								}
+							}
+						});
+				}
 			}
 		}
 	});
 var _user$project$View$page = function (model) {
-	var _p3 = model.mode;
-	switch (_p3.ctor) {
+	var _p5 = model.mode;
+	switch (_p5.ctor) {
 		case 'Init':
-			return A2(_user$project$View$init, model.player, model.gameId);
+			return A3(_user$project$View$init, model.player, model.gameId, model.games);
 		case 'Play':
 			return _user$project$Game_View$viewPlay(model.game);
 		case 'Lobby':
-			return _user$project$Game_View$viewLobby(_p3._0);
+			return _user$project$Game_View$viewLobby(_p5._0);
 		default:
 			return _user$project$Game_View$viewWatch(model.game);
 	}

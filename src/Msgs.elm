@@ -9,9 +9,10 @@ import Game.Model exposing (Player, GameId, GameCoord)
 type Msg
     = OnLocationChange Mode
     | PlayerChange InputUpdate
-    | GameUpdate String
+    | InitUpdate String
     | FetchGame (Maybe GameCoord) (Maybe Player)
     | GameIdUpdate GameId
+    | GameUpdate String
     | LobbyUpdate String
     | SizeUpdated Size
 

@@ -30,7 +30,7 @@ windowResizes model =
 webSocketSubscripiton model =
     case model.mode of 
         Init ->
-            Sub.none
+            listen serverUrl Msgs.InitUpdate
         Play gameId player ->
             listen serverUrl Msgs.GameUpdate
         Lobby player ->

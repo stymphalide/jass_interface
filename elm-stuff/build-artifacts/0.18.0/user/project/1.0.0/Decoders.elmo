@@ -98,3 +98,4 @@ var _user$project$Decoders$lobbyDecoder = _elm_lang$core$Json_Decode$oneOf(
 			_1: {ctor: '[]'}
 		}
 	});
+var _user$project$Decoders$gameIdsDecoder = _elm_lang$core$Json_Decode$list(_elm_lang$core$Json_Decode$string);

@@ -8,6 +8,10 @@ import Models exposing (Model)
 
 import Game.Model exposing (..)
 
+gameIdsDecoder : Decode.Decoder (List GameId)
+gameIdsDecoder =
+    Decode.list Decode.string
+
 lobbyDecoder : Decode.Decoder Lobby
 lobbyDecoder =
     Decode.oneOf [gameIdDecoder, playersDecoder]

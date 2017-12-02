@@ -27,7 +27,7 @@ page : Model -> Html Msg
 page model =
     case model.mode of
         Init ->
-            init model.player model.gameId
+            init model.player model.gameId model.games
         Play gameId player ->
             Game.View.viewPlay model.game
         Lobby players ->
@@ -36,8 +36,8 @@ page model =
             Game.View.viewWatch model.game
         
 
-init : Input Player -> Maybe GameId -> Html Msg
-init iPlayer mGameId =
+init : Input Player -> Maybe GameId  -> Maybe (List GameId) -> Html Msg
+init iPlayer mGameId mGameIds =
     case iPlayer of
         Changing player ->
             div [] 
@@ -45,19 +45,25 @@ init iPlayer mGameId =
             , a [class "btn", onClick (Msgs.PlayerChange Msgs.Approve)] [ text "Log In" ]
             ]
         Constant player ->
-            case mGameId of
-            Nothing ->
-                div []
-                    [ playBtn "Play New Game" player
-                    , watchBtn "Watch Previous Game" "0" player
-                    , slct ["0", "1", "2", "3"]
-                    ]
-            Just gameId ->
-                div []
-                    [ playBtn "Play New Game" player
-                    , watchBtn "Watch Previous Game" gameId player
-                    , slct ["0", "1", "2", "3"]
-                    ]  
+            case mGameIds of
+                Nothing ->
+                    div []
+                        [ playBtn "Play New Game" player
+                        ]
+                Just gameIds ->
+                    case mGameId of
+                        Nothing ->
+                            div []
+                                [ playBtn "Play New Game" player
+                                , watchBtn "Watch Previous Game" "0" player
+                                , slct gameIds
+                                ]
+                        Just gameId ->
+                            div []
+                                [ playBtn "Play New Game" player
+                                , watchBtn "Watch Previous Game" gameId player
+                                , slct gameIds
+                                ]  
 
 newInput : String -> Msg
 newInput s =

@@ -4,6 +4,9 @@ var _user$project$Msgs$SizeUpdated = function (a) {
 var _user$project$Msgs$LobbyUpdate = function (a) {
 	return {ctor: 'LobbyUpdate', _0: a};
 };
+var _user$project$Msgs$GameUpdate = function (a) {
+	return {ctor: 'GameUpdate', _0: a};
+};
 var _user$project$Msgs$GameIdUpdate = function (a) {
 	return {ctor: 'GameIdUpdate', _0: a};
 };
@@ -11,8 +14,8 @@ var _user$project$Msgs$FetchGame = F2(
 	function (a, b) {
 		return {ctor: 'FetchGame', _0: a, _1: b};
 	});
-var _user$project$Msgs$GameUpdate = function (a) {
-	return {ctor: 'GameUpdate', _0: a};
+var _user$project$Msgs$InitUpdate = function (a) {
+	return {ctor: 'InitUpdate', _0: a};
 };
 var _user$project$Msgs$PlayerChange = function (a) {
 	return {ctor: 'PlayerChange', _0: a};

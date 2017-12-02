@@ -1,12 +1,23 @@
-var _user$project$Commands$fetchLobby = function (players) {
-	var _p0 = _elm_lang$core$List$head(players);
-	if (_p0.ctor === 'Nothing') {
+var _user$project$Commands$fetchGames = function (iPlayer) {
+	var _p0 = iPlayer;
+	if (_p0.ctor === 'Changing') {
 		return _elm_lang$core$Platform_Cmd$none;
 	} else {
 		return A2(
 			_elm_lang$websocket$WebSocket$send,
 			_user$project$Globals$serverUrl,
-			_user$project$Encoders$encodeLobby(_p0._0));
+			_user$project$Encoders$encodeInit(_p0._0));
+	}
+};
+var _user$project$Commands$fetchLobby = function (players) {
+	var _p1 = _elm_lang$core$List$head(players);
+	if (_p1.ctor === 'Nothing') {
+		return _elm_lang$core$Platform_Cmd$none;
+	} else {
+		return A2(
+			_elm_lang$websocket$WebSocket$send,
+			_user$project$Globals$serverUrl,
+			_user$project$Encoders$encodeLobby(_p1._0));
 	}
 };
 var _user$project$Commands$fetchWatch = F3(

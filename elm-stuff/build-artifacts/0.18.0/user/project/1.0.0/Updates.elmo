@@ -147,7 +147,7 @@ var _user$project$Updates$playerChange = F2(
 				_0: _elm_lang$core$Native_Utils.update(
 					model,
 					{player: pl}),
-				_1: _elm_lang$core$Platform_Cmd$none
+				_1: _user$project$Commands$fetchGames(pl)
 			};
 		}
 	});
@@ -227,6 +227,15 @@ var _user$project$Updates$update = F2(
 				};
 			case 'LobbyUpdate':
 				return A2(_user$project$Updates$lobbyUpdate, model, _p17._0);
+			case 'InitUpdate':
+				var mGames = _user$project$Game_Update$updateInit(_p17._0);
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{games: mGames}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 			default:
 				return {
 					ctor: '_Tuple2',
