@@ -46,5 +46,5 @@ type alias Table =
 
 
 type Lobby 
-    = Players (List Player)
-    | GameInfo GameId
+    = GameInfo GameId
+    | Players (List Player)

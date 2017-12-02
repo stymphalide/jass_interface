@@ -88,8 +88,11 @@ var initialiseGame = function(players) {
 	// Actually send them to ws.
 	for (var i = 0; i < players.length; i++) {
 		var gameId = "42";
+		var gameInfo = {gameId: gameId};
+		var stringGameInfo = JSON.stringify(gameInfo);
 		var ws = players[i][names[i]];
-		ws.send(gameId);
+		console.log(names[i]);
+		ws.send(stringGameInfo);
 	}
 }
 
@@ -106,6 +109,7 @@ var lobby = function(ws, data) {
 		if(l.length == 3) {
 			console.log("Lobby is full now.");
 			// Initialise Game
+			l.push(info);
 			var g = lobbies.pop();
 			initialiseGame(g);
 		} else {

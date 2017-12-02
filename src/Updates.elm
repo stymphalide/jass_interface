@@ -30,35 +30,9 @@ update msg model =
         Msgs.GameIdUpdate gameId ->
             ({model | gameId = Just gameId}, Cmd.none)
         Msgs.LobbyUpdate lobbyString ->
-            let
-                mLobby =
-                    updateLobby lobbyString
-                mPlayer =
-                    case model.player of
-                        Changing pl ->
-                            Nothing
-                        Constant pl ->
-                            Just pl
-            in
-                case mLobby of
-                    Nothing ->
-                        (model, Cmd.none)
-                    Just lobby ->
-                        case lobby of
-                            Players players ->
-                                ({model | mode = (Lobby players)}, Cmd.none)
-                            GameInfo gameId ->
-                                case mPlayer of
-                                    Nothing ->
-                                        ({model | mode = Init}, Cmd.none)
-                                    Just player ->
-                                        ({model | mode = (Play gameId player), gameId = Just gameId}, Cmd.none)
+            lobbyUpdate model lobbyString
         Msgs.SizeUpdated newSize ->
             ({model | windowSize = newSize}, Cmd.none)
-
-
-
-
 
 onLocationChange : Mode -> Model -> (Model, Cmd Msg)
 onLocationChange mode model =
@@ -71,7 +45,6 @@ onLocationChange mode model =
             ({model | mode = Lobby players}, fetchLobby players)
         Play gameId player ->
             ({model | mode = Play gameId player}, Cmd.none)
-
 
 playerChange : Msgs.InputUpdate -> Model -> (Model, Cmd Msg)
 playerChange input model =
@@ -97,7 +70,6 @@ makeConstant iPlayer =
         Constant player ->
             iPlayer
 
-
 fetchGame : Model ->  Mode -> Maybe GameCoord -> Maybe Player -> (Model, Cmd Msg)
 fetchGame model mode mGameCoord mPlayer=
     case mode of
@@ -121,3 +93,30 @@ fetchGame model mode mGameCoord mPlayer=
                             (model, fetchWatch gameId pl gameCoord)
         Lobby players ->
             (model, fetchLobby players)
+
+
+lobbyUpdate : Model -> String -> (Model, Cmd Msg)
+lobbyUpdate model lobbyString =
+    let
+        mLobby =
+            updateLobby lobbyString
+        mPlayer =
+            case model.player of
+                Changing pl ->
+                    Nothing
+                Constant pl ->
+                    Just pl
+    in
+        case mLobby of
+            Nothing ->
+                (model, Cmd.none)
+            Just lobby ->
+                case lobby of
+                    Players players ->
+                        ({model | mode = (Lobby players)}, Cmd.none)
+                    GameInfo gameId ->
+                        case mPlayer of
+                            Nothing ->
+                                ({model | mode = Init}, Cmd.none)
+                            Just player ->
+                                ({model | mode = (Play gameId player), gameId = Just gameId}, Cmd.none)

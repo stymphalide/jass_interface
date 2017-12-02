@@ -14,9 +14,9 @@ var _user$project$Game_Model$Table = F4(
 	function (a, b, c, d) {
 		return {pos1: a, pos2: b, pos3: c, pos4: d};
 	});
-var _user$project$Game_Model$GameInfo = function (a) {
-	return {ctor: 'GameInfo', _0: a};
-};
 var _user$project$Game_Model$Players = function (a) {
 	return {ctor: 'Players', _0: a};
+};
+var _user$project$Game_Model$GameInfo = function (a) {
+	return {ctor: 'GameInfo', _0: a};
 };

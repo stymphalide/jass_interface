@@ -10,11 +10,12 @@ import Game.Model exposing (..)
 
 lobbyDecoder : Decode.Decoder Lobby
 lobbyDecoder =
-    Decode.oneOf [playersDecoder, gameIdDecoder]
+    Decode.oneOf [gameIdDecoder, playersDecoder]
 
 gameIdDecoder : Decode.Decoder Lobby
 gameIdDecoder =
-    Decode.map GameInfo Decode.string
+    decode GameInfo 
+    |> required "gameId" Decode.string
 
 playersDecoder : Decode.Decoder Lobby
 playersDecoder =
