@@ -8,52 +8,53 @@ import Html.Events exposing (onClick)
 import Msgs exposing (Msg)
 import Globals exposing (imgSourcePath)
 
-import Game.Model exposing (Card, Player, GameCoord, GameId)
+import Game.Model exposing (Card, Player, GameCoord)
 
 import Game.Watch.Card exposing (viewCard)
 
 
-viewPlayers: GameCoord -> GameId -> Player -> Player -> List Player -> List (Html Msg)
-viewPlayers gameCoord gameId activePlayer onTurnPlayer players=
-    List.map (viewPlayer gameCoord gameId activePlayer onTurnPlayer) players
+viewPlayers: GameCoord -> Player -> Player -> List Player -> List (Html Msg)
+viewPlayers gameCoord activePlayer onTurnPlayer players =
+    List.map (viewPlayer gameCoord activePlayer onTurnPlayer) players
 
 
-viewPlayer : GameCoord -> GameId-> Player -> Player -> Player -> Html Msg
-viewPlayer gameCoord gameId activePlayer onTurnPlayer player =
+viewPlayer : GameCoord -> Player -> Player -> Player -> Html Msg
+viewPlayer gameCoord activePlayer onTurnPlayer player =
     if player == activePlayer then
         if player == onTurnPlayer then 
             li [class "inline-block mr1"]
             [ div [class "col-9"] [text player]
-            , getImage gameCoord player gameId "playerActiveOnTurn"
+            , getImage gameCoord player "playerActiveOnTurn"
             ]
         else
             li [class "inline-block mr1"]
             [ div [class "col-9"] [text player]
-            , getImage gameCoord player gameId "playerActive"
+            , getImage gameCoord player "playerActive"
             ]
     else 
         if player == onTurnPlayer then 
             li [class "inline-block mr1"]
             [ div [class "col-9"] [text player]
-            , getImage gameCoord player gameId "playerOnTurn"
+            , getImage gameCoord player "playerOnTurn"
             ]
         else 
             li [class "inline-block mr1"]
             [ div [class "col-9"] [text player]
-            , getImage gameCoord player gameId "player"
+            , getImage gameCoord player "player"
             ]
 
-getImage : GameCoord -> Player -> GameId -> String -> Html Msg
-getImage gameCoord player gameId icon =
+getImage : GameCoord -> Player ->  String -> Html Msg
+getImage gameCoord player icon =
     img 
         [ src (imgSourcePath ++ icon ++"_icon.png")
         , width 50
-        , changePlayer gameCoord player gameId
+        , changePlayer gameCoord player
         ] []
 
-changePlayer : GameCoord -> Player -> GameId -> Attribute Msg
-changePlayer gameCoord player gameId =
-    Msgs.FetchGame gameCoord player gameId True |> onClick
+changePlayer :  GameCoord -> Player -> Attribute Msg
+changePlayer gameCoord player  =
+    Msgs.FetchGame (Just gameCoord) (Just player)
+    |> onClick
 
 viewPlayerCards : Maybe (List Card) -> List (Html Msg)
 viewPlayerCards cards =

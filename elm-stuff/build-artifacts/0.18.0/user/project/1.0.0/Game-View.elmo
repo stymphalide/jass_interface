@@ -8,21 +8,19 @@ var _user$project$Game_View$viewLobby = function (player) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Game_View$viewWatch = F3(
-	function (player, mGame, gameId) {
-		var _p0 = mGame;
-		if (_p0.ctor === 'Nothing') {
-			return A2(_user$project$Game_Watch_Game$init, player, gameId);
-		} else {
-			return A2(_user$project$Game_Watch_Game$viewGame, _p0._0, gameId);
-		}
-	});
-var _user$project$Game_View$viewPlay = F3(
-	function (player, mGame, gameId) {
-		var _p1 = mGame;
-		if (_p1.ctor === 'Nothing') {
-			return A2(_user$project$Game_Play_Game$init, player, gameId);
-		} else {
-			return A2(_user$project$Game_Play_Game$viewGame, _p1._0, gameId);
-		}
-	});
+var _user$project$Game_View$viewWatch = function (mGame) {
+	var _p0 = mGame;
+	if (_p0.ctor === 'Nothing') {
+		return _user$project$Game_Watch_Game$init;
+	} else {
+		return _user$project$Game_Watch_Game$viewGame(_p0._0);
+	}
+};
+var _user$project$Game_View$viewPlay = function (mGame) {
+	var _p1 = mGame;
+	if (_p1.ctor === 'Nothing') {
+		return _user$project$Game_Play_Game$init;
+	} else {
+		return _user$project$Game_Play_Game$viewGame(_p1._0);
+	}
+};

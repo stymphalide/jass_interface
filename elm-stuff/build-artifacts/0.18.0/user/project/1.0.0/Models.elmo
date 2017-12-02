@@ -1,6 +1,6 @@
 var _user$project$Models$Model = F5(
 	function (a, b, c, d, e) {
-		return {route: a, game: b, windowSize: c, player: d, gameId: e};
+		return {mode: a, game: b, windowSize: c, player: d, gameId: e};
 	});
 var _user$project$Models$Lobby = function (a) {
 	return {ctor: 'Lobby', _0: a};
@@ -21,7 +21,7 @@ var _user$project$Models$Changing = function (a) {
 	return {ctor: 'Changing', _0: a};
 };
 var _user$project$Models$initialModel = {
-	route: _user$project$Models$Init,
+	mode: _user$project$Models$Init,
 	game: _elm_lang$core$Maybe$Nothing,
 	windowSize: A2(_elm_lang$window$Window$Size, 0, 0),
 	gameId: _elm_lang$core$Maybe$Nothing,

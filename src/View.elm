@@ -6,7 +6,7 @@ import Html.Events exposing (on, targetValue, onClick, onInput)
 import Json.Decode
 import List
 
-import Models exposing (Model, Input(..), Route(..))
+import Models exposing (Model, Input(..), Mode(..))
 import Msgs exposing (Msg)
 
 import Game.Model exposing (GameId, Player)
@@ -25,15 +25,15 @@ view model =
 
 page : Model -> Html Msg
 page model =
-    case model.route of
+    case model.mode of
         Init ->
             init model.player model.gameId
         Play gameId player ->
-            Game.View.viewPlay player model.game gameId
+            Game.View.viewPlay model.game
         Lobby player ->
             Game.View.viewLobby player
         Watch gameId player ->
-            Game.View.viewWatch player model.game gameId
+            Game.View.viewWatch model.game
         
 
 init : Input Player -> Maybe GameId -> Html Msg

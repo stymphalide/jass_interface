@@ -9,27 +9,26 @@ import Globals exposing (error)
 import Msgs exposing (Msg)
 
 -- Game specific
-import Game.Model exposing(Game, Player, GameId)
+import Game.Model exposing(Game, Player)
 
 import Game.Play.Game as Play
 import Game.Watch.Game as Watch
 
-viewPlay :  Player -> Maybe Game -> GameId-> Html Msg
-viewPlay player mGame gameId =
+viewPlay : Maybe Game -> Html Msg
+viewPlay mGame =
     case mGame of
         Nothing ->
-            Play.init player gameId
+            Play.init
         Just game ->
-            Play.viewGame game gameId
+            Play.viewGame game
 
-
-viewWatch : Player -> Maybe Game -> GameId -> Html Msg
-viewWatch player mGame gameId =
+viewWatch : Maybe Game -> Html Msg
+viewWatch mGame  =
     case mGame of
         Nothing ->
-            Watch.init player gameId
+            Watch.init
         Just game ->
-            Watch.viewGame game gameId
+            Watch.viewGame game
 
 viewLobby : Player -> Html Msg
 viewLobby player  =

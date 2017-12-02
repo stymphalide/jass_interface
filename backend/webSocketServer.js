@@ -8,6 +8,12 @@ console.log("Socket serving at ws://localhost:5000" )
 
 wss.on('connection', function connection(ws) {
 	console.log("Connection established")
+	ws.on('close', function close() {
+		console.log('Disconnected');
+	});
+	ws.on('open', () => {
+		console.log('Connection opened')
+	});
 	ws.on('message', function incoming(data) {
 		console.log("I got a message.")
 		data = JSON.parse(data)

@@ -18,7 +18,7 @@ var _user$project$Updates$update = F2(
 							ctor: '_Tuple2',
 							_0: _elm_lang$core$Native_Utils.update(
 								model,
-								{route: _user$project$Models$Init}),
+								{mode: _user$project$Models$Init}),
 							_1: _elm_lang$core$Platform_Cmd$none
 						};
 					case 'Watch':
@@ -27,7 +27,7 @@ var _user$project$Updates$update = F2(
 							_0: _elm_lang$core$Native_Utils.update(
 								model,
 								{
-									route: A2(_user$project$Models$Watch, _p2._0, _p2._1)
+									mode: A2(_user$project$Models$Watch, _p2._0, _p2._1)
 								}),
 							_1: _elm_lang$core$Platform_Cmd$none
 						};
@@ -37,7 +37,7 @@ var _user$project$Updates$update = F2(
 							_0: _elm_lang$core$Native_Utils.update(
 								model,
 								{
-									route: _user$project$Models$Lobby(_p2._0)
+									mode: _user$project$Models$Lobby(_p2._0)
 								}),
 							_1: _elm_lang$core$Platform_Cmd$none
 						};
@@ -47,7 +47,7 @@ var _user$project$Updates$update = F2(
 							_0: _elm_lang$core$Native_Utils.update(
 								model,
 								{
-									route: A2(_user$project$Models$Play, _p2._0, _p2._1)
+									mode: A2(_user$project$Models$Play, _p2._0, _p2._1)
 								}),
 							_1: _elm_lang$core$Platform_Cmd$none
 						};
@@ -81,32 +81,76 @@ var _user$project$Updates$update = F2(
 				}
 			case 'GameUpdate':
 				var mNewGame = _user$project$Game_Update$updateGame(_p1._0);
-				var newPlayer = function () {
-					var _p5 = mNewGame;
-					if (_p5.ctor === 'Nothing') {
-						return model.player;
-					} else {
-						return _user$project$Models$Constant(_p5._0.activePlayer);
-					}
-				}();
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{game: mNewGame, player: newPlayer}),
+						{game: mNewGame}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'FetchGame':
-				return {
-					ctor: '_Tuple2',
-					_0: model,
-					_1: A4(
-						_user$project$Commands$fetchGame,
-						_p1._2,
-						{ctor: '_Tuple2', _0: _p1._0._0, _1: _p1._0._1},
-						_p1._1,
-						_p1._3)
-				};
+				var _p12 = _p1._1;
+				var _p5 = model.mode;
+				switch (_p5.ctor) {
+					case 'Init':
+						return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+					case 'Play':
+						return {
+							ctor: '_Tuple2',
+							_0: model,
+							_1: A2(_user$project$Commands$fetchGame, _p5._0, _p5._1)
+						};
+					case 'Watch':
+						var _p11 = _p5._1;
+						var _p10 = _p5._0;
+						var _p6 = _p1._0;
+						if (_p6.ctor === 'Nothing') {
+							var _p7 = _p12;
+							if (_p7.ctor === 'Nothing') {
+								return {
+									ctor: '_Tuple2',
+									_0: model,
+									_1: A3(
+										_user$project$Commands$fetchWatch,
+										_p10,
+										_p11,
+										{ctor: '_Tuple2', _0: 0, _1: 0})
+								};
+							} else {
+								return {
+									ctor: '_Tuple2',
+									_0: model,
+									_1: A3(
+										_user$project$Commands$fetchWatch,
+										_p10,
+										_p7._0,
+										{ctor: '_Tuple2', _0: 0, _1: 0})
+								};
+							}
+						} else {
+							var _p9 = _p6._0;
+							var _p8 = _p12;
+							if (_p8.ctor === 'Nothing') {
+								return {
+									ctor: '_Tuple2',
+									_0: model,
+									_1: A3(_user$project$Commands$fetchWatch, _p10, _p11, _p9)
+								};
+							} else {
+								return {
+									ctor: '_Tuple2',
+									_0: model,
+									_1: A3(_user$project$Commands$fetchWatch, _p10, _p8._0, _p9)
+								};
+							}
+						}
+					default:
+						return {
+							ctor: '_Tuple2',
+							_0: model,
+							_1: _user$project$Commands$fetchLobby(_p5._0)
+						};
+				}
 			case 'GameIdUpdate':
 				return {
 					ctor: '_Tuple2',

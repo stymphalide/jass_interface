@@ -4,7 +4,7 @@ module Subscriptions exposing (..)
 import WebSocket exposing (..)
 import Window exposing (resizes)
 
-import Models exposing (Model, Route(..))
+import Models exposing (Model, Mode(..))
 import Msgs exposing (Msg)
 import Globals exposing (serverUrl)
 
@@ -28,7 +28,7 @@ windowResizes model =
 
 
 webSocketSubscripiton model =
-    case model.route of 
+    case model.mode of 
         Init ->
             Sub.none
         Play gameId player ->

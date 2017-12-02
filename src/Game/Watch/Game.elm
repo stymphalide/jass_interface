@@ -16,22 +16,22 @@ import Game.Watch.Groups exposing (viewGroup, unwrapMaybeGroups)
 import Game.Watch.Table exposing (viewTable)
 
 
-init : Player -> GameId -> Html Msg
-init player gameId =
+init :  Html Msg
+init =
     div [] 
-        [ a [onClick (Msgs.FetchGame (0, 0) player gameId True)] [text "Start Game"]
+        [ a [Msgs.FetchGame Nothing Nothing |> onClick ] [text "Start Game"]
         ]
 
 
-viewGame : Game -> GameId -> Html Msg
-viewGame game gameId =
+viewGame : Game -> Html Msg
+viewGame game =
     div [] 
     [ h1 [] [viewGameType game.gameType]
     , h2 [] [text game.activePlayer]
     , h2 [] [text ("Round #" ++ (toString (game.round, game.turn)))]
-    , div [] [nav game.activePlayer (game.round, game.turn) gameId]
+    , div [] [nav game.activePlayer (game.round, game.turn)]
     , ol [class "list-reset"] (viewPlayerCards game.cardsPlayer)
-    , ol [class "list-reset"] (viewPlayers (game.round, game.turn) gameId game.activePlayer game.onTurnPlayer game.players)
+    , ol [class "list-reset"] (viewPlayers (game.round, game.turn) game.activePlayer game.onTurnPlayer game.players)
     , viewTable game.table
     , div [] 
         [ viewGroup (List.head game.groups)
@@ -52,19 +52,19 @@ viewGameType gameType =
         div []
         [img [src (imgSourcePath ++ (colorTranslate gameType)++ "_icon.png") ] []]
 
-nav : Player -> GameCoord -> GameId -> Html Msg
-nav player gameCoord gameId =
+nav : Player -> GameCoord  -> Html Msg
+nav player gameCoord =
     div [] 
-    [ prev player gameCoord gameId
-    , next player gameCoord gameId
+    [ prev player gameCoord
+    , next player gameCoord
     ]
 
-next : Player -> GameCoord -> GameId -> Html Msg
-next player gameCoord gameId =
+next : Player -> GameCoord  -> Html Msg
+next player gameCoord =
     if not (isEnd gameCoord) then
         img 
         [ src (imgSourcePath ++ "right_arrow.png")
-        ,  Msgs.FetchGame (nextRound gameCoord) player gameId True
+        ,  Msgs.FetchGame (Just (nextRound gameCoord)) (Just player)         
             |> onClick
         ] []
     else 
@@ -83,12 +83,12 @@ nextRound (round, turn) =
         (round, turn + 1)
 
 
-prev : Player -> GameCoord -> GameId-> Html Msg
-prev player gameCoord gameId =
+prev : Player -> GameCoord -> Html Msg
+prev player gameCoord =
     if not (isBegin gameCoord) then
         img
         [ src (imgSourcePath ++ "left_arrow.png")
-        , Msgs.FetchGame (prevRound gameCoord) player gameId True
+        ,  Msgs.FetchGame (Just (prevRound gameCoord)) (Just player)
             |> onClick
         ][]
     else

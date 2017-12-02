@@ -4,9 +4,9 @@ var _user$project$Msgs$SizeUpdated = function (a) {
 var _user$project$Msgs$GameIdUpdate = function (a) {
 	return {ctor: 'GameIdUpdate', _0: a};
 };
-var _user$project$Msgs$FetchGame = F4(
-	function (a, b, c, d) {
-		return {ctor: 'FetchGame', _0: a, _1: b, _2: c, _3: d};
+var _user$project$Msgs$FetchGame = F2(
+	function (a, b) {
+		return {ctor: 'FetchGame', _0: a, _1: b};
 	});
 var _user$project$Msgs$GameUpdate = function (a) {
 	return {ctor: 'GameUpdate', _0: a};

@@ -4,7 +4,7 @@ import Window exposing (Size)
 import Game.Model exposing (Game, Player, GameId)
 
 
-type Route
+type Mode
     = Init
     | Watch GameId Player
     | Play GameId Player
@@ -15,7 +15,7 @@ type Input a
     | Constant a
 
 type alias Model =
-    { route : Route
+    { mode : Mode
     , game : Maybe Game
     , windowSize : Size
     , player : Input Player
@@ -24,7 +24,7 @@ type alias Model =
 
 initialModel : Model
 initialModel =
-    { route = Init
+    { mode = Init
     , game = Nothing
     , windowSize = Size 0 0
     , gameId = Nothing

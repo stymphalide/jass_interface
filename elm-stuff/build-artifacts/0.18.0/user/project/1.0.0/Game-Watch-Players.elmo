@@ -42,13 +42,16 @@ var _user$project$Game_Watch_Players$viewPlayerCards = function (cards) {
 		return A2(_elm_lang$core$List$map, _user$project$Game_Watch_Players$viewPlayerCard, _p0._0);
 	}
 };
-var _user$project$Game_Watch_Players$changePlayer = F3(
-	function (gameCoord, player, gameId) {
+var _user$project$Game_Watch_Players$changePlayer = F2(
+	function (gameCoord, player) {
 		return _elm_lang$html$Html_Events$onClick(
-			A4(_user$project$Msgs$FetchGame, gameCoord, player, gameId, true));
+			A2(
+				_user$project$Msgs$FetchGame,
+				_elm_lang$core$Maybe$Just(gameCoord),
+				_elm_lang$core$Maybe$Just(player)));
 	});
-var _user$project$Game_Watch_Players$getImage = F4(
-	function (gameCoord, player, gameId, icon) {
+var _user$project$Game_Watch_Players$getImage = F3(
+	function (gameCoord, player, icon) {
 		return A2(
 			_elm_lang$html$Html$img,
 			{
@@ -63,15 +66,15 @@ var _user$project$Game_Watch_Players$getImage = F4(
 					_0: _elm_lang$html$Html_Attributes$width(50),
 					_1: {
 						ctor: '::',
-						_0: A3(_user$project$Game_Watch_Players$changePlayer, gameCoord, player, gameId),
+						_0: A2(_user$project$Game_Watch_Players$changePlayer, gameCoord, player),
 						_1: {ctor: '[]'}
 					}
 				}
 			},
 			{ctor: '[]'});
 	});
-var _user$project$Game_Watch_Players$viewPlayer = F5(
-	function (gameCoord, gameId, activePlayer, onTurnPlayer, player) {
+var _user$project$Game_Watch_Players$viewPlayer = F4(
+	function (gameCoord, activePlayer, onTurnPlayer, player) {
 		return _elm_lang$core$Native_Utils.eq(player, activePlayer) ? (_elm_lang$core$Native_Utils.eq(player, onTurnPlayer) ? A2(
 			_elm_lang$html$Html$li,
 			{
@@ -95,7 +98,7 @@ var _user$project$Game_Watch_Players$viewPlayer = F5(
 					}),
 				_1: {
 					ctor: '::',
-					_0: A4(_user$project$Game_Watch_Players$getImage, gameCoord, player, gameId, 'playerActiveOnTurn'),
+					_0: A3(_user$project$Game_Watch_Players$getImage, gameCoord, player, 'playerActiveOnTurn'),
 					_1: {ctor: '[]'}
 				}
 			}) : A2(
@@ -121,7 +124,7 @@ var _user$project$Game_Watch_Players$viewPlayer = F5(
 					}),
 				_1: {
 					ctor: '::',
-					_0: A4(_user$project$Game_Watch_Players$getImage, gameCoord, player, gameId, 'playerActive'),
+					_0: A3(_user$project$Game_Watch_Players$getImage, gameCoord, player, 'playerActive'),
 					_1: {ctor: '[]'}
 				}
 			})) : (_elm_lang$core$Native_Utils.eq(player, onTurnPlayer) ? A2(
@@ -147,7 +150,7 @@ var _user$project$Game_Watch_Players$viewPlayer = F5(
 					}),
 				_1: {
 					ctor: '::',
-					_0: A4(_user$project$Game_Watch_Players$getImage, gameCoord, player, gameId, 'playerOnTurn'),
+					_0: A3(_user$project$Game_Watch_Players$getImage, gameCoord, player, 'playerOnTurn'),
 					_1: {ctor: '[]'}
 				}
 			}) : A2(
@@ -173,15 +176,15 @@ var _user$project$Game_Watch_Players$viewPlayer = F5(
 					}),
 				_1: {
 					ctor: '::',
-					_0: A4(_user$project$Game_Watch_Players$getImage, gameCoord, player, gameId, 'player'),
+					_0: A3(_user$project$Game_Watch_Players$getImage, gameCoord, player, 'player'),
 					_1: {ctor: '[]'}
 				}
 			}));
 	});
-var _user$project$Game_Watch_Players$viewPlayers = F5(
-	function (gameCoord, gameId, activePlayer, onTurnPlayer, players) {
+var _user$project$Game_Watch_Players$viewPlayers = F4(
+	function (gameCoord, activePlayer, onTurnPlayer, players) {
 		return A2(
 			_elm_lang$core$List$map,
-			A4(_user$project$Game_Watch_Players$viewPlayer, gameCoord, gameId, activePlayer, onTurnPlayer),
+			A3(_user$project$Game_Watch_Players$viewPlayer, gameCoord, activePlayer, onTurnPlayer),
 			players);
 	});

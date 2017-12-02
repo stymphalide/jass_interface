@@ -5,8 +5,8 @@ import WebSocket
 --import RemoteData
 
 import Msgs exposing (Msg)
-import Models exposing (Model, Input(..), Route(..))
-import Commands exposing (fetchGame)
+import Models exposing (Model, Input(..), Mode(..))
+import Commands exposing (fetchGame, fetchWatch, fetchLobby)
 
 import Game.Update exposing (updateGame)
 import Game.Model exposing (Player)
@@ -16,16 +16,16 @@ import Game.Model exposing (Player)
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case msg of
-        Msgs.OnLocationChange route ->
-            case route of
+        Msgs.OnLocationChange mode ->
+            case mode of
                 Init ->
-                    ({model | route = Init}, Cmd.none)
+                    ({model | mode = Init}, Cmd.none)
                 Watch gameId player ->
-                    ({model | route = Watch gameId player}, Cmd.none)
+                    ({model | mode = Watch gameId player}, Cmd.none)
                 Lobby player ->
-                    ({model | route = Lobby player}, Cmd.none)
+                    ({model | mode = Lobby player}, Cmd.none)
                 Play gameId player ->
-                    ({model | route = Play gameId player}, Cmd.none)
+                    ({model | mode = Play gameId player}, Cmd.none)
         Msgs.PlayerChange input ->
             case input of
                 Msgs.Update player ->
@@ -43,16 +43,30 @@ update msg model =
         Msgs.GameUpdate gameString ->
             let
                 mNewGame = updateGame gameString
-                newPlayer = 
-                    case mNewGame of
-                        Nothing ->
-                            model.player
-                        Just game ->
-                            Models.Constant game.activePlayer
             in
-                ({model | game = mNewGame, player = newPlayer}, Cmd.none)
-        Msgs.FetchGame (round, turn) player gameId isWatch->
-            (model, fetchGame gameId (round, turn) player isWatch)
+                ({model | game = mNewGame}, Cmd.none)
+        Msgs.FetchGame mGameCoord mPlayer ->
+            case model.mode of
+                Init ->
+                    (model, Cmd.none)
+                Play gameId player ->
+                    (model, fetchGame gameId player)
+                Watch gameId player ->
+                    case mGameCoord of
+                        Nothing ->
+                            case mPlayer of
+                                Nothing ->
+                                    (model, fetchWatch gameId player (0, 0))
+                                Just pl ->
+                                    (model, fetchWatch gameId pl (0, 0))
+                        Just gameCoord ->
+                            case mPlayer of
+                                Nothing ->
+                                    (model, fetchWatch gameId player gameCoord)
+                                Just pl ->
+                                    (model, fetchWatch gameId pl gameCoord)
+                Lobby player ->
+                    (model, fetchLobby player)
         Msgs.GameIdUpdate gameId ->
             ({model | gameId = Just gameId}, Cmd.none)
         Msgs.SizeUpdated newSize ->

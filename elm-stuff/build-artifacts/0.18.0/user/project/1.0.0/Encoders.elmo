@@ -1,0 +1,101 @@
+var _user$project$Encoders$encodeObject = function (object) {
+	return A2(_elm_lang$core$Json_Encode$encode, 4, object);
+};
+var _user$project$Encoders$encodeGame = F2(
+	function (gameId, player) {
+		return _user$project$Encoders$encodeObject(
+			_elm_lang$core$Json_Encode$object(
+				{
+					ctor: '::',
+					_0: {
+						ctor: '_Tuple2',
+						_0: 'mode',
+						_1: _elm_lang$core$Json_Encode$string('play')
+					},
+					_1: {
+						ctor: '::',
+						_0: {
+							ctor: '_Tuple2',
+							_0: 'gameId',
+							_1: _elm_lang$core$Json_Encode$string(gameId)
+						},
+						_1: {
+							ctor: '::',
+							_0: {
+								ctor: '_Tuple2',
+								_0: 'player',
+								_1: _elm_lang$core$Json_Encode$string(player)
+							},
+							_1: {ctor: '[]'}
+						}
+					}
+				}));
+	});
+var _user$project$Encoders$encodeWatch = F3(
+	function (gameId, player, _p0) {
+		var _p1 = _p0;
+		return _user$project$Encoders$encodeObject(
+			_elm_lang$core$Json_Encode$object(
+				{
+					ctor: '::',
+					_0: {
+						ctor: '_Tuple2',
+						_0: 'mode',
+						_1: _elm_lang$core$Json_Encode$string('watch')
+					},
+					_1: {
+						ctor: '::',
+						_0: {
+							ctor: '_Tuple2',
+							_0: 'gameId',
+							_1: _elm_lang$core$Json_Encode$string(gameId)
+						},
+						_1: {
+							ctor: '::',
+							_0: {
+								ctor: '_Tuple2',
+								_0: 'player',
+								_1: _elm_lang$core$Json_Encode$string(player)
+							},
+							_1: {
+								ctor: '::',
+								_0: {
+									ctor: '_Tuple2',
+									_0: 'round',
+									_1: _elm_lang$core$Json_Encode$int(_p1._0)
+								},
+								_1: {
+									ctor: '::',
+									_0: {
+										ctor: '_Tuple2',
+										_0: 'turn',
+										_1: _elm_lang$core$Json_Encode$int(_p1._1)
+									},
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				}));
+	});
+var _user$project$Encoders$encodeLobby = function (player) {
+	return _user$project$Encoders$encodeObject(
+		_elm_lang$core$Json_Encode$object(
+			{
+				ctor: '::',
+				_0: {
+					ctor: '_Tuple2',
+					_0: 'mode',
+					_1: _elm_lang$core$Json_Encode$string('lobby')
+				},
+				_1: {
+					ctor: '::',
+					_0: {
+						ctor: '_Tuple2',
+						_0: 'player',
+						_1: _elm_lang$core$Json_Encode$string('player')
+					},
+					_1: {ctor: '[]'}
+				}
+			}));
+};

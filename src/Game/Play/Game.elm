@@ -8,21 +8,21 @@ import Html.Events exposing (onClick)
 import Msgs exposing (Msg)
 import Globals exposing (imgSourcePath)
 
-import Game.Model exposing (Game, GameCoord, Player, GameId)
+import Game.Model exposing (Game, GameCoord)
 import Game.Translate exposing (colorTranslate)
 
 import Game.Play.Players exposing (viewPlayers, viewPlayerCards)
 import Game.Play.Groups exposing (viewGroup, unwrapMaybeGroups)
 import Game.Play.Table exposing (viewTable)
 
-init : Player -> GameId-> Html Msg
-init player gameId  =
+init :  Html Msg
+init =
     div [] 
-        [ a [Msgs.FetchGame (-1, -1) player gameId False |> onClick ] [text "Start Game"]
+        [ a [  Msgs.FetchGame Nothing Nothing |> onClick] [text "Start Game"]
         ]
 
-viewGame : Game -> GameId -> Html Msg
-viewGame game gameId =
+viewGame : Game ->  Html Msg
+viewGame game =
     div [] 
     [ h1 [] [viewGameType game.gameType]
     , h2 [] [text game.activePlayer]

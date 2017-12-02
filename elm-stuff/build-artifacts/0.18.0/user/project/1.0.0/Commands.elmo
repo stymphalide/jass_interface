@@ -1,64 +1,21 @@
-var _user$project$Commands$gameObject = F4(
-	function (_p0, gameId, player, mode) {
-		var _p1 = _p0;
-		return _elm_lang$core$Json_Encode$object(
-			{
-				ctor: '::',
-				_0: {
-					ctor: '_Tuple2',
-					_0: 'round',
-					_1: _elm_lang$core$Json_Encode$int(_p1._0)
-				},
-				_1: {
-					ctor: '::',
-					_0: {
-						ctor: '_Tuple2',
-						_0: 'turn',
-						_1: _elm_lang$core$Json_Encode$int(_p1._1)
-					},
-					_1: {
-						ctor: '::',
-						_0: {
-							ctor: '_Tuple2',
-							_0: 'gameId',
-							_1: _elm_lang$core$Json_Encode$string(gameId)
-						},
-						_1: {
-							ctor: '::',
-							_0: {
-								ctor: '_Tuple2',
-								_0: 'player',
-								_1: _elm_lang$core$Json_Encode$string(player)
-							},
-							_1: {
-								ctor: '::',
-								_0: {
-									ctor: '_Tuple2',
-									_0: 'mode',
-									_1: _elm_lang$core$Json_Encode$string(mode)
-								},
-								_1: {ctor: '[]'}
-							}
-						}
-					}
-				}
-			});
-	});
-var _user$project$Commands$encodeGame = F4(
-	function (gameCoord, gameId, player, isWatch) {
-		return isWatch ? A2(
-			_elm_lang$core$Json_Encode$encode,
-			4,
-			A4(_user$project$Commands$gameObject, gameCoord, gameId, player, 'watch')) : A2(
-			_elm_lang$core$Json_Encode$encode,
-			4,
-			A4(_user$project$Commands$gameObject, gameCoord, gameId, player, 'play'));
-	});
-var _user$project$Commands$fetchGame = F4(
-	function (gameId, gameCoord, player, isWatch) {
+var _user$project$Commands$fetchLobby = function (player) {
+	return A2(
+		_elm_lang$websocket$WebSocket$send,
+		_user$project$Globals$serverUrl,
+		_user$project$Encoders$encodeLobby(player));
+};
+var _user$project$Commands$fetchWatch = F3(
+	function (gameId, player, gameCoord) {
 		return A2(
 			_elm_lang$websocket$WebSocket$send,
 			_user$project$Globals$serverUrl,
-			A4(_user$project$Commands$encodeGame, gameCoord, gameId, player, isWatch));
+			A3(_user$project$Encoders$encodeWatch, gameId, player, gameCoord));
+	});
+var _user$project$Commands$fetchGame = F2(
+	function (gameId, player) {
+		return A2(
+			_elm_lang$websocket$WebSocket$send,
+			_user$project$Globals$serverUrl,
+			A2(_user$project$Encoders$encodeGame, gameId, player));
 	});
 var _user$project$Commands$getWindowSize = A2(_elm_lang$core$Task$perform, _user$project$Msgs$SizeUpdated, _elm_lang$window$Window$size);

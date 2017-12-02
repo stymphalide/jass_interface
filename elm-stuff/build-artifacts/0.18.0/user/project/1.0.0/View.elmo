@@ -205,16 +205,16 @@ var _user$project$View$init = F2(
 		}
 	});
 var _user$project$View$page = function (model) {
-	var _p3 = model.route;
+	var _p3 = model.mode;
 	switch (_p3.ctor) {
 		case 'Init':
 			return A2(_user$project$View$init, model.player, model.gameId);
 		case 'Play':
-			return A3(_user$project$Game_View$viewPlay, _p3._1, model.game, _p3._0);
+			return _user$project$Game_View$viewPlay(model.game);
 		case 'Lobby':
 			return _user$project$Game_View$viewLobby(_p3._0);
 		default:
-			return A3(_user$project$Game_View$viewWatch, _p3._1, model.game, _p3._0);
+			return _user$project$Game_View$viewWatch(model.game);
 	}
 };
 var _user$project$View$view = function (model) {
