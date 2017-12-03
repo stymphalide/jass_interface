@@ -27,11 +27,11 @@ var _user$project$Commands$fetchWatch = F3(
 			_user$project$Globals$serverUrl,
 			A3(_user$project$Encoders$encodeWatch, gameId, player, gameCoord));
 	});
-var _user$project$Commands$fetchPlay = F2(
-	function (gameId, player) {
+var _user$project$Commands$fetchPlay = F3(
+	function (gameId, player, action) {
 		return A2(
 			_elm_lang$websocket$WebSocket$send,
 			_user$project$Globals$serverUrl,
-			A2(_user$project$Encoders$encodePlay, gameId, player));
+			A3(_user$project$Encoders$encodePlay, gameId, player, action));
 	});
 var _user$project$Commands$getWindowSize = A2(_elm_lang$core$Task$perform, _user$project$Msgs$SizeUpdated, _elm_lang$window$Window$size);

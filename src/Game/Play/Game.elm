@@ -8,7 +8,7 @@ import Html.Events exposing (onClick)
 import Msgs exposing (Msg)
 import Globals exposing (imgSourcePath)
 
-import Game.Model exposing (Game, GameCoord)
+import Game.Model exposing (Game, GameCoord, GameType(..), Action(..))
 import Game.Translate exposing (colorTranslate)
 
 import Game.Play.Players exposing (viewPlayers, viewPlayerCards)
@@ -18,7 +18,7 @@ import Game.Play.Table exposing (viewTable)
 init :  Html Msg
 init =
     div [] 
-        [ a [  Msgs.FetchGame Nothing Nothing |> onClick] [text "Start Game"]
+        [ a [  Msgs.FetchGame Nothing Nothing NoAction |> onClick] [text "Start Game"]
         ]
 
 viewGame : Game ->  Html Msg
@@ -35,13 +35,16 @@ viewGame game =
         , viewGroup (List.head (unwrapMaybeGroups (List.tail game.groups)))
         ]
     ]
-
-viewGameType : String -> Html Msg
+viewGameType : GameType -> Html Msg
 viewGameType gameType =
-    if (gameType == "up") then
-        div [] [img  [src (imgSourcePath ++ "obenabe.png")] [] ]
-    else if (gameType == "down") then
-        div [] [img [src (imgSourcePath ++ "undenufe.png")] [] ]
-    else
-        div []
-        [img [src (imgSourcePath ++ (colorTranslate gameType)++ "_icon.png") ] []]
+    case gameType of
+        NoGameType ->
+            div [] [img  [src (imgSourcePath ++ "question_mark.png")] [] ]
+        Swap ->
+            div [] [img [src (imgSourcePath ++ "swap_icon.png")] []]
+        Up ->
+            div [] [img  [src (imgSourcePath ++ "obenabe.png")] [] ]
+        Down ->
+            div [] [img [src (imgSourcePath ++ "undenufe.png")] [] ]
+        Color color ->
+            div [] [img [src (imgSourcePath ++ (colorTranslate color)++ "_icon.png") ] []]

@@ -9980,6 +9980,20 @@ var _user$project$Game_Model$Players = function (a) {
 var _user$project$Game_Model$GameInfo = function (a) {
 	return {ctor: 'GameInfo', _0: a};
 };
+var _user$project$Game_Model$NoGameType = {ctor: 'NoGameType'};
+var _user$project$Game_Model$Down = {ctor: 'Down'};
+var _user$project$Game_Model$Up = {ctor: 'Up'};
+var _user$project$Game_Model$Color = function (a) {
+	return {ctor: 'Color', _0: a};
+};
+var _user$project$Game_Model$Swap = {ctor: 'Swap'};
+var _user$project$Game_Model$NoAction = {ctor: 'NoAction'};
+var _user$project$Game_Model$PlayCard = function (a) {
+	return {ctor: 'PlayCard', _0: a};
+};
+var _user$project$Game_Model$ChooseGameType = function (a) {
+	return {ctor: 'ChooseGameType', _0: a};
+};
 var _user$project$Models$Model = F6(
 	function (a, b, c, d, e, f) {
 		return {mode: a, game: b, games: c, windowSize: d, player: e, gameId: f};
@@ -10022,9 +10036,9 @@ var _user$project$Msgs$GameUpdate = function (a) {
 var _user$project$Msgs$GameIdUpdate = function (a) {
 	return {ctor: 'GameIdUpdate', _0: a};
 };
-var _user$project$Msgs$FetchGame = F2(
-	function (a, b) {
-		return {ctor: 'FetchGame', _0: a, _1: b};
+var _user$project$Msgs$FetchGame = F3(
+	function (a, b, c) {
+		return {ctor: 'FetchGame', _0: a, _1: b, _2: c};
 	});
 var _user$project$Msgs$InitUpdate = function (a) {
 	return {ctor: 'InitUpdate', _0: a};
@@ -10049,11 +10063,55 @@ var _user$project$Globals$error = A2(
 	});
 var _user$project$Globals$imgSourcePath = '../../img/';
 var _user$project$Globals$serverUrl = 'ws://localhost:5000';
+var _user$project$Encoders$encodeGameType = function (gameType) {
+	var _p0 = gameType;
+	switch (_p0.ctor) {
+		case 'NoGameType':
+			return _elm_lang$core$Json_Encode$null;
+		case 'Swap':
+			return _elm_lang$core$Json_Encode$string('swap');
+		case 'Up':
+			return _elm_lang$core$Json_Encode$string('up');
+		case 'Down':
+			return _elm_lang$core$Json_Encode$string('down');
+		default:
+			return _elm_lang$core$Json_Encode$string(_p0._0);
+	}
+};
+var _user$project$Encoders$encodeAction = function (action) {
+	var _p1 = action;
+	switch (_p1.ctor) {
+		case 'NoAction':
+			return _elm_lang$core$Json_Encode$null;
+		case 'ChooseGameType':
+			return _user$project$Encoders$encodeGameType(_p1._0);
+		default:
+			var _p2 = _p1._0;
+			return _elm_lang$core$Json_Encode$object(
+				{
+					ctor: '::',
+					_0: {
+						ctor: '_Tuple2',
+						_0: 'color',
+						_1: _elm_lang$core$Json_Encode$string(_p2.color)
+					},
+					_1: {
+						ctor: '::',
+						_0: {
+							ctor: '_Tuple2',
+							_0: 'number',
+							_1: _elm_lang$core$Json_Encode$string(_p2.number)
+						},
+						_1: {ctor: '[]'}
+					}
+				});
+	}
+};
 var _user$project$Encoders$encodeObject = function (object) {
 	return A2(_elm_lang$core$Json_Encode$encode, 4, object);
 };
-var _user$project$Encoders$encodePlay = F2(
-	function (gameId, player) {
+var _user$project$Encoders$encodePlay = F3(
+	function (gameId, player, action) {
 		return _user$project$Encoders$encodeObject(
 			_elm_lang$core$Json_Encode$object(
 				{
@@ -10077,14 +10135,22 @@ var _user$project$Encoders$encodePlay = F2(
 								_0: 'player',
 								_1: _elm_lang$core$Json_Encode$string(player)
 							},
-							_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: {
+									ctor: '_Tuple2',
+									_0: 'action',
+									_1: _user$project$Encoders$encodeAction(action)
+								},
+								_1: {ctor: '[]'}
+							}
 						}
 					}
 				}));
 	});
 var _user$project$Encoders$encodeWatch = F3(
-	function (gameId, player, _p0) {
-		var _p1 = _p0;
+	function (gameId, player, _p3) {
+		var _p4 = _p3;
 		return _user$project$Encoders$encodeObject(
 			_elm_lang$core$Json_Encode$object(
 				{
@@ -10113,14 +10179,14 @@ var _user$project$Encoders$encodeWatch = F3(
 								_0: {
 									ctor: '_Tuple2',
 									_0: 'round',
-									_1: _elm_lang$core$Json_Encode$int(_p1._0)
+									_1: _elm_lang$core$Json_Encode$int(_p4._0)
 								},
 								_1: {
 									ctor: '::',
 									_0: {
 										ctor: '_Tuple2',
 										_0: 'turn',
-										_1: _elm_lang$core$Json_Encode$int(_p1._1)
+										_1: _elm_lang$core$Json_Encode$int(_p4._1)
 									},
 									_1: {ctor: '[]'}
 								}
@@ -10200,12 +10266,12 @@ var _user$project$Commands$fetchWatch = F3(
 			_user$project$Globals$serverUrl,
 			A3(_user$project$Encoders$encodeWatch, gameId, player, gameCoord));
 	});
-var _user$project$Commands$fetchPlay = F2(
-	function (gameId, player) {
+var _user$project$Commands$fetchPlay = F3(
+	function (gameId, player, action) {
 		return A2(
 			_elm_lang$websocket$WebSocket$send,
 			_user$project$Globals$serverUrl,
-			A2(_user$project$Encoders$encodePlay, gameId, player));
+			A3(_user$project$Encoders$encodePlay, gameId, player, action));
 	});
 var _user$project$Commands$getWindowSize = A2(_elm_lang$core$Task$perform, _user$project$Msgs$SizeUpdated, _elm_lang$window$Window$size);
 var _user$project$Decoders$cardDecoder = A3(
@@ -10251,6 +10317,37 @@ var _user$project$Decoders$groupDecoder = A3(
 			'points',
 			_elm_lang$core$Json_Decode$int,
 			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Game_Model$Group))));
+var _user$project$Decoders$gameTypeDecoder = A2(
+	_elm_lang$core$Json_Decode$andThen,
+	function (str) {
+		var _p0 = str;
+		switch (_p0) {
+			case 'swap':
+				return _elm_lang$core$Json_Decode$succeed(_user$project$Game_Model$Swap);
+			case 'hearts':
+				return _elm_lang$core$Json_Decode$succeed(
+					_user$project$Game_Model$Color('hearts'));
+			case 'diamonds':
+				return _elm_lang$core$Json_Decode$succeed(
+					_user$project$Game_Model$Color('diamonds'));
+			case 'spades':
+				return _elm_lang$core$Json_Decode$succeed(
+					_user$project$Game_Model$Color('spades'));
+			case 'clubs':
+				return _elm_lang$core$Json_Decode$succeed(
+					_user$project$Game_Model$Color('clubs'));
+			case 'up':
+				return _elm_lang$core$Json_Decode$succeed(_user$project$Game_Model$Up);
+			case 'down':
+				return _elm_lang$core$Json_Decode$succeed(_user$project$Game_Model$Down);
+			case '':
+				return _elm_lang$core$Json_Decode$succeed(_user$project$Game_Model$NoGameType);
+			default:
+				return _elm_lang$core$Json_Decode$fail(
+					A2(_elm_lang$core$Basics_ops['++'], 'Unknown theme: ', _p0));
+		}
+	},
+	_elm_lang$core$Json_Decode$string);
 var _user$project$Decoders$gameDecoder = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'table',
@@ -10287,7 +10384,7 @@ var _user$project$Decoders$gameDecoder = A3(
 								A3(
 									_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 									'gameType',
-									_elm_lang$core$Json_Decode$string,
+									_user$project$Decoders$gameTypeDecoder,
 									_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Game_Model$Game))))))))));
 var _user$project$Decoders$playersDecoder = A2(
 	_elm_lang$core$Json_Decode$map,
@@ -10537,6 +10634,30 @@ var _user$project$Game_Play_Card$getImagePath = F2(
 						_user$project$Game_Translate$numberTranslate(number),
 						'.png'))));
 	});
+var _user$project$Game_Play_Card$viewActiveCard = function (card) {
+	return A2(
+		_elm_lang$html$Html$img,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Events$onClick(
+				A3(
+					_user$project$Msgs$FetchGame,
+					_elm_lang$core$Maybe$Nothing,
+					_elm_lang$core$Maybe$Nothing,
+					_user$project$Game_Model$PlayCard(card))),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$src(
+					A2(_user$project$Game_Play_Card$getImagePath, card.color, card.number)),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$width(100),
+					_1: {ctor: '[]'}
+				}
+			}
+		},
+		{ctor: '[]'});
+};
 var _user$project$Game_Play_Card$viewCard = function (card) {
 	return A2(
 		_elm_lang$html$Html$img,
@@ -10862,58 +10983,100 @@ var _user$project$Game_Play_Table$viewTable = function (table) {
 		});
 };
 var _user$project$Game_Play_Game$viewGameType = function (gameType) {
-	return _elm_lang$core$Native_Utils.eq(gameType, 'up') ? A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$img,
+	var _p0 = gameType;
+	switch (_p0.ctor) {
+		case 'NoGameType':
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$src(
-						A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'obenabe.png')),
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$src(
+								A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'question_mark.png')),
+							_1: {ctor: '[]'}
+						},
+						{ctor: '[]'}),
 					_1: {ctor: '[]'}
-				},
-				{ctor: '[]'}),
-			_1: {ctor: '[]'}
-		}) : (_elm_lang$core$Native_Utils.eq(gameType, 'down') ? A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$img,
+				});
+		case 'Swap':
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$src(
-						A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'undenufe.png')),
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$src(
+								A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'swap_icon.png')),
+							_1: {ctor: '[]'}
+						},
+						{ctor: '[]'}),
 					_1: {ctor: '[]'}
-				},
-				{ctor: '[]'}),
-			_1: {ctor: '[]'}
-		}) : A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$img,
+				});
+		case 'Up':
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$src(
-						A2(
-							_elm_lang$core$Basics_ops['++'],
-							_user$project$Globals$imgSourcePath,
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								_user$project$Game_Translate$colorTranslate(gameType),
-								'_icon.png'))),
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$src(
+								A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'obenabe.png')),
+							_1: {ctor: '[]'}
+						},
+						{ctor: '[]'}),
 					_1: {ctor: '[]'}
-				},
-				{ctor: '[]'}),
-			_1: {ctor: '[]'}
-		}));
+				});
+		case 'Down':
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$src(
+								A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'undenufe.png')),
+							_1: {ctor: '[]'}
+						},
+						{ctor: '[]'}),
+					_1: {ctor: '[]'}
+				});
+		default:
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$src(
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									_user$project$Globals$imgSourcePath,
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										_user$project$Game_Translate$colorTranslate(_p0._0),
+										'_icon.png'))),
+							_1: {ctor: '[]'}
+						},
+						{ctor: '[]'}),
+					_1: {ctor: '[]'}
+				});
+	}
 };
 var _user$project$Game_Play_Game$viewGame = function (game) {
 	return A2(
@@ -11014,7 +11177,7 @@ var _user$project$Game_Play_Game$init = A2(
 			{
 				ctor: '::',
 				_0: _elm_lang$html$Html_Events$onClick(
-					A2(_user$project$Msgs$FetchGame, _elm_lang$core$Maybe$Nothing, _elm_lang$core$Maybe$Nothing)),
+					A3(_user$project$Msgs$FetchGame, _elm_lang$core$Maybe$Nothing, _elm_lang$core$Maybe$Nothing, _user$project$Game_Model$NoAction)),
 				_1: {ctor: '[]'}
 			},
 			{
@@ -11135,10 +11298,11 @@ var _user$project$Game_Watch_Players$viewPlayerCards = function (cards) {
 var _user$project$Game_Watch_Players$changePlayer = F2(
 	function (gameCoord, player) {
 		return _elm_lang$html$Html_Events$onClick(
-			A2(
+			A3(
 				_user$project$Msgs$FetchGame,
 				_elm_lang$core$Maybe$Just(gameCoord),
-				_elm_lang$core$Maybe$Just(player)));
+				_elm_lang$core$Maybe$Just(player),
+				_user$project$Game_Model$NoAction));
 	});
 var _user$project$Game_Watch_Players$getImage = F3(
 	function (gameCoord, player, icon) {
@@ -11431,11 +11595,12 @@ var _user$project$Game_Watch_Game$prev = F2(
 				_1: {
 					ctor: '::',
 					_0: _elm_lang$html$Html_Events$onClick(
-						A2(
+						A3(
 							_user$project$Msgs$FetchGame,
 							_elm_lang$core$Maybe$Just(
 								_user$project$Game_Watch_Game$prevRound(gameCoord)),
-							_elm_lang$core$Maybe$Just(player))),
+							_elm_lang$core$Maybe$Just(player),
+							_user$project$Game_Model$NoAction)),
 					_1: {ctor: '[]'}
 				}
 			},
@@ -11465,11 +11630,12 @@ var _user$project$Game_Watch_Game$next = F2(
 				_1: {
 					ctor: '::',
 					_0: _elm_lang$html$Html_Events$onClick(
-						A2(
+						A3(
 							_user$project$Msgs$FetchGame,
 							_elm_lang$core$Maybe$Just(
 								_user$project$Game_Watch_Game$nextRound(gameCoord)),
-							_elm_lang$core$Maybe$Just(player))),
+							_elm_lang$core$Maybe$Just(player),
+							_user$project$Game_Model$NoAction)),
 					_1: {ctor: '[]'}
 				}
 			},
@@ -11494,58 +11660,100 @@ var _user$project$Game_Watch_Game$nav = F2(
 			});
 	});
 var _user$project$Game_Watch_Game$viewGameType = function (gameType) {
-	return _elm_lang$core$Native_Utils.eq(gameType, 'up') ? A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$img,
+	var _p12 = gameType;
+	switch (_p12.ctor) {
+		case 'NoGameType':
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$src(
-						A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'obenabe.png')),
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$src(
+								A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'question_mark.png')),
+							_1: {ctor: '[]'}
+						},
+						{ctor: '[]'}),
 					_1: {ctor: '[]'}
-				},
-				{ctor: '[]'}),
-			_1: {ctor: '[]'}
-		}) : (_elm_lang$core$Native_Utils.eq(gameType, 'down') ? A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$img,
+				});
+		case 'Swap':
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$src(
-						A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'undenufe.png')),
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$src(
+								A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'swap_icon.png')),
+							_1: {ctor: '[]'}
+						},
+						{ctor: '[]'}),
 					_1: {ctor: '[]'}
-				},
-				{ctor: '[]'}),
-			_1: {ctor: '[]'}
-		}) : A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$img,
+				});
+		case 'Up':
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$src(
-						A2(
-							_elm_lang$core$Basics_ops['++'],
-							_user$project$Globals$imgSourcePath,
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								_user$project$Game_Translate$colorTranslate(gameType),
-								'_icon.png'))),
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$src(
+								A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'obenabe.png')),
+							_1: {ctor: '[]'}
+						},
+						{ctor: '[]'}),
 					_1: {ctor: '[]'}
-				},
-				{ctor: '[]'}),
-			_1: {ctor: '[]'}
-		}));
+				});
+		case 'Down':
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$src(
+								A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'undenufe.png')),
+							_1: {ctor: '[]'}
+						},
+						{ctor: '[]'}),
+					_1: {ctor: '[]'}
+				});
+		default:
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$src(
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									_user$project$Globals$imgSourcePath,
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										_user$project$Game_Translate$colorTranslate(_p12._0),
+										'_icon.png'))),
+							_1: {ctor: '[]'}
+						},
+						{ctor: '[]'}),
+					_1: {ctor: '[]'}
+				});
+	}
 };
 var _user$project$Game_Watch_Game$viewGame = function (game) {
 	return A2(
@@ -11665,7 +11873,7 @@ var _user$project$Game_Watch_Game$init = A2(
 			{
 				ctor: '::',
 				_0: _elm_lang$html$Html_Events$onClick(
-					A2(_user$project$Msgs$FetchGame, _elm_lang$core$Maybe$Nothing, _elm_lang$core$Maybe$Nothing)),
+					A3(_user$project$Msgs$FetchGame, _elm_lang$core$Maybe$Nothing, _elm_lang$core$Maybe$Nothing, _user$project$Game_Model$NoAction)),
 				_1: {ctor: '[]'}
 			},
 			{
@@ -11759,8 +11967,8 @@ var _user$project$Updates$lobbyUpdate = F2(
 			}
 		}
 	});
-var _user$project$Updates$fetchGame = F4(
-	function (model, mode, mGameCoord, mPlayer) {
+var _user$project$Updates$fetchGame = F5(
+	function (model, mode, mGameCoord, mPlayer, action) {
 		var _p5 = mode;
 		switch (_p5.ctor) {
 			case 'Init':
@@ -11769,7 +11977,7 @@ var _user$project$Updates$fetchGame = F4(
 				return {
 					ctor: '_Tuple2',
 					_0: model,
-					_1: A2(_user$project$Commands$fetchPlay, _p5._0, _p5._1)
+					_1: A3(_user$project$Commands$fetchPlay, _p5._0, _p5._1, action)
 				};
 			case 'Watch':
 				var _p11 = _p5._1;
@@ -11923,7 +12131,7 @@ var _user$project$Updates$update = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'FetchGame':
-				return A4(_user$project$Updates$fetchGame, model, model.mode, _p17._0, _p17._1);
+				return A5(_user$project$Updates$fetchGame, model, model.mode, _p17._0, _p17._1, _p17._2);
 			case 'GameIdUpdate':
 				return {
 					ctor: '_Tuple2',

@@ -1,8 +1,52 @@
+var _user$project$Encoders$encodeGameType = function (gameType) {
+	var _p0 = gameType;
+	switch (_p0.ctor) {
+		case 'NoGameType':
+			return _elm_lang$core$Json_Encode$null;
+		case 'Swap':
+			return _elm_lang$core$Json_Encode$string('swap');
+		case 'Up':
+			return _elm_lang$core$Json_Encode$string('up');
+		case 'Down':
+			return _elm_lang$core$Json_Encode$string('down');
+		default:
+			return _elm_lang$core$Json_Encode$string(_p0._0);
+	}
+};
+var _user$project$Encoders$encodeAction = function (action) {
+	var _p1 = action;
+	switch (_p1.ctor) {
+		case 'NoAction':
+			return _elm_lang$core$Json_Encode$null;
+		case 'ChooseGameType':
+			return _user$project$Encoders$encodeGameType(_p1._0);
+		default:
+			var _p2 = _p1._0;
+			return _elm_lang$core$Json_Encode$object(
+				{
+					ctor: '::',
+					_0: {
+						ctor: '_Tuple2',
+						_0: 'color',
+						_1: _elm_lang$core$Json_Encode$string(_p2.color)
+					},
+					_1: {
+						ctor: '::',
+						_0: {
+							ctor: '_Tuple2',
+							_0: 'number',
+							_1: _elm_lang$core$Json_Encode$string(_p2.number)
+						},
+						_1: {ctor: '[]'}
+					}
+				});
+	}
+};
 var _user$project$Encoders$encodeObject = function (object) {
 	return A2(_elm_lang$core$Json_Encode$encode, 4, object);
 };
-var _user$project$Encoders$encodePlay = F2(
-	function (gameId, player) {
+var _user$project$Encoders$encodePlay = F3(
+	function (gameId, player, action) {
 		return _user$project$Encoders$encodeObject(
 			_elm_lang$core$Json_Encode$object(
 				{
@@ -26,14 +70,22 @@ var _user$project$Encoders$encodePlay = F2(
 								_0: 'player',
 								_1: _elm_lang$core$Json_Encode$string(player)
 							},
-							_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: {
+									ctor: '_Tuple2',
+									_0: 'action',
+									_1: _user$project$Encoders$encodeAction(action)
+								},
+								_1: {ctor: '[]'}
+							}
 						}
 					}
 				}));
 	});
 var _user$project$Encoders$encodeWatch = F3(
-	function (gameId, player, _p0) {
-		var _p1 = _p0;
+	function (gameId, player, _p3) {
+		var _p4 = _p3;
 		return _user$project$Encoders$encodeObject(
 			_elm_lang$core$Json_Encode$object(
 				{
@@ -62,14 +114,14 @@ var _user$project$Encoders$encodeWatch = F3(
 								_0: {
 									ctor: '_Tuple2',
 									_0: 'round',
-									_1: _elm_lang$core$Json_Encode$int(_p1._0)
+									_1: _elm_lang$core$Json_Encode$int(_p4._0)
 								},
 								_1: {
 									ctor: '::',
 									_0: {
 										ctor: '_Tuple2',
 										_0: 'turn',
-										_1: _elm_lang$core$Json_Encode$int(_p1._1)
+										_1: _elm_lang$core$Json_Encode$int(_p4._1)
 									},
 									_1: {ctor: '[]'}
 								}

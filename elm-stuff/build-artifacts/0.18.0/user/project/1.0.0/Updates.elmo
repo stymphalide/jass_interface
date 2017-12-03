@@ -50,8 +50,8 @@ var _user$project$Updates$lobbyUpdate = F2(
 			}
 		}
 	});
-var _user$project$Updates$fetchGame = F4(
-	function (model, mode, mGameCoord, mPlayer) {
+var _user$project$Updates$fetchGame = F5(
+	function (model, mode, mGameCoord, mPlayer, action) {
 		var _p5 = mode;
 		switch (_p5.ctor) {
 			case 'Init':
@@ -60,7 +60,7 @@ var _user$project$Updates$fetchGame = F4(
 				return {
 					ctor: '_Tuple2',
 					_0: model,
-					_1: A2(_user$project$Commands$fetchPlay, _p5._0, _p5._1)
+					_1: A3(_user$project$Commands$fetchPlay, _p5._0, _p5._1, action)
 				};
 			case 'Watch':
 				var _p11 = _p5._1;
@@ -214,7 +214,7 @@ var _user$project$Updates$update = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'FetchGame':
-				return A4(_user$project$Updates$fetchGame, model, model.mode, _p17._0, _p17._1);
+				return A5(_user$project$Updates$fetchGame, model, model.mode, _p17._0, _p17._1, _p17._2);
 			case 'GameIdUpdate':
 				return {
 					ctor: '_Tuple2',

@@ -9,16 +9,16 @@ import Msgs exposing (Msg)
 import Models exposing (Mode, Input(..))
 import Encoders exposing (..)
 
-import Game.Model exposing (Game, Player, GameId, GameCoord)
+import Game.Model exposing (Game, Player, GameId, GameCoord, Action(..))
 
 getWindowSize : Cmd Msg
 getWindowSize =
     Window.size 
     |> Task.perform Msgs.SizeUpdated
 
-fetchPlay : GameId -> Player -> Cmd Msg
-fetchPlay gameId player =
-    WebSocket.send serverUrl (encodePlay gameId player)
+fetchPlay : GameId -> Player -> Action -> Cmd Msg
+fetchPlay gameId player action =
+    WebSocket.send serverUrl (encodePlay gameId player action)
 
 fetchWatch : GameId -> Player -> GameCoord  -> Cmd Msg
 fetchWatch gameId player gameCoord =

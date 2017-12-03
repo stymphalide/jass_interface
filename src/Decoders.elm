@@ -28,7 +28,7 @@ playersDecoder =
 gameDecoder : Decode.Decoder Game
 gameDecoder =
     decode Game
-    |> required "gameType" Decode.string
+    |> required "gameType" gameTypeDecoder
     |> required "round" Decode.int
     |> required "turn" Decode.int
     |> required "players" (Decode.list playerDecoder)
@@ -38,6 +38,31 @@ gameDecoder =
     |> required "cardsPlayer" (Decode.maybe(Decode.list cardDecoder) )
     |> required "table" tableDecoder
 
+
+gameTypeDecoder : Decode.Decoder GameType
+gameTypeDecoder =
+    Decode.string
+        |> Decode.andThen (\str ->
+            case str of
+                "swap" ->
+                    Decode.succeed Swap
+                "hearts" ->
+                    Decode.succeed (Color "hearts")
+                "diamonds" ->
+                    Decode.succeed (Color "diamonds")
+                "spades" ->
+                    Decode.succeed (Color "spades")
+                "clubs" ->
+                    Decode.succeed (Color "clubs" )
+                "up" ->
+                    Decode.succeed Up
+                "down" ->
+                    Decode.succeed Down
+                "" ->
+                    Decode.succeed NoGameType
+                somethingElse ->
+                    Decode.fail <| "Unknown theme: " ++ somethingElse
+        )
 
 playerDecoder : Decode.Decoder Player
 playerDecoder =

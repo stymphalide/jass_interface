@@ -8,7 +8,7 @@ import Html.Events exposing (onClick)
 import Msgs exposing (Msg)
 import Globals exposing (imgSourcePath)
 
-import Game.Model exposing (Game, GameCoord, Player, GameId)
+import Game.Model exposing (..)
 import Game.Translate exposing (colorTranslate)
 
 import Game.Watch.Players exposing (viewPlayers, viewPlayerCards)
@@ -19,7 +19,7 @@ import Game.Watch.Table exposing (viewTable)
 init :  Html Msg
 init =
     div [] 
-        [ a [Msgs.FetchGame Nothing Nothing |> onClick ] [text "Start Game"]
+        [ a [Msgs.FetchGame Nothing Nothing NoAction |> onClick ] [text "Start Game"]
         ]
 
 
@@ -42,15 +42,20 @@ viewGame game =
 
 
 
-viewGameType : String -> Html Msg
+
+viewGameType : GameType -> Html Msg
 viewGameType gameType =
-    if (gameType == "up") then
-        div [] [img  [src (imgSourcePath ++ "obenabe.png")] [] ]
-    else if (gameType == "down") then
-        div [] [img [src (imgSourcePath ++ "undenufe.png")] [] ]
-    else
-        div []
-        [img [src (imgSourcePath ++ (colorTranslate gameType)++ "_icon.png") ] []]
+    case gameType of
+        NoGameType ->
+            div [] [img  [src (imgSourcePath ++ "question_mark.png")] [] ]
+        Swap ->
+            div [] [img [src (imgSourcePath ++ "swap_icon.png")] []]
+        Up ->
+            div [] [img  [src (imgSourcePath ++ "obenabe.png")] [] ]
+        Down ->
+            div [] [img [src (imgSourcePath ++ "undenufe.png")] [] ]
+        Color color ->
+            div [] [img [src (imgSourcePath ++ (colorTranslate color)++ "_icon.png") ] []]
 
 nav : Player -> GameCoord  -> Html Msg
 nav player gameCoord =
@@ -64,7 +69,7 @@ next player gameCoord =
     if not (isEnd gameCoord) then
         img 
         [ src (imgSourcePath ++ "right_arrow.png")
-        ,  Msgs.FetchGame (Just (nextRound gameCoord)) (Just player)         
+        ,  Msgs.FetchGame (Just (nextRound gameCoord)) (Just player) NoAction     
             |> onClick
         ] []
     else 
@@ -88,7 +93,7 @@ prev player gameCoord =
     if not (isBegin gameCoord) then
         img
         [ src (imgSourcePath ++ "left_arrow.png")
-        ,  Msgs.FetchGame (Just (prevRound gameCoord)) (Just player)
+        ,  Msgs.FetchGame (Just (prevRound gameCoord)) (Just player) NoAction
             |> onClick
         ][]
     else

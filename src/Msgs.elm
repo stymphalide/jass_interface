@@ -4,13 +4,13 @@ import Window exposing (Size)
 
 import Models exposing (Mode)
 
-import Game.Model exposing (Player, GameId, GameCoord)
+import Game.Model exposing (Player, GameId, GameCoord, Action)
 
 type Msg
     = OnLocationChange Mode
     | PlayerChange InputUpdate
     | InitUpdate String
-    | FetchGame (Maybe GameCoord) (Maybe Player)
+    | FetchGame (Maybe GameCoord) (Maybe Player) Action
     | GameIdUpdate GameId
     | GameUpdate String
     | LobbyUpdate String

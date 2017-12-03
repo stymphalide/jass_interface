@@ -8,7 +8,7 @@ import Html.Events exposing (onClick)
 import Msgs exposing (Msg)
 import Globals exposing (imgSourcePath)
 
-import Game.Model exposing (Card, Player, GameCoord)
+import Game.Model exposing (Card, Player, GameCoord, Action(..))
 
 import Game.Watch.Card exposing (viewCard)
 
@@ -53,7 +53,7 @@ getImage gameCoord player icon =
 
 changePlayer :  GameCoord -> Player -> Attribute Msg
 changePlayer gameCoord player  =
-    Msgs.FetchGame (Just gameCoord) (Just player)
+    Msgs.FetchGame (Just gameCoord) (Just player) NoAction
     |> onClick
 
 viewPlayerCards : Maybe (List Card) -> List (Html Msg)

@@ -41,6 +41,37 @@ var _user$project$Decoders$groupDecoder = A3(
 			'points',
 			_elm_lang$core$Json_Decode$int,
 			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Game_Model$Group))));
+var _user$project$Decoders$gameTypeDecoder = A2(
+	_elm_lang$core$Json_Decode$andThen,
+	function (str) {
+		var _p0 = str;
+		switch (_p0) {
+			case 'swap':
+				return _elm_lang$core$Json_Decode$succeed(_user$project$Game_Model$Swap);
+			case 'hearts':
+				return _elm_lang$core$Json_Decode$succeed(
+					_user$project$Game_Model$Color('hearts'));
+			case 'diamonds':
+				return _elm_lang$core$Json_Decode$succeed(
+					_user$project$Game_Model$Color('diamonds'));
+			case 'spades':
+				return _elm_lang$core$Json_Decode$succeed(
+					_user$project$Game_Model$Color('spades'));
+			case 'clubs':
+				return _elm_lang$core$Json_Decode$succeed(
+					_user$project$Game_Model$Color('clubs'));
+			case 'up':
+				return _elm_lang$core$Json_Decode$succeed(_user$project$Game_Model$Up);
+			case 'down':
+				return _elm_lang$core$Json_Decode$succeed(_user$project$Game_Model$Down);
+			case '':
+				return _elm_lang$core$Json_Decode$succeed(_user$project$Game_Model$NoGameType);
+			default:
+				return _elm_lang$core$Json_Decode$fail(
+					A2(_elm_lang$core$Basics_ops['++'], 'Unknown theme: ', _p0));
+		}
+	},
+	_elm_lang$core$Json_Decode$string);
 var _user$project$Decoders$gameDecoder = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'table',
@@ -77,7 +108,7 @@ var _user$project$Decoders$gameDecoder = A3(
 								A3(
 									_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 									'gameType',
-									_elm_lang$core$Json_Decode$string,
+									_user$project$Decoders$gameTypeDecoder,
 									_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Game_Model$Game))))))))));
 var _user$project$Decoders$playersDecoder = A2(
 	_elm_lang$core$Json_Decode$map,

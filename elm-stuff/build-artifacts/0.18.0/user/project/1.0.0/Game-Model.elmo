@@ -20,3 +20,17 @@ var _user$project$Game_Model$Players = function (a) {
 var _user$project$Game_Model$GameInfo = function (a) {
 	return {ctor: 'GameInfo', _0: a};
 };
+var _user$project$Game_Model$NoGameType = {ctor: 'NoGameType'};
+var _user$project$Game_Model$Down = {ctor: 'Down'};
+var _user$project$Game_Model$Up = {ctor: 'Up'};
+var _user$project$Game_Model$Color = function (a) {
+	return {ctor: 'Color', _0: a};
+};
+var _user$project$Game_Model$Swap = {ctor: 'Swap'};
+var _user$project$Game_Model$NoAction = {ctor: 'NoAction'};
+var _user$project$Game_Model$PlayCard = function (a) {
+	return {ctor: 'PlayCard', _0: a};
+};
+var _user$project$Game_Model$ChooseGameType = function (a) {
+	return {ctor: 'ChooseGameType', _0: a};
+};

@@ -1,56 +1,98 @@
 var _user$project$Game_Play_Game$viewGameType = function (gameType) {
-	return _elm_lang$core$Native_Utils.eq(gameType, 'up') ? A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$img,
+	var _p0 = gameType;
+	switch (_p0.ctor) {
+		case 'NoGameType':
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$src(
-						A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'obenabe.png')),
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$src(
+								A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'question_mark.png')),
+							_1: {ctor: '[]'}
+						},
+						{ctor: '[]'}),
 					_1: {ctor: '[]'}
-				},
-				{ctor: '[]'}),
-			_1: {ctor: '[]'}
-		}) : (_elm_lang$core$Native_Utils.eq(gameType, 'down') ? A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$img,
+				});
+		case 'Swap':
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$src(
-						A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'undenufe.png')),
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$src(
+								A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'swap_icon.png')),
+							_1: {ctor: '[]'}
+						},
+						{ctor: '[]'}),
 					_1: {ctor: '[]'}
-				},
-				{ctor: '[]'}),
-			_1: {ctor: '[]'}
-		}) : A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$img,
+				});
+		case 'Up':
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$src(
-						A2(
-							_elm_lang$core$Basics_ops['++'],
-							_user$project$Globals$imgSourcePath,
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								_user$project$Game_Translate$colorTranslate(gameType),
-								'_icon.png'))),
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$src(
+								A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'obenabe.png')),
+							_1: {ctor: '[]'}
+						},
+						{ctor: '[]'}),
 					_1: {ctor: '[]'}
-				},
-				{ctor: '[]'}),
-			_1: {ctor: '[]'}
-		}));
+				});
+		case 'Down':
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$src(
+								A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'undenufe.png')),
+							_1: {ctor: '[]'}
+						},
+						{ctor: '[]'}),
+					_1: {ctor: '[]'}
+				});
+		default:
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$src(
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									_user$project$Globals$imgSourcePath,
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										_user$project$Game_Translate$colorTranslate(_p0._0),
+										'_icon.png'))),
+							_1: {ctor: '[]'}
+						},
+						{ctor: '[]'}),
+					_1: {ctor: '[]'}
+				});
+	}
 };
 var _user$project$Game_Play_Game$viewGame = function (game) {
 	return A2(
@@ -151,7 +193,7 @@ var _user$project$Game_Play_Game$init = A2(
 			{
 				ctor: '::',
 				_0: _elm_lang$html$Html_Events$onClick(
-					A2(_user$project$Msgs$FetchGame, _elm_lang$core$Maybe$Nothing, _elm_lang$core$Maybe$Nothing)),
+					A3(_user$project$Msgs$FetchGame, _elm_lang$core$Maybe$Nothing, _elm_lang$core$Maybe$Nothing, _user$project$Game_Model$NoAction)),
 				_1: {ctor: '[]'}
 			},
 			{

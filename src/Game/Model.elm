@@ -1,7 +1,7 @@
 module Game.Model exposing (..)
 
 type alias Game =
-    { gameType : String
+    { gameType : GameType
     , round : Int
     , turn : Int
     , players : List Player
@@ -48,3 +48,16 @@ type alias Table =
 type Lobby 
     = GameInfo GameId
     | Players (List Player)
+
+
+type GameType
+    = Swap
+    | Color String
+    | Up
+    | Down
+    | NoGameType
+
+type Action
+    = ChooseGameType GameType
+    | PlayCard Card
+    | NoAction

@@ -9,7 +9,7 @@ import Models exposing (Model, Input(..), Mode(..))
 import Commands exposing (..)
 
 import Game.Update exposing (updateGame, updateLobby, updateInit)
-import Game.Model exposing (Player, GameCoord, Lobby(..))
+import Game.Model exposing (Player, GameCoord, Lobby(..), Action(..))
 
 -- UPDATE
 
@@ -25,8 +25,8 @@ update msg model =
                 mNewGame = updateGame gameString
             in
                 ({model | game = mNewGame}, Cmd.none)
-        Msgs.FetchGame mGameCoord mPlayer ->
-            fetchGame model model.mode mGameCoord mPlayer 
+        Msgs.FetchGame mGameCoord mPlayer action ->
+            fetchGame model model.mode mGameCoord mPlayer action 
         Msgs.GameIdUpdate gameId ->
             ({model | gameId = Just gameId}, Cmd.none)
         Msgs.LobbyUpdate lobbyString ->
@@ -76,13 +76,13 @@ makeConstant iPlayer =
         Constant player ->
             iPlayer
 
-fetchGame : Model ->  Mode -> Maybe GameCoord -> Maybe Player -> (Model, Cmd Msg)
-fetchGame model mode mGameCoord mPlayer=
+fetchGame : Model ->  Mode -> Maybe GameCoord -> Maybe Player -> Action -> (Model, Cmd Msg)
+fetchGame model mode mGameCoord mPlayer action=
     case mode of
         Init ->
             (model, Cmd.none)
         Play gameId player ->
-            (model, fetchPlay gameId player)
+            (model, fetchPlay gameId player action)
         Watch gameId player ->
             case mGameCoord of
                 Nothing ->
