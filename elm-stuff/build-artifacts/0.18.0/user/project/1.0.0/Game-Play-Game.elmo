@@ -94,7 +94,96 @@ var _user$project$Game_Play_Game$viewGameType = function (gameType) {
 				});
 	}
 };
-var _user$project$Game_Play_Game$viewGame = function (game) {
+var _user$project$Game_Play_Game$viewOnTurnGameState = function (game) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$h1,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _user$project$Game_Play_Game$viewGameType(game.gameType),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$h2,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(game.activePlayer),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$h2,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									'Round #',
+									_elm_lang$core$Basics$toString(
+										{ctor: '_Tuple2', _0: game.round, _1: game.turn}))),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$ol,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('list-reset'),
+								_1: {ctor: '[]'}
+							},
+							_user$project$Game_Play_Players$viewOnTurnPlayerCards(game.cardsPlayer)),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$ol,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('list-reset'),
+									_1: {ctor: '[]'}
+								},
+								A3(_user$project$Game_Play_Players$viewPlayers, game.activePlayer, game.onTurnPlayer, game.players)),
+							_1: {
+								ctor: '::',
+								_0: _user$project$Game_Play_Table$viewTable(game.table),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$div,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: _user$project$Game_Play_Groups$viewGroup(
+												_elm_lang$core$List$head(game.groups)),
+											_1: {
+												ctor: '::',
+												_0: _user$project$Game_Play_Groups$viewGroup(
+													_elm_lang$core$List$head(
+														_user$project$Game_Play_Groups$unwrapMaybeGroups(
+															_elm_lang$core$List$tail(game.groups)))),
+												_1: {ctor: '[]'}
+											}
+										}),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				}
+			}
+		});
+};
+var _user$project$Game_Play_Game$viewGameState = function (game) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -182,6 +271,358 @@ var _user$project$Game_Play_Game$viewGame = function (game) {
 				}
 			}
 		});
+};
+var _user$project$Game_Play_Game$viewChooseGameType = function (isSwap) {
+	return (!isSwap) ? A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$img,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Events$onClick(
+						A3(
+							_user$project$Msgs$FetchGame,
+							_elm_lang$core$Maybe$Nothing,
+							_elm_lang$core$Maybe$Nothing,
+							_user$project$Game_Model$ChooseGameType(_user$project$Game_Model$Swap))),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$src(
+							A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'swap_icon.png')),
+						_1: {ctor: '[]'}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$img,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(
+							A3(
+								_user$project$Msgs$FetchGame,
+								_elm_lang$core$Maybe$Nothing,
+								_elm_lang$core$Maybe$Nothing,
+								_user$project$Game_Model$ChooseGameType(_user$project$Game_Model$Up))),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$src(
+								A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'obenabe.png')),
+							_1: {ctor: '[]'}
+						}
+					},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(
+								A3(
+									_user$project$Msgs$FetchGame,
+									_elm_lang$core$Maybe$Nothing,
+									_elm_lang$core$Maybe$Nothing,
+									_user$project$Game_Model$ChooseGameType(_user$project$Game_Model$Down))),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$src(
+									A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'undenufe.png')),
+								_1: {ctor: '[]'}
+							}
+						},
+						{ctor: '[]'}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$img,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onClick(
+									A3(
+										_user$project$Msgs$FetchGame,
+										_elm_lang$core$Maybe$Nothing,
+										_elm_lang$core$Maybe$Nothing,
+										_user$project$Game_Model$ChooseGameType(
+											_user$project$Game_Model$Color('hearts')))),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$src(
+										A2(
+											_elm_lang$core$Basics_ops['++'],
+											_user$project$Globals$imgSourcePath,
+											A2(
+												_elm_lang$core$Basics_ops['++'],
+												_user$project$Game_Translate$colorTranslate('hearts'),
+												'_icon.png'))),
+									_1: {ctor: '[]'}
+								}
+							},
+							{ctor: '[]'}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$img,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(
+										A3(
+											_user$project$Msgs$FetchGame,
+											_elm_lang$core$Maybe$Nothing,
+											_elm_lang$core$Maybe$Nothing,
+											_user$project$Game_Model$ChooseGameType(
+												_user$project$Game_Model$Color('diamonds')))),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$src(
+											A2(
+												_elm_lang$core$Basics_ops['++'],
+												_user$project$Globals$imgSourcePath,
+												A2(
+													_elm_lang$core$Basics_ops['++'],
+													_user$project$Game_Translate$colorTranslate('diamonds'),
+													'_icon.png'))),
+										_1: {ctor: '[]'}
+									}
+								},
+								{ctor: '[]'}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$img,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onClick(
+											A3(
+												_user$project$Msgs$FetchGame,
+												_elm_lang$core$Maybe$Nothing,
+												_elm_lang$core$Maybe$Nothing,
+												_user$project$Game_Model$ChooseGameType(
+													_user$project$Game_Model$Color('spades')))),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$src(
+												A2(
+													_elm_lang$core$Basics_ops['++'],
+													_user$project$Globals$imgSourcePath,
+													A2(
+														_elm_lang$core$Basics_ops['++'],
+														_user$project$Game_Translate$colorTranslate('spades'),
+														'_icon.png'))),
+											_1: {ctor: '[]'}
+										}
+									},
+									{ctor: '[]'}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$img,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onClick(
+												A3(
+													_user$project$Msgs$FetchGame,
+													_elm_lang$core$Maybe$Nothing,
+													_elm_lang$core$Maybe$Nothing,
+													_user$project$Game_Model$ChooseGameType(
+														_user$project$Game_Model$Color('clubs')))),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$src(
+													A2(
+														_elm_lang$core$Basics_ops['++'],
+														_user$project$Globals$imgSourcePath,
+														A2(
+															_elm_lang$core$Basics_ops['++'],
+															_user$project$Game_Translate$colorTranslate('clubs'),
+															'_icon.png'))),
+												_1: {ctor: '[]'}
+											}
+										},
+										{ctor: '[]'}),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				}
+			}
+		}) : A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$img,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Events$onClick(
+						A3(
+							_user$project$Msgs$FetchGame,
+							_elm_lang$core$Maybe$Nothing,
+							_elm_lang$core$Maybe$Nothing,
+							_user$project$Game_Model$ChooseGameType(_user$project$Game_Model$Up))),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$src(
+							A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'obenabe.png')),
+						_1: {ctor: '[]'}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$img,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(
+							A3(
+								_user$project$Msgs$FetchGame,
+								_elm_lang$core$Maybe$Nothing,
+								_elm_lang$core$Maybe$Nothing,
+								_user$project$Game_Model$ChooseGameType(_user$project$Game_Model$Down))),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$src(
+								A2(_elm_lang$core$Basics_ops['++'], _user$project$Globals$imgSourcePath, 'undenufe.png')),
+							_1: {ctor: '[]'}
+						}
+					},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(
+								A3(
+									_user$project$Msgs$FetchGame,
+									_elm_lang$core$Maybe$Nothing,
+									_elm_lang$core$Maybe$Nothing,
+									_user$project$Game_Model$ChooseGameType(
+										_user$project$Game_Model$Color('hearts')))),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$src(
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										_user$project$Globals$imgSourcePath,
+										A2(
+											_elm_lang$core$Basics_ops['++'],
+											_user$project$Game_Translate$colorTranslate('hearts'),
+											'_icon.png'))),
+								_1: {ctor: '[]'}
+							}
+						},
+						{ctor: '[]'}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$img,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onClick(
+									A3(
+										_user$project$Msgs$FetchGame,
+										_elm_lang$core$Maybe$Nothing,
+										_elm_lang$core$Maybe$Nothing,
+										_user$project$Game_Model$ChooseGameType(
+											_user$project$Game_Model$Color('diamonds')))),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$src(
+										A2(
+											_elm_lang$core$Basics_ops['++'],
+											_user$project$Globals$imgSourcePath,
+											A2(
+												_elm_lang$core$Basics_ops['++'],
+												_user$project$Game_Translate$colorTranslate('diamonds'),
+												'_icon.png'))),
+									_1: {ctor: '[]'}
+								}
+							},
+							{ctor: '[]'}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$img,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(
+										A3(
+											_user$project$Msgs$FetchGame,
+											_elm_lang$core$Maybe$Nothing,
+											_elm_lang$core$Maybe$Nothing,
+											_user$project$Game_Model$ChooseGameType(
+												_user$project$Game_Model$Color('spades')))),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$src(
+											A2(
+												_elm_lang$core$Basics_ops['++'],
+												_user$project$Globals$imgSourcePath,
+												A2(
+													_elm_lang$core$Basics_ops['++'],
+													_user$project$Game_Translate$colorTranslate('spades'),
+													'_icon.png'))),
+										_1: {ctor: '[]'}
+									}
+								},
+								{ctor: '[]'}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$img,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onClick(
+											A3(
+												_user$project$Msgs$FetchGame,
+												_elm_lang$core$Maybe$Nothing,
+												_elm_lang$core$Maybe$Nothing,
+												_user$project$Game_Model$ChooseGameType(
+													_user$project$Game_Model$Color('clubs')))),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$src(
+												A2(
+													_elm_lang$core$Basics_ops['++'],
+													_user$project$Globals$imgSourcePath,
+													A2(
+														_elm_lang$core$Basics_ops['++'],
+														_user$project$Game_Translate$colorTranslate('clubs'),
+														'_icon.png'))),
+											_1: {ctor: '[]'}
+										}
+									},
+									{ctor: '[]'}),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				}
+			}
+		});
+};
+var _user$project$Game_Play_Game$viewOnTurnGame = function (game) {
+	var _p1 = game.gameType;
+	switch (_p1.ctor) {
+		case 'NoGameType':
+			return _user$project$Game_Play_Game$viewChooseGameType(false);
+		case 'Swap':
+			return _user$project$Game_Play_Game$viewChooseGameType(true);
+		default:
+			return _user$project$Game_Play_Game$viewOnTurnGameState(game);
+	}
+};
+var _user$project$Game_Play_Game$viewGame = function (game) {
+	return _elm_lang$core$Native_Utils.eq(game.activePlayer, game.onTurnPlayer) ? _user$project$Game_Play_Game$viewOnTurnGame(game) : _user$project$Game_Play_Game$viewGameState(game);
 };
 var _user$project$Game_Play_Game$init = A2(
 	_elm_lang$html$Html$div,

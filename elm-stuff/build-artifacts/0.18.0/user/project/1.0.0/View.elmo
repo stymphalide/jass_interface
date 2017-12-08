@@ -194,11 +194,11 @@ var _user$project$View$page = function (model) {
 		case 'Init':
 			return A3(_user$project$View$init, model.player, model.gameId, model.games);
 		case 'Play':
-			return _user$project$Game_View$viewPlay(model.game);
+			return A2(_user$project$Game_View$viewPlay, model.windowSize, model.game);
 		case 'Lobby':
-			return _user$project$Game_View$viewLobby(_p5._0);
+			return A2(_user$project$Game_View$viewLobby, model.windowSize, _p5._0);
 		default:
-			return _user$project$Game_View$viewWatch(model.game);
+			return A2(_user$project$Game_View$viewWatch, model.windowSize, model.game);
 	}
 };
 var _user$project$View$view = function (model) {

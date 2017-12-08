@@ -16,8 +16,8 @@ viewCard : Card -> Html Msg
 viewCard card  =
     img [src (getImagePath card.color card.number), width 100] []
 
-viewActiveCard : Card -> Html Msg
-viewActiveCard card =
+viewOnTurnCard : Card -> Html Msg
+viewOnTurnCard card =
     img [Msgs.FetchGame Nothing Nothing (PlayCard card) |> onClick,  src (getImagePath card.color card.number), width 100] []
 
 

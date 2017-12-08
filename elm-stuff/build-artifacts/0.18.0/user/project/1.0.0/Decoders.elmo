@@ -43,35 +43,38 @@ var _user$project$Decoders$groupDecoder = A3(
 			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Game_Model$Group))));
 var _user$project$Decoders$gameTypeDecoder = A2(
 	_elm_lang$core$Json_Decode$andThen,
-	function (str) {
-		var _p0 = str;
-		switch (_p0) {
-			case 'swap':
-				return _elm_lang$core$Json_Decode$succeed(_user$project$Game_Model$Swap);
-			case 'hearts':
-				return _elm_lang$core$Json_Decode$succeed(
-					_user$project$Game_Model$Color('hearts'));
-			case 'diamonds':
-				return _elm_lang$core$Json_Decode$succeed(
-					_user$project$Game_Model$Color('diamonds'));
-			case 'spades':
-				return _elm_lang$core$Json_Decode$succeed(
-					_user$project$Game_Model$Color('spades'));
-			case 'clubs':
-				return _elm_lang$core$Json_Decode$succeed(
-					_user$project$Game_Model$Color('clubs'));
-			case 'up':
-				return _elm_lang$core$Json_Decode$succeed(_user$project$Game_Model$Up);
-			case 'down':
-				return _elm_lang$core$Json_Decode$succeed(_user$project$Game_Model$Down);
-			case '':
-				return _elm_lang$core$Json_Decode$succeed(_user$project$Game_Model$NoGameType);
-			default:
-				return _elm_lang$core$Json_Decode$fail(
-					A2(_elm_lang$core$Basics_ops['++'], 'Unknown theme: ', _p0));
+	function (mStr) {
+		var _p0 = mStr;
+		if (_p0.ctor === 'Nothing') {
+			return _elm_lang$core$Json_Decode$succeed(_user$project$Game_Model$NoGameType);
+		} else {
+			var _p1 = _p0._0;
+			switch (_p1) {
+				case 'swap':
+					return _elm_lang$core$Json_Decode$succeed(_user$project$Game_Model$Swap);
+				case 'hearts':
+					return _elm_lang$core$Json_Decode$succeed(
+						_user$project$Game_Model$Color('hearts'));
+				case 'diamonds':
+					return _elm_lang$core$Json_Decode$succeed(
+						_user$project$Game_Model$Color('diamonds'));
+				case 'spades':
+					return _elm_lang$core$Json_Decode$succeed(
+						_user$project$Game_Model$Color('spades'));
+				case 'clubs':
+					return _elm_lang$core$Json_Decode$succeed(
+						_user$project$Game_Model$Color('clubs'));
+				case 'up':
+					return _elm_lang$core$Json_Decode$succeed(_user$project$Game_Model$Up);
+				case 'down':
+					return _elm_lang$core$Json_Decode$succeed(_user$project$Game_Model$Down);
+				default:
+					return _elm_lang$core$Json_Decode$fail(
+						A2(_elm_lang$core$Basics_ops['++'], 'Unknown theme: ', _p1));
+			}
 		}
 	},
-	_elm_lang$core$Json_Decode$string);
+	_elm_lang$core$Json_Decode$maybe(_elm_lang$core$Json_Decode$string));
 var _user$project$Decoders$gameDecoder = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'table',

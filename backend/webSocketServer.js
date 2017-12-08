@@ -73,14 +73,19 @@ var play = function(ws, data) {
 	// Verify the action
 	var gameId = data.gameId;
 	if(gameId) {
-		var game = games[gameId].game;
+		const game = games[gameId].game;
 		var player = data.player;
 		console.log(game);
-		// Adapt the game Object
-		game.activePlayer = data.player;
-		game.cardsPlayer = game.cards[player];
-		var gameString = JSON.stringify(game);
-		ws.send(gameString);
+		for (var i = 0; i < game.players.length; i++) {
+			// Adapt the game Object
+			var adaptedGame = game; 
+			adaptedGame.activePlayer = games[gameId].players[i].name;
+			adaptedGame.cardsPlayer = adaptedGame.cards[player];
+			var gameString = JSON.stringify(adaptedGame);
+			var pl = games[gameId].players[i].ws;
+			pl.send(gameString);
+		}
+		
 	} else {
 		console.log("Invalid data sent!");
 	}
@@ -118,13 +123,13 @@ var initialiseGame = function(players) {
 	// Example GameId
 	var gameId = "42";
 	// send fake gameId to websockets.
-	var pls = {};
+	var pls = [];
 	for (var i = 0; i < players.length; i++) {
 		var gameInfo = {gameId: gameId};
 		var stringGameInfo = JSON.stringify(gameInfo);
 		var ws = players[i][names[i]];
 		// Add it to pls
-		pls[names[i]] = {name : names[i], ws : ws};
+		pls.push({name : names[i], ws : ws});
 		console.log(names[i]);
 		ws.send(stringGameInfo);
 	}

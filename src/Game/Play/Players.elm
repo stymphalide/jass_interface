@@ -10,7 +10,7 @@ import Globals exposing (imgSourcePath)
 
 import Game.Model exposing (Card, Player, GameCoord, GameId)
 
-import Game.Play.Card exposing (viewCard)
+import Game.Play.Card exposing (viewCard, viewOnTurnCard)
 
 
 viewPlayers : Player -> Player -> List Player -> List (Html Msg)
@@ -51,8 +51,8 @@ getImage icon =
         ] []
 
 viewPlayerCards : Maybe (List Card) -> List (Html Msg)
-viewPlayerCards cards =
-    case cards of 
+viewPlayerCards mCards =
+    case mCards of 
         Nothing ->
             [div [] [text "No Cards received"]]
         Just cards ->
@@ -64,4 +64,19 @@ viewPlayerCard card =
     [ div [class "sm-col sm-col-9"] 
         [viewCard card]
      
+    ]
+
+viewOnTurnPlayerCards : Maybe (List Card) -> List (Html Msg)
+viewOnTurnPlayerCards mCards =
+    case mCards of 
+        Nothing ->
+            [div [] [text "No Cards received"]]
+        Just cards ->
+            List.map viewOnTurnPlayerCard cards
+
+viewOnTurnPlayerCard : Card -> Html Msg
+viewOnTurnPlayerCard card =
+    li [class "inline-block"] 
+    [ div [class "sm-col sm-col-9"] 
+        [viewOnTurnCard card]
     ]

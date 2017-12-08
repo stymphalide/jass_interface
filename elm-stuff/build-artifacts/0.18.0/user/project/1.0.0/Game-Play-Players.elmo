@@ -1,3 +1,47 @@
+var _user$project$Game_Play_Players$viewOnTurnPlayerCard = function (card) {
+	return A2(
+		_elm_lang$html$Html$li,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('inline-block'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('sm-col sm-col-9'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _user$project$Game_Play_Card$viewOnTurnCard(card),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Game_Play_Players$viewOnTurnPlayerCards = function (mCards) {
+	var _p0 = mCards;
+	if (_p0.ctor === 'Nothing') {
+		return {
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('No Cards received'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		};
+	} else {
+		return A2(_elm_lang$core$List$map, _user$project$Game_Play_Players$viewOnTurnPlayerCard, _p0._0);
+	}
+};
 var _user$project$Game_Play_Players$viewPlayerCard = function (card) {
 	return A2(
 		_elm_lang$html$Html$li,
@@ -23,9 +67,9 @@ var _user$project$Game_Play_Players$viewPlayerCard = function (card) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Game_Play_Players$viewPlayerCards = function (cards) {
-	var _p0 = cards;
-	if (_p0.ctor === 'Nothing') {
+var _user$project$Game_Play_Players$viewPlayerCards = function (mCards) {
+	var _p1 = mCards;
+	if (_p1.ctor === 'Nothing') {
 		return {
 			ctor: '::',
 			_0: A2(
@@ -39,7 +83,7 @@ var _user$project$Game_Play_Players$viewPlayerCards = function (cards) {
 			_1: {ctor: '[]'}
 		};
 	} else {
-		return A2(_elm_lang$core$List$map, _user$project$Game_Play_Players$viewPlayerCard, _p0._0);
+		return A2(_elm_lang$core$List$map, _user$project$Game_Play_Players$viewPlayerCard, _p1._0);
 	}
 };
 var _user$project$Game_Play_Players$getImage = function (icon) {

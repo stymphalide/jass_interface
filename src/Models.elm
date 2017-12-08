@@ -3,7 +3,6 @@ module Models exposing (..)
 import Window exposing (Size)
 import Game.Model exposing (Game, Player, GameId, Action)
 
-
 type Mode
     = Init
     | Watch GameId Player

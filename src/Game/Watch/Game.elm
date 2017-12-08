@@ -1,6 +1,7 @@
 module Game.Watch.Game exposing (..)
 
 import List
+import Window exposing (Size)
 import Html exposing (..)
 import Html.Attributes exposing (src, class)
 import Html.Events exposing (onClick)
@@ -23,19 +24,20 @@ init =
         ]
 
 
-viewGame : Game -> Html Msg
-viewGame game =
-    div [] 
-    [ h1 [] [viewGameType game.gameType]
-    , h2 [] [text game.activePlayer]
-    , h2 [] [text ("Round #" ++ (toString (game.round, game.turn)))]
-    , div [] [nav game.activePlayer (game.round, game.turn)]
-    , ol [class "list-reset"] (viewPlayerCards game.cardsPlayer)
-    , ol [class "list-reset"] (viewPlayers (game.round, game.turn) game.activePlayer game.onTurnPlayer game.players)
-    , viewTable game.table
-    , div [] 
+viewGame : Size -> Game -> Html Msg
+viewGame size game =
+    div [class "clearfix"]
+    [ div [class "col col-3"] 
         [ viewGroup (List.head game.groups)
-        , viewGroup (List.head (unwrapMaybeGroups (List.tail game.groups)))
+        ]
+    , div [class "col col-6 mx-auto"]
+        [ nav game.activePlayer (game.round, game.turn)
+        , ol [class "list-reset"] (viewPlayers (game.round, game.turn) game.activePlayer game.onTurnPlayer game.players)
+        , viewTable game.table
+        , ol [class "list-reset"] (viewPlayerCards game.cardsPlayer) 
+        ]
+    , div [class "col col-3"] 
+        [ viewGroup (List.head (unwrapMaybeGroups (List.tail game.groups)))
         ]
     ]
 
@@ -58,10 +60,12 @@ viewGameType gameType =
             div [] [img [src (imgSourcePath ++ (colorTranslate color)++ "_icon.png") ] []]
 
 nav : Player -> GameCoord  -> Html Msg
-nav player gameCoord =
+nav player (round, turn) =
     div [] 
-    [ prev player gameCoord
-    , next player gameCoord
+    [ h2 [] [text player]
+    , h2 [] [text ("Round #" ++ (toString (round, turn)))]
+    , prev player (round, turn)
+    , next player (round, turn)
     ]
 
 next : Player -> GameCoord  -> Html Msg

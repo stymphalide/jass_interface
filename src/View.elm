@@ -29,11 +29,11 @@ page model =
         Init ->
             init model.player model.gameId model.games
         Play gameId player ->
-            Game.View.viewPlay model.game
+            Game.View.viewPlay model.windowSize model.game
         Lobby players ->
-            Game.View.viewLobby players
+            Game.View.viewLobby model.windowSize players
         Watch gameId player ->
-            Game.View.viewWatch model.game
+            Game.View.viewWatch model.windowSize model.game
         
 
 init : Input Player -> Maybe GameId  -> Maybe (List GameId) -> Html Msg
