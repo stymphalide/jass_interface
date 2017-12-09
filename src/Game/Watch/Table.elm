@@ -1,7 +1,9 @@
 module Game.Watch.Table exposing (..)
 
-import Html exposing (..)
-import Html.Attributes exposing (class, src, width, height)
+--import Css exposing (..)
+import Html
+import Html.Styled exposing (..)
+import Html.Styled.Attributes exposing (class, src, width, height)
 
 import Msgs exposing (Msg)
 import Globals exposing (imgSourcePath)
@@ -20,7 +22,7 @@ type alias Size =
     }
 
 
-viewTable : Table -> Html Msg
+viewTable : Table -> Html.Html Msg
 viewTable table =
     div [] 
     [ ol [] 
@@ -31,6 +33,7 @@ viewTable table =
         ]
     , viewBackground {x = 500, y = 500}
     ]
+    |> toUnstyled
 
 viewBackground : Size -> Html Msg
 viewBackground size =
@@ -42,7 +45,7 @@ viewTableCard mCard position =
         Nothing ->
             viewEmptyCard
         Just card ->
-            viewCard card
+            viewCard card |> fromUnstyled
 
 viewEmptyCard : Html Msg
 viewEmptyCard =
