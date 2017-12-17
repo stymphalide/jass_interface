@@ -48,14 +48,13 @@ viewTableCards size cards =
            {size | width = cardWidth, height = cardHeight}
         fixedSizeTableCard =
             (viewTableCard cardSize)
-        fixedTableCards = 
-            List.map fixedSizeTableCard  positions
+        positions =
+            cardPositions size
     in
-          List.map fixedSizeTableCard cards
+          List.map2 fixedSizeTableCard positions cards
 cardPositions : Size -> List Position
 cardPositions size =
     
-
 
 viewTableCard : Size -> Position -> Maybe Card -> Html Msg
 viewTableCard pos size mCard =
