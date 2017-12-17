@@ -23,19 +23,16 @@ viewTable size table =
     [ width <| toString size.width  
     , height <| toString size.height
     ]
-    [ rect 
-        [ x "10"
-        , y "10"
-        , width <| toString <| size.width - 20
-        , height <| toString <| size.height - 20
-        , rx "15"
-        , ry "15" ] 
-        [] 
+    [ viewBackground size
     ]
+viewBackground : Size -> Svg Msg
+viewBackground  size =
+    image 
+    [ xlinkHref (imgSourcePath ++ "jass_teppich_green.png")
+    , width  <| toString size.width
+    , height <| toString size.height 
+    ] []
 {-
-viewBackground : Html Msg
-viewBackground  =
-    img [src (imgSourcePath ++ "jass_teppich_green.png")] []
 
 viewTableCard : Maybe Card -> Html Msg
 viewTableCard mCard =
