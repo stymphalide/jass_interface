@@ -15,20 +15,20 @@ import Game.Translate exposing (colorTranslate, numberTranslate)
 
 
 
-viewSvgCard : Size -> Position -> Card -> Html Msg
+viewSvgCard : Size -> Position -> Card -> Svg.Svg msg
 viewSvgCard size pos card  =
     image
     [ xlinkHref (getImagePath card.color card.number)
     , x <| toString pos.x 
     , y <| toString pos.y
-    , width <| toString size.width
-    , height <| toString size.height
+    , Svg.Attributes.width <| toString size.width
+    , Svg.Attributes.height <| toString size.height
     ]
     []
 
-viewCard : Card -> Html Msg
+viewCard : Card -> Html.Html Msg
 viewCard card =
-    img [src (getImagePath card.color card.number), width 100] []
+    Html.img [src (getImagePath card.color card.number), Html.Attributes.width 100] []
 
 
 getImagePath : Color -> Number -> String
