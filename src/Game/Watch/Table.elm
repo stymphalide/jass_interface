@@ -23,7 +23,15 @@ viewTable size table =
     [ width <| toString size.width  
     , height <| toString size.height
     ]
-    [ rect [ x "10", y "10", width "100", height "100", rx "15", ry "15" ] [] ]
+    [ rect 
+        [ x "10"
+        , y "10"
+        , width <| toString <| size.width - 20
+        , height <| toString <| size.height - 20
+        , rx "15"
+        , ry "15" ] 
+        [] 
+    ]
 {-
 viewBackground : Html Msg
 viewBackground  =
