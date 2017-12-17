@@ -4,14 +4,26 @@ import List
 import Dict exposing (..)
 {- TODO Explanation what this does, easier way!!!-}
 
-colors_english = ["hearts", "spades", "diamonds", "clubs"]
-numbers_english = ["6", "7", "8", "9", "10", "jack", "queen", "king", "ace"]
+colors_english : List String
+colors_english = 
+    ["hearts", "spades", "diamonds", "clubs"]
 
-colors_german = ["Rose", "Schilte", "Eichle", "Schelle"]
-numbers_german = ["6", "7", "8", "9", "10", "Under", "Ober", "K", "As"]
+numbers_english : List String
+numbers_english = 
+    ["6", "7", "8", "9", "10", "jack", "queen", "king", "ace"]
 
+colors_german : List String
+colors_german = 
+    ["Rose", "Schilte", "Eichle", "Schelle"]
+
+numbers_german : List String
+numbers_german = 
+    ["6", "7", "8", "9", "10", "Under", "Ober", "K", "As"]
+
+mapped_german_colors : List (String, String)
 mapped_german_colors =
     List.map2 unite colors_english colors_german
+mapped_german_numbers : List (String, String)
 mapped_german_numbers =
     List.map2 unite numbers_english numbers_german
 
