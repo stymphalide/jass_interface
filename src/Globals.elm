@@ -14,3 +14,6 @@ imgSourcePath =
 error : Html Msg
 error =
     div [] [text "An error has occurred..."]
+
+type alias Position =
+    {x : Int, y : Int}
