@@ -1,8 +1,6 @@
 module Updates exposing (..)
 
-import Navigation exposing (Location)
 import WebSocket
---import RemoteData
 
 import Msgs exposing (Msg)
 import Models exposing (Model, Input(..), Mode(..))

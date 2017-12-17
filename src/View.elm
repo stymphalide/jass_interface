@@ -92,9 +92,3 @@ slct gameIds =
 viewOption : GameId -> Html Msg
 viewOption gameId =
     option [value gameId] [text ("Game " ++ gameId)]
-
-notFoundView : Html Msg
-notFoundView =
-    div []
-        [ text "Not found"
-        ]
