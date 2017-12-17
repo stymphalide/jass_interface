@@ -47,7 +47,7 @@ sizeTable : Size -> Size
 sizeTable sizeGlobal =
     let
         newsize =
-            if sizeGlobal.width > sizeGlobal.height then
+            if sizeGlobal.width < sizeGlobal.height then
                 sizeGlobal.width 
                 |> toFloat 
                 |> (*) 0.45
