@@ -105,9 +105,3 @@ viewOption : GameId -> Html Msg
 viewOption gameId =
     option [value gameId] [text ("Game " ++ gameId)]
 
--- Method to Render if no View matches
-notFoundView : Html Msg
-notFoundView =
-    div []
-        [ text "Not found"
-        ]

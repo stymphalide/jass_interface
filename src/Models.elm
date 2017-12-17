@@ -8,7 +8,11 @@ module Models exposing (..)
 import Window exposing (Size)
 import Game.Model exposing (Game, Player, GameId, Action)
 
+
 -- This type keeps track of the virtual position of a player.
+type alias Position =
+    {x : Int, y : Int}
+
 type Mode
     = Init
     | Watch GameId Player
