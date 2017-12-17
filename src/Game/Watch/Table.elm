@@ -3,21 +3,16 @@ module Game.Watch.Table exposing (..)
 import Window exposing (Size)
 
 import Html
-import Html.Attributes exposing (src)
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
 
 
 import Msgs exposing (Msg)
-import Globals exposing (imgSourcePath)
+import Globals exposing (imgSourcePath, Position)
 
 import Game.Model exposing (Table, Card)
 
 import Game.Watch.Card exposing (viewCard)
-
-type alias Position =
-    {x : Int, y : Int}
-
 
 viewTable : Size -> Table -> Html.Html Msg
 viewTable size table =
@@ -85,7 +80,7 @@ viewTableCard size pos mCard =
         Nothing ->
             viewEmptyCard size pos
         Just card ->
-            text "not rendered yet."
+            viewCard size pos
 
 
 viewEmptyCard : Size -> Position -> Svg msg
