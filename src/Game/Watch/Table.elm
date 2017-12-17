@@ -12,35 +12,27 @@ import Game.Model exposing (Table, Card)
 
 import Game.Watch.Card exposing (viewCard)
 
-type alias Position =
-    { x : Int
-    , y : Int
-    }
-type alias Size =
-    { x : Int
-    , y : Int
-    }
 
 
 viewTable : Table -> Html.Html Msg
 viewTable table =
     div [] 
     [ ol [] 
-        [ viewTableCard table.pos1 {x = 0, y = 0}
-        , viewTableCard table.pos2 {x = 100, y = 0}
-        , viewTableCard table.pos3 {x = 100, y = 100}
-        , viewTableCard table.pos4 {x = 0, y = 100}
+        [ viewTableCard table.pos1
+        , viewTableCard table.pos2
+        , viewTableCard table.pos3
+        , viewTableCard table.pos4
         ]
-    , viewBackground {x = 500, y = 500}
+    , viewBackground 
     ]
     |> toUnstyled
 
-viewBackground : Size -> Html Msg
-viewBackground size =
-    img [src (imgSourcePath ++ "jass_teppich_green.png"), class "absolute", height size.y, width size.x] []
+viewBackground : Html Msg
+viewBackground  =
+    img [src (imgSourcePath ++ "jass_teppich_green.png")] []
 
-viewTableCard : Maybe Card -> Position -> Html Msg
-viewTableCard mCard position =
+viewTableCard : Maybe Card -> Html Msg
+viewTableCard mCard =
     case mCard of
         Nothing ->
             viewEmptyCard
