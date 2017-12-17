@@ -13,7 +13,6 @@
     "file-loader": "^1.1.5",
     "font-awesome": "4",
     "foreman": "^2.0.0",
-    "json-server": "0.9.5",
     "style-loader": "^0.19.0",
     "url-loader": "^0.6.2",
     "webpack": "^3.8.1",
@@ -23,7 +22,6 @@
   "scripts": {
     "comp": "elm-make src/Main.elm",
     "cd" : "cd /home/angelo/develop/elm/jass_interface",
-    "api": "node backend/api.js",
     "ws" : "node backend/webSocketServer.js",
     "build": "webpack",
     "client": "webpack-dev-server --port 3000",
