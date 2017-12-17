@@ -1,6 +1,8 @@
 module Updates exposing (..)
-
-import WebSocket
+{-
+    @moduledoc
+    Updates the model based on Messages
+-}
 
 import Msgs exposing (Msg)
 import Models exposing (Model, Input(..), Mode(..))
@@ -10,7 +12,6 @@ import Game.Update exposing (updateGame, updateLobby, updateInit)
 import Game.Model exposing (Player, GameCoord, Lobby(..), Action(..))
 
 -- UPDATE
-
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case msg of
@@ -38,6 +39,7 @@ update msg model =
         Msgs.SizeUpdated newSize ->
             ({model | windowSize = newSize}, Cmd.none)
 
+-- Changes the mode of the Model
 onLocationChange : Mode -> Model -> (Model, Cmd Msg)
 onLocationChange mode model =
     case mode of
@@ -50,6 +52,7 @@ onLocationChange mode model =
         Play gameId player ->
             ({model | mode = Play gameId player}, Cmd.none)
 
+-- As long as the player name isn't validated the incoming string is added to the name
 playerChange : Msgs.InputUpdate -> Model -> (Model, Cmd Msg)
 playerChange input model =
     case input of
@@ -65,7 +68,7 @@ playerChange input model =
                     makeConstant model.player
             in
                 ({model | player = pl}, fetchGames pl) 
-
+-- Helper for playerChange, makes the name constant
 makeConstant : Input Player -> Input Player
 makeConstant iPlayer =
     case iPlayer of 
@@ -74,6 +77,7 @@ makeConstant iPlayer =
         Constant player ->
             iPlayer
 
+-- Makes a command to send data to the wss
 fetchGame : Model ->  Mode -> Maybe GameCoord -> Maybe Player -> Action -> (Model, Cmd Msg)
 fetchGame model mode mGameCoord mPlayer action=
     case mode of
@@ -98,7 +102,7 @@ fetchGame model mode mGameCoord mPlayer action=
         Lobby players ->
             (model, fetchLobby players)
 
-
+-- Whenever new players are added, the lobby is updated
 lobbyUpdate : Model -> String -> (Model, Cmd Msg)
 lobbyUpdate model lobbyString =
     let
