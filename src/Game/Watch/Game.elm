@@ -30,7 +30,7 @@ viewGame size game =
     [ div [class "col col-3"] 
         [ viewGroup (List.head game.groups)
         ]
-    , div [class "col col-6 mx-auto"]
+    , div [class "col col-6 mx-auto center"]
         [ nav game.activePlayer (game.round, game.turn)
         , ol [class "list-reset"] (viewPlayers (game.round, game.turn) game.activePlayer game.onTurnPlayer game.players)
         , viewTable (sizeTable size) game.table 
