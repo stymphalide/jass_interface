@@ -24,9 +24,9 @@ viewTable size table =
     svg 
     [ width <| toString size.width  
     , height <| toString size.height
-    ] 
+    ]
     <|
-    List.concat 
+    List.concat
     [ viewBackground size
     , viewTableCards size [table.pos1, table.pos2, table.pos3, table.pos4]
     ]
@@ -45,7 +45,7 @@ viewTableCards size cards =
         cardWidth = 
             (toFloat size.width) / 5 |> round
         cardHeight =
-            (toFloat cardWidth) / 2.876397107 |> round
+            (toFloat cardWidth) * 1.561797753 |> round
         cardSize =
            {size | width = cardWidth, height = cardHeight}
         fixedSizeTableCard =
@@ -53,11 +53,31 @@ viewTableCards size cards =
         positions =
             cardPositions size
     in
-
         List.map2 fixedSizeTableCard positions cards
+
 cardPositions : Size -> List Position
 cardPositions size =
-    []
+    let
+        factor =
+            toFloat size.width / 497
+        pos1 =
+            { x = 156 * factor |> round
+            , y = 100 * factor |> round
+            }
+        pos2 =
+            { x = 156 * factor |> round
+            , y = 247 * factor |> round
+            }
+        pos3 = 
+            { x = 247 * factor |> round
+            , y = 247 * factor |> round
+            }
+        pos4 =
+            { x = 247 * factor |> round
+            , y = 100 * factor |> round
+            }
+    in
+        [pos1, pos2, pos3, pos4]
 
 viewTableCard : Size -> Position -> Maybe Card -> Svg msg
 viewTableCard size pos mCard =
@@ -65,13 +85,12 @@ viewTableCard size pos mCard =
         Nothing ->
             viewEmptyCard size pos
         Just card ->
-            text "Not rendered yet"
-            --viewCard size pos card 
+            text "not rendered yet."
 
 
 viewEmptyCard : Size -> Position -> Svg msg
 viewEmptyCard size pos =
-    image 
+    image
     [ xlinkHref (imgSourcePath ++ "empty_card.png")
     , x <| toString pos.x 
     , y <| toString pos.y
