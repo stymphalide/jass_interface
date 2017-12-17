@@ -33,7 +33,7 @@ viewGame size game =
     , div [class "col col-6 mx-auto"]
         [ nav game.activePlayer (game.round, game.turn)
         , ol [class "list-reset"] (viewPlayers (game.round, game.turn) game.activePlayer game.onTurnPlayer game.players)
-        , viewTable game.table
+        , sizeTable size |> viewTable game.table 
         , ol [class "list-reset"] (viewPlayerCards game.cardsPlayer) 
         ]
     , div [class "col col-3"] 
@@ -42,6 +42,23 @@ viewGame size game =
     ]
 
 
+-- Make the table square format, such that it fills ca 50 % of the screen.
+sizeTable : Size -> Size
+sizeTable sizeGlobal =
+    let
+        newsize =
+            if sizeGlobal.width > sizeGlobal.height then
+                sizeGlobal.width 
+                |> toFloat 
+                |> (*) 0.45
+                |> round
+            else
+                sizeGlobal.height 
+                |> toFloat 
+                |> (*) 0.45
+                |> round
+    in
+        {sizeGlobal | width = newsize, height = newsize}
 
 
 
