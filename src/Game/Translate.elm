@@ -20,10 +20,11 @@ dict_numbers_german =
 colors_french = ["Herz", "Schaufel", "Ecke", "Kreuz"]
 numbers_french = ["6", "7", "8", "9", "10", "Bauer", "Dame", "K", "Ass"]
 
-colorTranslate : String -> String
+colorTranslate : String -> Maybe String
 colorTranslate color =
-    Tuple.second (extractTuple color mappedColors)
+    Dict.get color dict_colors_german
 
-numberTranslate : String -> String
+
+numberTranslate : String -> Maybe String
 numberTranslate number =
-    Tuple.second (extractTuple number mappedNumbers)
+    Dict.get number dict_numbers_german
