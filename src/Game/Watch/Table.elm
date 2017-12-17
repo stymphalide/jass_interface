@@ -1,7 +1,10 @@
 module Game.Watch.Table exposing (..)
 
 import Html
-import Html.Attributes exposing (class, src, width, height)
+import Html.Attributes exposing (src)
+import Svg exposing (..)
+import Svg.Attributes exposing (..)
+
 
 import Msgs exposing (Msg)
 import Globals exposing (imgSourcePath)
