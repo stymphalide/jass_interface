@@ -37,7 +37,7 @@ viewBackground  size =
     , height <| toString size.height 
     ] []
 
-viewTableCards : Size -> List (Maybe Card) -> Svg Msg
+viewTableCards : Size -> List (Maybe Card) -> List (Svg msg)
 viewTableCards size cards =
     let
         cardWidth = 
@@ -54,16 +54,24 @@ viewTableCards size cards =
           List.map2 fixedSizeTableCard positions cards
 cardPositions : Size -> List Position
 cardPositions size =
-    
+    []
 
-viewTableCard : Size -> Position -> Maybe Card -> Html Msg
+viewTableCard : Size -> Position -> Maybe Card -> Svg msg
 viewTableCard pos size mCard =
     case mCard of
         Nothing ->
-            viewEmptyCard
+            viewEmptyCard size pos
         Just card ->
-            viewCard card |> fromUnstyled
+            viewCard size pos card 
 
-viewEmptyCard : Html Msg
-viewEmptyCard =
-    img [src (imgSourcePath ++ "empty_card.png"), width 70] []
+
+viewEmptyCard : Size -> Position -> Svg msg
+viewEmptyCard size pos =
+    image 
+    [ xlinkHref (imgSourcePath ++ "empty_card.png")
+    , x <| pos.x |> toString
+    , y <| pos.y |> toString
+    , width <| size.width |> toString
+    , height <| size.height |> toString 
+    ]
+    []
