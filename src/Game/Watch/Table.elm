@@ -1,5 +1,7 @@
 module Game.Watch.Table exposing (..)
 
+import Window exposing (Size)
+
 import Html
 import Html.Attributes exposing (src)
 import Svg exposing (..)
@@ -15,10 +17,11 @@ import Game.Watch.Card exposing (viewCard)
 
 
 
-viewTable : Table -> Html.Html Msg
-viewTable table =
+viewTable : Size -> Table -> Html.Html Msg
+viewTable size table =
     svg 
-    [ width "120", height "120"
+    [ width <| toString size.width  
+    , height <| toString size.height
     ]
     [ rect [ x "10", y "10", width "100", height "100", rx "15", ry "15" ] [] ]
 {-
