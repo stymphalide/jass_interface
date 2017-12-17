@@ -43,13 +43,27 @@ viewChooseGameType : Bool -> Html Msg
 viewChooseGameType isSwap =
     if not isSwap then
         div []
-        [ img [Msgs.FetchGame Nothing Nothing (ChooseGameType Swap) |> onClick, src (imgSourcePath ++ "swap_icon.png") ] []
-        , img [Msgs.FetchGame Nothing Nothing (ChooseGameType Up) |> onClick, src (imgSourcePath ++ "obenabe.png") ] []
-        , img [Msgs.FetchGame Nothing Nothing (ChooseGameType Down) |> onClick, src (imgSourcePath ++ "undenufe.png") ] []
-        , img [Msgs.FetchGame Nothing Nothing (ChooseGameType (Color "hearts")) |> onClick, src (imgSourcePath ++ (colorTranslate "hearts") ++ "_icon.png") ] []
-        , img [Msgs.FetchGame Nothing Nothing (ChooseGameType (Color "diamonds")) |> onClick, src (imgSourcePath ++ (colorTranslate "diamonds") ++ "_icon.png") ] []
-        , img [Msgs.FetchGame Nothing Nothing (ChooseGameType (Color "spades")) |> onClick, src (imgSourcePath ++ (colorTranslate "spades") ++ "_icon.png") ] []
-        , img [Msgs.FetchGame Nothing Nothing (ChooseGameType (Color "clubs")) |> onClick, src (imgSourcePath ++ (colorTranslate "clubs") ++ "_icon.png") ] []
+        [ img [onClick <| Msgs.FetchGame Nothing Nothing (ChooseGameType Swap)
+        , src (imgSourcePath ++ "swap_icon.png") 
+        ] []
+        , img [onClick <| Msgs.FetchGame Nothing Nothing (ChooseGameType Up)
+        , src (imgSourcePath ++ "obenabe.png") 
+        ] []
+        , img [onClick <| Msgs.FetchGame Nothing Nothing (ChooseGameType Down)
+        , src (imgSourcePath ++ "undenufe.png") 
+        ] []
+        , img [onClick <| Msgs.FetchGame Nothing Nothing (ChooseGameType (Color "hearts"))
+        , src (imgSourcePath ++ (colorTranslate "hearts") ++ "_icon.png") 
+        ] []
+        , img [onClick <| Msgs.FetchGame Nothing Nothing (ChooseGameType (Color "diamonds"))
+        , src (imgSourcePath ++ (colorTranslate "diamonds") ++ "_icon.png") 
+        ] []
+        , img [onClick <| Msgs.FetchGame Nothing Nothing (ChooseGameType (Color "spades"))
+        , src (imgSourcePath ++ (colorTranslate "spades") ++ "_icon.png") 
+        ] []
+        , img [onClick <| Msgs.FetchGame Nothing Nothing (ChooseGameType (Color "clubs"))
+        , src (imgSourcePath ++ (colorTranslate "clubs") ++ "_icon.png") 
+        ] []
         ]    
     else 
         div []

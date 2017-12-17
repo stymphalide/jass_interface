@@ -43,11 +43,19 @@ dict_numbers_german =
 colors_french = ["Herz", "Schaufel", "Ecke", "Kreuz"]
 numbers_french = ["6", "7", "8", "9", "10", "Bauer", "Dame", "K", "Ass"]
 
-colorTranslate : String -> Maybe String
+colorTranslate : String -> String
 colorTranslate color =
-    get color dict_colors_german
+    case get color dict_colors_german of
+        Nothing ->
+            ""
+        Just color ->
+            color
 
 
-numberTranslate : String -> Maybe String
+numberTranslate : String -> String
 numberTranslate number =
-    get number dict_numbers_german
+    case get number dict_numbers_german of
+        Nothing ->
+            ""
+        Just number ->
+            number
