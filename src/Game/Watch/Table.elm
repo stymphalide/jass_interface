@@ -17,17 +17,11 @@ import Game.Watch.Card exposing (viewCard)
 
 viewTable : Table -> Html.Html Msg
 viewTable table =
-    div [] 
-    [ ol [] 
-        [ viewTableCard table.pos1
-        , viewTableCard table.pos2
-        , viewTableCard table.pos3
-        , viewTableCard table.pos4
-        ]
-    , viewBackground 
+    svg 
+    [ width "120", height "120"
     ]
-    |> toUnstyled
-
+    [ rect [ x "10", y "10", width "100", height "100", rx "15", ry "15" ] [] ]
+{-
 viewBackground : Html Msg
 viewBackground  =
     img [src (imgSourcePath ++ "jass_teppich_green.png")] []
@@ -43,3 +37,5 @@ viewTableCard mCard =
 viewEmptyCard : Html Msg
 viewEmptyCard =
     img [src (imgSourcePath ++ "empty_card.png"), width 70] []
+
+    -}
