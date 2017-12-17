@@ -1,0 +1,6 @@
+# Ignore elm-stuff
+elm-stuff/
+# as well as the dist directory
+dist/
+# ignore changes to index.html
+index.html
