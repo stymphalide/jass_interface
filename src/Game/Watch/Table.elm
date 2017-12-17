@@ -12,7 +12,7 @@ import Globals exposing (imgSourcePath, Position)
 
 import Game.Model exposing (Table, Card)
 
-import Game.Watch.Card exposing (viewCard)
+import Game.Watch.Card exposing (viewSvgCard)
 
 viewTable : Size -> Table -> Html.Html Msg
 viewTable size table =
@@ -80,7 +80,7 @@ viewTableCard size pos mCard =
         Nothing ->
             viewEmptyCard size pos
         Just card ->
-            viewCard size pos
+            viewSvgCard size pos card
 
 
 viewEmptyCard : Size -> Position -> Svg msg
