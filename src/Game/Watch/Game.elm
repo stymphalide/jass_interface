@@ -28,16 +28,18 @@ viewGame : Size -> Game -> Html Msg
 viewGame size game =
     div [class "clearfix"]
     [ div [class "col col-3"] 
-        [ viewGroup (List.head game.groups)
+        [ (toFloat size.width / 4 |> round)
+        |> viewGroup (List.head game.groups) 
         ]
     , div [class "col col-6 mx-auto center"]
         [ nav game.activePlayer (game.round, game.turn)
         , ol [class "list-reset"] (viewPlayers (game.round, game.turn) game.activePlayer game.onTurnPlayer game.players)
         , viewTable (sizeTable size) game.table 
-        , ol [class "list-reset"] (viewPlayerCards game.cardsPlayer) 
+        , ol [class "list-reset"] (viewPlayerCards game.cardsPlayer (toFloat size.width / 2 |> round) )
         ]
     , div [class "col col-3"] 
-        [ viewGroup (List.head (unwrapMaybeGroups (List.tail game.groups)))
+        [ (toFloat size.width / 4 |> round)
+        |> viewGroup (List.head (unwrapMaybeGroups (List.tail game.groups))) 
         ]
     ]
 
