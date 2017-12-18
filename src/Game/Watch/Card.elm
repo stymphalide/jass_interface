@@ -3,7 +3,7 @@ module Game.Watch.Card exposing (..)
 import Window exposing (Size)
 
 import Html
-import Html.Attributes exposing (src, width)
+import Html.Attributes exposing (src)
 import Svg exposing (image)
 import Svg.Attributes exposing (..)
 
@@ -28,7 +28,7 @@ viewSvgCard size pos card  =
 
 viewCard : Card -> Html.Html Msg
 viewCard card =
-    Html.img [src (getImagePath card.color card.number), Html.Attributes.width 100] []
+    Html.img [src (getImagePath card.color card.number)] []
 
 
 getImagePath : Color -> Number -> String

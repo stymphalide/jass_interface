@@ -2,6 +2,7 @@ module Game.Watch.Groups exposing (..)
 
 import List
 import Html exposing (..)
+import Html.Attributes exposing (class)
 
 import Msgs exposing (Msg)
 
@@ -19,7 +20,7 @@ viewGroup mGroup =
             div [] 
             [ h2 [] [ text (groupName group.players)]
             , h3 [] ["Points: " ++ (toString group.points) |> text]
-            , div [] (viewWonTurns group.wonCards)
+            , div [class "clearfix"] (viewWonTurns group.wonCards)
             ]
 
 groupName : List Player -> String
@@ -38,6 +39,7 @@ unwrapMaybeGroups mGroups =
         Just groups ->
             groups
 
+
 viewWonTurns : History-> List (Html Msg)
 viewWonTurns mTurns =
     case mTurns of
@@ -48,4 +50,4 @@ viewWonTurns mTurns =
 
 viewWonTurn : List Card -> Html Msg
 viewWonTurn cards =
-    li [] (List.map viewCard cards)
+    li [class "inline-block"] (List.map viewCard cards)
