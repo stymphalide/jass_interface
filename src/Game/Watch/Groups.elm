@@ -11,8 +11,8 @@ import Game.Model exposing (Group, Card, Player, History)
 import Game.Watch.Card exposing (viewCard)
 
 
-viewGroup : Maybe Group -> Html Msg
-viewGroup mGroup =
+viewGroup : Maybe Group -> Int -> Html Msg
+viewGroup mGroup width =
     case mGroup of 
         Nothing ->
             div [][text "No Group Found!"]
@@ -20,7 +20,7 @@ viewGroup mGroup =
             div [] 
             [ h2 [] [ text (groupName group.players)]
             , h3 [] ["Points: " ++ (toString group.points) |> text]
-            , div [class "clearfix"] (viewWonTurns group.wonCards)
+            , div [class "clearfix"] (viewWonTurns group.wonCards width)
             ]
 
 groupName : List Player -> String
@@ -40,14 +40,18 @@ unwrapMaybeGroups mGroups =
             groups
 
 
-viewWonTurns : History-> List (Html Msg)
-viewWonTurns mTurns =
+viewWonTurns : History -> Int -> List (Html Msg)
+viewWonTurns mTurns width =
     case mTurns of
         Nothing ->
             []
         Just wonCards ->
-            List.map viewWonTurn wonCards
+            List.map (viewWonTurn width)  wonCards 
 
-viewWonTurn : List Card -> Html Msg
-viewWonTurn cards =
-    li [class "inline-block"] (List.map viewCard cards)
+viewWonTurn : Int -> List Card -> Html Msg
+viewWonTurn width cards =
+    let
+        cardWidth =
+            toFloat width / 4.2 |> round
+    in
+        li [class "inline-block"] (List.map (viewCard cardWidth) cards)
