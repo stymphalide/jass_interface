@@ -64,7 +64,7 @@ viewPlayerCards mCards width =
         Just cards ->
             let
                 cardWidth =
-                    (toFloat width) / 9.1
+                    (toFloat width) / 10
                     |> round
             in
                 List.map (viewPlayerCard cardWidth) cards
