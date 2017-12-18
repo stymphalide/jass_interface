@@ -56,18 +56,23 @@ changePlayer gameCoord player  =
     Msgs.FetchGame (Just gameCoord) (Just player) NoAction
     |> onClick
 
-viewPlayerCards : Maybe (List Card) -> List (Html Msg)
-viewPlayerCards cards =
-    case cards of 
+viewPlayerCards : Maybe (List Card) -> Int -> List (Html Msg)
+viewPlayerCards mCards width =
+    case mCards of
         Nothing ->
             [div [] [text "No Cards received"]]
         Just cards ->
-            List.map viewPlayerCard cards
+            let
+                cardWidth =
+                    (toFloat width |> (/)  (toFloat (List.length cards )))
+                    |> round
+            in
+                List.map (viewPlayerCard cardWidth) cards
 
-viewPlayerCard : Card -> Html Msg
-viewPlayerCard card =
+viewPlayerCard : Int -> Card -> Html Msg
+viewPlayerCard width card =
     li [class "inline-block"] 
     [ div [class "sm-col sm-col-9"] 
-        [viewCard card]
+        [viewCard width card]
      
     ]
