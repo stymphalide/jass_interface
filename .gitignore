@@ -2,5 +2,8 @@
 elm-stuff/
 # as well as the dist directory
 dist/
+# Ignore the node_modules
+node_modules
+
 # ignore changes to index.html
 index.html
