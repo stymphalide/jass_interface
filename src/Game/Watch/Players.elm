@@ -64,7 +64,7 @@ viewPlayerCards mCards width =
         Just cards ->
             let
                 cardWidth =
-                    (toFloat width |> (/)  (toFloat (List.length cards )))
+                    (toFloat width) / 9.1
                     |> round
             in
                 List.map (viewPlayerCard cardWidth) cards
@@ -72,7 +72,7 @@ viewPlayerCards mCards width =
 viewPlayerCard : Int -> Card -> Html Msg
 viewPlayerCard width card =
     li [class "inline-block"] 
-    [ div [class "sm-col sm-col-9"] 
+    [ div [] 
         [viewCard width card]
      
     ]
