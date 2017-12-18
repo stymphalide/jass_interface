@@ -26,8 +26,8 @@ viewSvgCard size pos card  =
     ]
     []
 
-viewCard : Card -> Int -> Html.Html Msg
-viewCard card width =
+viewCard : Int -> Card -> Html.Html Msg
+viewCard width card  =
     Html.img [src (getImagePath card.color card.number), Html.Attributes.width width ] []
 
 
