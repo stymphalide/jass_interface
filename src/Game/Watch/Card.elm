@@ -1,4 +1,8 @@
 module Game.Watch.Card exposing (..)
+{-
+    @moduldoc
+    Specifies how to render a card.
+-}
 
 import Window exposing (Size)
 
@@ -13,8 +17,7 @@ import Globals exposing (imgSourcePath, Position)
 import Game.Model exposing (Card, Number, Color)
 import Game.Translate exposing (colorTranslate, numberTranslate)
 
-
-
+-- Renders images as svg at certain position and size
 viewSvgCard : Size -> Position -> Card -> Svg.Svg msg
 viewSvgCard size pos card  =
     image
@@ -25,7 +28,7 @@ viewSvgCard size pos card  =
     , Svg.Attributes.height <| toString size.height
     ]
     []
-
+-- Renders card as html with certain width.
 viewCard : Int -> Card -> Html.Html Msg
 viewCard width card  =
     Html.img [src (getImagePath card.color card.number), Html.Attributes.width width ] []
