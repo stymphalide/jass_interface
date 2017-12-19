@@ -1,4 +1,9 @@
 module Game.Watch.Game exposing (..)
+{-
+    @moduledoc
+    Handles the main parts of how to render the game.
+-}
+
 
 import List
 import Window exposing (Size)
@@ -16,14 +21,16 @@ import Game.Watch.Players exposing (viewPlayers, viewPlayerCards)
 import Game.Watch.Groups exposing (viewGroup, unwrapMaybeGroups)
 import Game.Watch.Table exposing (viewTable)
 
-
+-- One needs to actually fetch the game by pressing on the link
 init :  Html Msg
 init =
     div [] 
         [ a [Msgs.FetchGame Nothing Nothing NoAction |> onClick ] [text "Start Game"]
         ]
 
-
+-- Nuts and bolts of rendering the game
+-- left and right col are the groups
+-- middle is the board and cards as well as the nav.
 viewGame : Size -> Game -> Html Msg
 viewGame size game =
     div [class "clearfix"]
@@ -42,8 +49,7 @@ viewGame size game =
         |> viewGroup (List.head (unwrapMaybeGroups (List.tail game.groups))) 
         ]
     ]
-
-
+-- Helper
 -- Make the table square format, such that it fills ca 50 % of the screen.
 sizeTable : Size -> Size
 sizeTable sizeGlobal =
@@ -63,7 +69,7 @@ sizeTable sizeGlobal =
         {sizeGlobal | width = newsize, height = newsize}
 
 
-
+-- Renders the GameType from the Game record received.
 viewGameType : GameType -> Html Msg
 viewGameType gameType =
     case gameType of
@@ -78,6 +84,7 @@ viewGameType gameType =
         Color color ->
             div [] [img [src (imgSourcePath ++ (colorTranslate color)++ "_icon.png") ] []]
 
+-- Handles navigation (so far the players and the arrows are used.)
 nav : Player -> GameCoord  -> Html Msg
 nav player (round, turn) =
     div [] 
@@ -87,6 +94,7 @@ nav player (round, turn) =
     , next player (round, turn)
     ]
 
+--Arrow to fetch next turn/round
 next : Player -> GameCoord  -> Html Msg
 next player gameCoord =
     if not (isEnd gameCoord) then
@@ -97,12 +105,12 @@ next player gameCoord =
         ] []
     else 
         div [][]
-
-
+-- Helper for determining whether there should be the next arrow or not.
 isEnd : GameCoord -> Bool
 isEnd (round, turn) =
     round == 9 && turn == 0
 
+-- determines the coord. of the next round
 nextRound : GameCoord -> GameCoord
 nextRound (round, turn) =
     if turn == 4 then
@@ -110,6 +118,7 @@ nextRound (round, turn) =
     else
         (round, turn + 1)
 
+-- similar to next but for the previous.
 
 prev : Player -> GameCoord -> Html Msg
 prev player gameCoord =
