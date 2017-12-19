@@ -1,8 +1,12 @@
 module Game.Translate exposing (..)
+{-
+    Translates the english names into german names
+    (This is important for rendering purposes)
+-}
+
 
 import List
 import Dict exposing (..)
-{- TODO Explanation what this does, easier way!!!-}
 
 colors_english : List String
 colors_english = 
@@ -20,6 +24,7 @@ numbers_german : List String
 numbers_german = 
     ["6", "7", "8", "9", "10", "Under", "Ober", "K", "As"]
 
+-- List of Tuples, where each english color is with its associated german color
 mapped_german_colors : List (String, String)
 mapped_german_colors =
     List.map2 unite colors_english colors_german
@@ -27,11 +32,13 @@ mapped_german_numbers : List (String, String)
 mapped_german_numbers =
     List.map2 unite numbers_english numbers_german
 
+-- helper function to create a tuple from a list
+-- There might be a built in funciton?
 unite : a -> b -> (a, b)
 unite a b =
     (a, b)
 
-
+-- From the tuples create a dict.
 dict_colors_german : Dict String String
 dict_colors_german =
     fromList mapped_german_colors
@@ -43,6 +50,8 @@ dict_numbers_german =
 colors_french = ["Herz", "Schaufel", "Ecke", "Kreuz"]
 numbers_french = ["6", "7", "8", "9", "10", "Bauer", "Dame", "K", "Ass"]
 
+
+-- Now the lookup is a simple get call.
 colorTranslate : String -> String
 colorTranslate color =
     case get color dict_colors_german of
@@ -50,7 +59,6 @@ colorTranslate color =
             ""
         Just color ->
             color
-
 
 numberTranslate : String -> String
 numberTranslate number =
