@@ -1,4 +1,11 @@
 module Game.Watch.Table exposing (..)
+{-
+    @moduledoc
+    Defines how the table looks like:
+        Green carpet as background
+        four cards and placeholders if empty.
+-}
+
 
 import Window exposing (Size)
 
@@ -14,6 +21,8 @@ import Game.Model exposing (Table, Card)
 
 import Game.Watch.Card exposing (viewSvgCard)
 
+-- Solves that with a svg part
+-- thent adds the pictures to it.
 viewTable : Size -> Table -> Html.Html Msg
 viewTable size table =
     svg 
@@ -25,7 +34,7 @@ viewTable size table =
     [ viewBackground size
     , viewTableCards size [table.pos1, table.pos2, table.pos3, table.pos4]
     ]
-
+-- Adds the green carpet
 viewBackground : Size -> List (Svg msg)
 viewBackground size =
     [image 
@@ -33,7 +42,7 @@ viewBackground size =
     , width  <| toString size.width
     , height <| toString size.height 
     ] []]
-
+-- Renders the cards.
 viewTableCards : Size -> List (Maybe Card) -> List (Svg msg)
 viewTableCards size cards =
     let
@@ -49,7 +58,8 @@ viewTableCards size cards =
             cardPositions size
     in
         List.map2 fixedSizeTableCard positions cards
-
+-- Helper to determine the cards position on hte field
+-- The Values are the number of pixels in the original picture.
 cardPositions : Size -> List Position
 cardPositions size =
     let
@@ -73,7 +83,7 @@ cardPositions size =
             }
     in
         [pos1, pos2, pos3, pos4]
-
+-- Actually renders the cards uses the svgCard function.
 viewTableCard : Size -> Position -> Maybe Card -> Svg msg
 viewTableCard size pos mCard =
     case mCard of
