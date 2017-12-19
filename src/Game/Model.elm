@@ -13,7 +13,7 @@ type alias Game =
     }
 type alias Card =
     { color : String
-    , number : Number 
+    , number : String 
     }
 
 type alias GameId =
