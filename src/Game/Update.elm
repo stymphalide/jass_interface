@@ -1,11 +1,22 @@
 module Game.Update exposing (..)
+{-
+    @moduledoc
+    Handles all updates concerning the game
+
+    There are three different update functions that can be called
+    one decodes the game
+
+    one the lobby
+    
+    and one the init message from the beginning.
+-}
+
 
 import Json.Decode as Decode
 
 import Decoders exposing (gameDecoder, lobbyDecoder, gameIdsDecoder)
 
 import Game.Model exposing (Game, Lobby, GameId)
-
 
 
 updateGame : String -> Maybe Game
@@ -15,10 +26,10 @@ updateGame gameString =
             Just game
         Err err ->
             Nothing
-
 decodeGame : String -> Result String Game
 decodeGame gameString =
     Decode.decodeString gameDecoder gameString
+
 
 
 updateLobby : String -> Maybe Lobby
@@ -28,11 +39,10 @@ updateLobby lobbyString =
             Just result
         Err err ->
             Nothing
-
-
 decodeLobby : String -> Result String Lobby
 decodeLobby lobbyString =
     Decode.decodeString lobbyDecoder lobbyString
+
 
 updateInit : String -> Maybe (List GameId)
 updateInit gamesString =
@@ -41,7 +51,6 @@ updateInit gamesString =
             Nothing
         Ok gameIds ->
             Just gameIds
-
 decodeInit : String -> Result String (List GameId)
 decodeInit gamesString =
     Decode.decodeString gameIdsDecoder gamesString
