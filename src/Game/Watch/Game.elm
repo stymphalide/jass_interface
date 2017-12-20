@@ -58,12 +58,12 @@ sizeTable sizeGlobal =
             if sizeGlobal.width < sizeGlobal.height then
                 sizeGlobal.width 
                 |> toFloat 
-                |> (*) 0.45
+                |> (*) 0.55
                 |> round
             else
                 sizeGlobal.height 
                 |> toFloat 
-                |> (*) 0.45
+                |> (*) 0.55
                 |> round
     in
         {sizeGlobal | width = newsize, height = newsize}
