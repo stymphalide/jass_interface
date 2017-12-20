@@ -19,7 +19,8 @@ import Globals exposing (imgSourcePath, Position)
 import Game.Model exposing (..)
 import Game.Translate exposing (colorTranslate)
 
-import Game.Watch.Players exposing (viewSvgPlayers, viewPlayerCards)
+import Game.Watch.Players exposing (viewSvgPlayers)
+import Game.Watch.PlayerCards exposing (viewPlayerCards)
 import Game.Watch.Groups exposing (viewGroup, unwrapMaybeGroups)
 import Game.Watch.Table exposing (viewSvgTable)
 
