@@ -31,20 +31,27 @@ viewTable size table =
     ]
     <|
     List.concat
-    [ viewBackground size
-    , viewTableCards size [table.pos1, table.pos2, table.pos3, table.pos4]
+    [ viewBackground size {x = 0, y = 0}
+    , viewTableCards size {x = 0, y = 0} [table.pos1, table.pos2, table.pos3, table.pos4]
     ]
+
+viewSvgTable : Size -> Position -> Table -> List (Svg msg)
+viewSvgTable size pos table =
+    List.concat [viewBackground size pos, viewTableCards size pos [table.pos1, table.pos2, table.pos3, table.pos4]]
+
 -- Adds the green carpet
-viewBackground : Size -> List (Svg msg)
-viewBackground size =
+viewBackground : Size -> Position-> List (Svg msg)
+viewBackground size pos =
     [image 
     [ xlinkHref (imgSourcePath ++ "jass_teppich_green.png")
+    , x <| toString pos.x
+    , y <| toString pos.y
     , width  <| toString size.width
     , height <| toString size.height 
     ] []]
 -- Renders the cards.
-viewTableCards : Size -> List (Maybe Card) -> List (Svg msg)
-viewTableCards size cards =
+viewTableCards : Size ->  Position -> List (Maybe Card) -> List (Svg msg)
+viewTableCards size pos cards =
     let
         cardWidth = 
             (toFloat size.width) / 5 |> round
@@ -55,31 +62,31 @@ viewTableCards size cards =
         fixedSizeTableCard =
             (viewTableCard cardSize)
         positions =
-            cardPositions size
+            cardPositions size pos
     in
         List.map2 fixedSizeTableCard positions cards
 -- Helper to determine the cards position on hte field
 -- The Values are the number of pixels in the original picture.
-cardPositions : Size -> List Position
-cardPositions size =
+cardPositions : Size -> Position -> List Position
+cardPositions size pos =
     let
         factor =
             toFloat size.width / 497
         pos1 =
-            { x = 156 * factor |> round
-            , y = 100 * factor |> round
+            { x = 156 * factor |> round |> (+) pos.x 
+            , y = 100 * factor |> round |> (+) pos.y 
             }
         pos2 =
-            { x = 156 * factor |> round
-            , y = 247 * factor |> round
+            { x = 156 * factor |> round |> (+) pos.x 
+            , y = 247 * factor |> round |> (+) pos.y 
             }
         pos3 = 
-            { x = 247 * factor |> round
-            , y = 247 * factor |> round
+            { x = 247 * factor |> round |> (+) pos.x 
+            , y = 247 * factor |> round |> (+) pos.y 
             }
         pos4 =
-            { x = 247 * factor |> round
-            , y = 100 * factor |> round
+            { x = 247 * factor |> round |> (+) pos.x 
+            , y = 100 * factor |> round |> (+) pos.y 
             }
     in
         [pos1, pos2, pos3, pos4]
