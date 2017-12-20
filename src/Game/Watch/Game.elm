@@ -12,14 +12,14 @@ import Html.Attributes exposing (src, class)
 import Html.Events exposing (onClick)
 
 import Msgs exposing (Msg)
-import Globals exposing (imgSourcePath)
+import Globals exposing (imgSourcePath, Position)
 
 import Game.Model exposing (..)
 import Game.Translate exposing (colorTranslate)
 
-import Game.Watch.Players exposing (viewPlayers, viewPlayerCards)
+import Game.Watch.Players exposing (viewSvgPlayers, viewPlayerCards)
 import Game.Watch.Groups exposing (viewGroup, unwrapMaybeGroups)
-import Game.Watch.Table exposing (viewTable)
+import Game.Watch.Table exposing (viewSvgTable)
 
 -- One needs to actually fetch the game by pressing on the link
 init :  Html Msg
@@ -41,7 +41,7 @@ viewGame size game =
     , div [class "col col-6 center"]
         [ nav game.activePlayer (game.round, game.turn) game.gameType
         , ol [class "list-reset"] (viewPlayers (game.round, game.turn) (game.players, game.activePlayer, game.onTurnPlayer) )
-        , viewTable (sizeTable size) game.table 
+        , viewGameBoard size game 
         , ol [class "list-reset"] (viewPlayerCards game.cardsPlayer (toFloat size.width / 2 |> round) )
         ]
     , div [class "col col-3"] 
@@ -49,11 +49,26 @@ viewGame size game =
         |> viewGroup (List.head (unwrapMaybeGroups (List.tail game.groups))) 
         ]
     ]
--- Helper
--- Make the table square format, such that it fills ca 50 % of the screen.
-sizeTable : Size -> Size
-sizeTable sizeGlobal =
+
+viewGameBoard : Size -> Game -> Html Msg
+viewGameBoard sizeGlobal game =
     let
+        size =
+            sizeWrapper sizeGlobal
+    in
+        svg
+        [ width <| toString size.width
+        , height <| toString size.height
+        ]
+        List.concat 
+        [ viewSvgTable (sizeTable size) (posTable size) game.table
+        , [viewSvgPlayers {x = 0, y = 0} size game.gameCoord (game.players, game.activePlayer, game.onTurnPlayer) ]
+        ]
+            
+
+sizeWrapper : Size -> Size
+sizeWrapper sizeGlobal =
+        let
         newsize =
             if sizeGlobal.width < sizeGlobal.height then
                 sizeGlobal.width 
@@ -64,6 +79,33 @@ sizeTable sizeGlobal =
                 sizeGlobal.height 
                 |> toFloat 
                 |> (*) 0.55
+                |> round
+    in
+        {sizeGlobal | width = newsize, height = newsize}
+posTable : Size -> Position
+posTable sizeWrapper =
+    let
+        posX =
+            0.05 * sizeWrapper.width |> round
+        posY =
+            0.05 * sizeWrapper.height |> round
+    in
+        {x = posX, y = posY}    
+-- Helper
+-- Make the table square format, such that it fills ca 50 % of the screen.
+sizeTable : Size -> Size
+sizeTable sizeWrapper =
+    let
+        newsize =
+            if sizeGlobal.width < sizeGlobal.height then
+                sizeGlobal.width 
+                |> toFloat 
+                |> (*) 0.9
+                |> round
+            else
+                sizeGlobal.height 
+                |> toFloat 
+                |> (*) 0.9
                 |> round
     in
         {sizeGlobal | width = newsize, height = newsize}
