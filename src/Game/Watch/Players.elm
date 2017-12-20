@@ -14,19 +14,49 @@ import Game.Watch.Card exposing (viewCard)
 
 viewSvgPlayers : Position -> Size -> GameCoord -> PlayerInput -> List (Svg msg)
 viewSvgPlayers pos size gameCoord (players, activePlayer, onTurnPlayer) =
+    let
+        imgSrcs =
+            List.map (getImageLink activePlayer onTurnPlayer) players
+        gameCoords =
+            List.map (changePlayer gameCoord) players 
+        positions =
+            playerPositions pos size
+        pSize =
+            playerSize size
+    in
+        List.map3 (viewSvgPlayer pSize) positions gameCoords imgSrcs  
 
+viewSvgPlayer : Size -> Position ->  GameCoord -> String -> Svg msg
+viewSvgPlayer size pos gameCoord imgSrc =
+    image 
+    [ xlinkHref imgSrc
+    , x <| toString pos.x
+    , y <| toString pos.y
+    , width  <| toString size.width
+    , height <| toString size.height 
+    ] []
+
+playerSize : Size -> Size
+playerSize wholeSize = -- The size should depend on the width.
+    let
+        size =
+            toFloat wholeSize.width * 0.1 |> round
+    in
+        {height = size, width = size}
 playerPositions : Position -> Size -> List Position
 playerPositions pos size =
     let
+        pSize =
+            playerSize size 
         pos1 =
             pos
         pos2 = 
-            {pos | y = pos.y + size.height}
+            {pos | y = pos.y + size.height - pSize.height}
 
         pos3 = 
-            {pos | y = pos.y + size.height, x = pos.x + size.width}
+            {pos | y = pos.y + size.height - pSize.height, x = pos.x + size.width - pSize.width}
         pos4 =
-            {pos | x = pos.x + size.width}
+            {pos | x = pos.x + size.width - pSize.width}
     in
       [pos1, pos2, pos3, pos4] 
 
