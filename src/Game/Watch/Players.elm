@@ -87,10 +87,10 @@ getImageLink activePlayer onTurnPlayer player =
         if activePlayer == onTurnPlayer then
             imgSourcePath ++ "playerActiveOnTurn_icon.png"
         else
-            imgSourcePath ++ "activePlayer_icon.png"
+            imgSourcePath ++ "playerActive_icon.png"
     else
         if player == onTurnPlayer then
-            imgSourcePath ++ "onTurnPlayer_icon.png"
+            imgSourcePath ++ "playerOnTurn_icon.png"
         else
             imgSourcePath ++ "player_icon.png"
 changePlayer :  GameCoord -> Player -> Msg
