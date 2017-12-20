@@ -24,3 +24,7 @@ error =
 
 type alias Position =
     {x : Int, y : Int}
+type alias Size =
+    { width : Int
+    , height : Int
+    }

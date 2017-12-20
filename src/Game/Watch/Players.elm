@@ -2,17 +2,20 @@ module Game.Watch.Players exposing (..)
 
 import List
 import Html exposing (..)
-import Html.Attributes exposing (src, class, width)
-import Html.Events exposing (onClick)
+import Svg exposing (..)
+import Svg.Attributes as SA
+import Svg.Events as SE
+import Html.Attributes as HA
+import Html.Events as HE
 
 import Msgs exposing (Msg)
-import Globals exposing (imgSourcePath)
+import Globals exposing (imgSourcePath, Position, Size)
 
 import Game.Model exposing (..)
 
 import Game.Watch.Card exposing (viewCard)
 
-viewSvgPlayers : Position -> Size -> GameCoord -> PlayerInput -> List (Svg msg)
+viewSvgPlayers : Position -> Size -> GameCoord -> PlayerInput -> List (Svg Msg)
 viewSvgPlayers pos size gameCoord (players, activePlayer, onTurnPlayer) =
     let
         imgSrcs =
@@ -24,16 +27,17 @@ viewSvgPlayers pos size gameCoord (players, activePlayer, onTurnPlayer) =
         pSize =
             playerSize size
     in
-        List.map3 (viewSvgPlayer pSize) positions gameCoords imgSrcs  
+        List.map3 (viewSvgPlayer pSize) positions gameCoords imgSrcs
 
-viewSvgPlayer : Size -> Position ->  GameCoord -> String -> Svg msg
+viewSvgPlayer : Size -> Position ->  Msg -> String -> Svg Msg
 viewSvgPlayer size pos gameCoord imgSrc =
     image 
-    [ xlinkHref imgSrc
-    , x <| toString pos.x
-    , y <| toString pos.y
-    , width  <| toString size.width
-    , height <| toString size.height 
+    [ SA.xlinkHref imgSrc
+    , SA.x <| toString pos.x
+    , SA.y <| toString pos.y
+    , SA.width  <| toString size.width
+    , SA.height <| toString size.height 
+    , SE.onClick gameCoord
     ] []
 
 playerSize : Size -> Size
@@ -68,37 +72,37 @@ viewPlayers gameCoord (players, activePlayer, onTurnPlayer) =
 
 viewPlayer : GameCoord -> Player -> Player -> Player -> Html Msg
 viewPlayer gameCoord activePlayer onTurnPlayer player =
-    li [class "inline-block mr1"]
-            [ div [class "col-9"] [text player]
+    li [HA.class "inline-block mr1"]
+            [ div [HA.class "col-9"] [Html.text player]
             , img 
-                [ src <|  getImageLink activePlayer onTurnPlayer player
-                , width 50
-                , changePlayer gameCoord player
+                [ HA.src <|  getImageLink activePlayer onTurnPlayer player
+                , HA.width 50
+                , HE.onClick <| changePlayer gameCoord player
                 ] []
             ]
 
 getImageLink : Player -> Player -> Player -> String
 getImageLink activePlayer onTurnPlayer player =
-    case player of
-        onTurnPlayer && activePlayer ->
+    if player == activePlayer then
+        if activePlayer == onTurnPlayer then
             imgSourcePath ++ "playerActiveOnTurn_icon.png"
-        activePlayer ->
+        else
             imgSourcePath ++ "activePlayer_icon.png"
-        onTurnPlayer ->
+    else
+        if player == onTurnPlayer then
             imgSourcePath ++ "onTurnPlayer_icon.png"
-        _ ->
+        else
             imgSourcePath ++ "player_icon.png"
-changePlayer :  GameCoord -> Player -> Attribute Msg
+changePlayer :  GameCoord -> Player -> Msg
 changePlayer gameCoord player  =
     Msgs.FetchGame (Just gameCoord) (Just player) NoAction
-    |> onClick
 
 
 viewPlayerCards : Maybe (List Card) -> Int -> List (Html Msg)
 viewPlayerCards mCards width =
     case mCards of
         Nothing ->
-            [div [] [text "No Cards received"]]
+            [div [] [Html.text "No Cards received"]]
         Just cards ->
             let
                 cardWidth =
@@ -109,7 +113,7 @@ viewPlayerCards mCards width =
 
 viewPlayerCard : Int -> Card -> Html Msg
 viewPlayerCard width card =
-    li [class "inline-block"] 
+    li [HA.class "inline-block"] 
     [ div [] 
         [viewCard width card]
      
