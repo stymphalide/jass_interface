@@ -8,9 +8,17 @@ import Html.Events exposing (onClick)
 import Msgs exposing (Msg)
 import Globals exposing (imgSourcePath)
 
-import Game.Model exposing (Card, Player, GameCoord, Action(..))
+import Game.Model exposing (..)
 
 import Game.Watch.Card exposing (viewCard)
+
+viewSvgPlayers : Position -> Size -> GameCoord -> PlayerInput -> List (Svg msg)
+viewSvgPlayers pos size gameCoord (players, activePlayer, onTurnPlayer) =
+
+playerPositions : Position -> Size -> List Position
+playerPositions position size =
+    [] 
+
 
 
 viewPlayers: GameCoord -> PlayerInput -> List (Html Msg)
