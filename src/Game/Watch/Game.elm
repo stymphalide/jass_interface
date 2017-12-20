@@ -8,7 +8,9 @@ module Game.Watch.Game exposing (..)
 import List
 import Window exposing (Size)
 import Html exposing (..)
-import Html.Attributes exposing (src, class)
+import Svg exposing (svg)
+import Html.Attributes exposing (class, src)
+import Svg.Attributes as SA
 import Html.Events exposing (onClick)
 
 import Msgs exposing (Msg)
@@ -40,7 +42,7 @@ viewGame size game =
         ]
     , div [class "col col-6 center"]
         [ nav game.activePlayer (game.round, game.turn) game.gameType
-        , ol [class "list-reset"] (viewPlayers (game.round, game.turn) (game.players, game.activePlayer, game.onTurnPlayer) )
+        --, ol [class "list-reset"] (viewPlayers (game.round, game.turn) (game.players, game.activePlayer, game.onTurnPlayer) )
         , viewGameBoard size game 
         , ol [class "list-reset"] (viewPlayerCards game.cardsPlayer (toFloat size.width / 2 |> round) )
         ]
@@ -54,20 +56,21 @@ viewGameBoard : Size -> Game -> Html Msg
 viewGameBoard sizeGlobal game =
     let
         size =
-            sizeWrapper sizeGlobal
+            sizeGameBoard sizeGlobal
     in
         svg
-        [ width <| toString size.width
-        , height <| toString size.height
+        [ SA.width <| toString size.width
+        , SA.height <| toString size.height
         ]
+        <|
         List.concat 
         [ viewSvgTable (sizeTable size) (posTable size) game.table
-        , [viewSvgPlayers {x = 0, y = 0} size game.gameCoord (game.players, game.activePlayer, game.onTurnPlayer) ]
+        , viewSvgPlayers {x = 0, y = 0} size (game.round, game.turn) (game.players, game.activePlayer, game.onTurnPlayer) 
         ]
             
 
-sizeWrapper : Size -> Size
-sizeWrapper sizeGlobal =
+sizeGameBoard : Size -> Size
+sizeGameBoard sizeGlobal =
         let
         newsize =
             if sizeGlobal.width < sizeGlobal.height then
@@ -83,32 +86,32 @@ sizeWrapper sizeGlobal =
     in
         {sizeGlobal | width = newsize, height = newsize}
 posTable : Size -> Position
-posTable sizeWrapper =
+posTable sizeGameBoard =
     let
         posX =
-            0.05 * sizeWrapper.width |> round
+            toFloat sizeGameBoard.width * 0.05 |> round
         posY =
-            0.05 * sizeWrapper.height |> round
+            toFloat sizeGameBoard.height * 0.05 |> round
     in
         {x = posX, y = posY}    
 -- Helper
 -- Make the table square format, such that it fills ca 50 % of the screen.
 sizeTable : Size -> Size
-sizeTable sizeWrapper =
+sizeTable sizeGameBoard =
     let
         newsize =
-            if sizeGlobal.width < sizeGlobal.height then
-                sizeGlobal.width 
+            if sizeGameBoard.width < sizeGameBoard.height then
+                sizeGameBoard.width 
                 |> toFloat 
                 |> (*) 0.9
                 |> round
             else
-                sizeGlobal.height 
+                sizeGameBoard.height 
                 |> toFloat 
                 |> (*) 0.9
                 |> round
     in
-        {sizeGlobal | width = newsize, height = newsize}
+        {width = newsize, height = newsize}
 
 
 -- Renders the GameType from the Game record received.
