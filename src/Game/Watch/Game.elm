@@ -39,8 +39,7 @@ viewGame size game =
         |> viewGroup (List.head game.groups) 
         ]
     , div [class "col col-6 center"]
-        [ nav game.activePlayer (game.round, game.turn)
-        , viewGameType game.gameType
+        [ nav game.activePlayer (game.round, game.turn) game.gameType
         , ol [class "list-reset"] (viewPlayers (game.round, game.turn) game.activePlayer game.onTurnPlayer game.players)
         , viewTable (sizeTable size) game.table 
         , ol [class "list-reset"] (viewPlayerCards game.cardsPlayer (toFloat size.width / 2 |> round) )
@@ -86,11 +85,16 @@ viewGameType gameType =
             div [] [img [src (imgSourcePath ++ (colorTranslate color)++ "_icon.png") ] []]
 
 -- Handles navigation (so far the players and the arrows are used.)
-nav : Player -> GameCoord  -> Html Msg
-nav player (round, turn) =
+nav : Player -> GameCoord -> GameType -> Html Msg
+nav player (round, turn) gameType=
     div [] 
-    [ h2 [] [text player]
-    , h2 [] [text ("Round #" ++ (toString (round, turn)))]
+    [ div [class "left"] 
+        [ h2 [] [text player]
+        , h2 [] [text ("Round #" ++ (toString (round, turn)))]
+    ]
+    , div [class "right"]
+        [ viewGameType gameType
+        ]
     , prev player (round, turn)
     , next player (round, turn)
     ]
