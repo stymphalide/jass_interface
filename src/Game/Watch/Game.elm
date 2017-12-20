@@ -40,7 +40,7 @@ viewGame size game =
         ]
     , div [class "col col-6 center"]
         [ nav game.activePlayer (game.round, game.turn) game.gameType
-        , ol [class "list-reset"] (viewPlayers (game.round, game.turn) game.activePlayer game.onTurnPlayer game.players)
+        , ol [class "list-reset"] (viewPlayers (game.round, game.turn) (game.players game.activePlayer game.onTurnPlayer) )
         , viewTable (sizeTable size) game.table 
         , ol [class "list-reset"] (viewPlayerCards game.cardsPlayer (toFloat size.width / 2 |> round) )
         ]

@@ -91,3 +91,7 @@ type Action
     = ChooseGameType GameType
     | PlayCard Card
     | NoAction
+
+
+type alias PlayerInput =
+    (List Player, Player, Player)

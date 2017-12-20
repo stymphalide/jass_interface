@@ -13,8 +13,8 @@ import Game.Model exposing (Card, Player, GameCoord, Action(..))
 import Game.Watch.Card exposing (viewCard)
 
 
-viewPlayers: GameCoord -> Player -> Player -> List Player -> List (Html Msg)
-viewPlayers gameCoord activePlayer onTurnPlayer players =
+viewPlayers: GameCoord -> PlayerInput -> List (Html Msg)
+viewPlayers gameCoord (players, activePlayer, onTurnPlayer) =
     List.map (viewPlayer gameCoord activePlayer onTurnPlayer) players
 
 
