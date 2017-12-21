@@ -40,6 +40,8 @@ update msg model =
                 ({model | games = mGames }, Cmd.none)
         Msgs.SizeUpdated newSize ->
             ({model | windowSize = newSize}, Cmd.none)
+        Msgs.OnKeyUp key ->
+            mapKeyToUpdate key model
 
 -- Changes the mode of the Model
 onLocationChange : Mode -> Model -> (Model, Cmd Msg)
@@ -130,3 +132,19 @@ lobbyUpdate model lobbyString =
                                 ({model | mode = Init}, Cmd.none)
                             Just player ->
                                 ({model | mode = (Play gameId player), gameId = Just gameId}, Cmd.none)
+
+
+mapKeyToUpdate : Int -> Model -> (Model, Cmd Msg)
+mapKeyToUpdate key model =
+    case model.mode of
+        Init ->
+            case model.player of
+                Changing player ->
+                    if key == 13 then
+                        playerChange Msgs.Approve model
+                    else
+                        (model, Cmd.none)
+                Constant player->
+                    (model, Cmd.none)
+        _ ->
+            (model, Cmd.none)

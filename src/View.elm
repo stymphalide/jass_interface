@@ -9,7 +9,7 @@ import Html exposing (..)
 -- Html Attributes
 import Html.Attributes exposing (class, href, value, placeholder)
 -- Html Events
-import Html.Events exposing (on, targetValue, onClick, onInput)
+import Html.Events exposing (on, onClick, onInput, keyCode, targetValue)
 -- To decode a Json into a string
 import Json.Decode
 -- List utility functions
@@ -48,7 +48,7 @@ init : Input Player -> Maybe GameId  -> Maybe (List GameId) -> Html Msg
 init iPlayer mGameId mGameIds =
     case iPlayer of
         Changing player ->
-            div [] 
+            div [onKeyUp Msgs.OnKeyUp] 
             [ input [ placeholder "Player name",  onInput newInput ] []
             , a [class "btn", onClick (Msgs.PlayerChange Msgs.Approve)] [ text "Log In" ]
             ]
@@ -123,3 +123,7 @@ logout : Html Msg
 logout =
     a [ class "btn", onClick <| Msgs.LogOut] [text "Logout"]
 
+-- Helper to find onKeyUp
+onKeyUp : (Int -> msg) -> Attribute msg
+onKeyUp tagger =
+    on "keyup" (Json.Decode.map tagger keyCode)

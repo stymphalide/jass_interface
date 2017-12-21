@@ -32,6 +32,7 @@ type Msg
     | LobbyUpdate String
     | SizeUpdated Size
     | LogOut
+    | OnKeyUp Int
 
 -- Allows to store one value in one variable
 -- But it can either be changing as in with every key pressed
