@@ -7,7 +7,7 @@ import Html.Events exposing (onClick)
 import Msgs exposing (Msg)
 import Globals exposing (imgSourcePath)
 
-import Game.Model exposing (Card, Number, Color, Action(..))
+import Game.Model exposing (Card, Number, Color, Action(..), Language(..))
 import Game.Translate exposing (colorTranslate, numberTranslate)
 
 
@@ -23,5 +23,5 @@ viewOnTurnCard card =
 
 getImagePath : Color -> Number -> String
 getImagePath color number =
-    imgSourcePath++ (colorTranslate color) ++"_"++(numberTranslate number) ++".png"
+    imgSourcePath++ (colorTranslate German color) ++"_"++(numberTranslate German number) ++".png"
 

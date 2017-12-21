@@ -14,9 +14,8 @@ import Svg.Attributes exposing (..)
 import Msgs exposing (Msg)
 import Globals exposing (imgSourcePath, Position)
 
-import Game.Model exposing (Card, Number, Color)
+import Game.Model exposing (Card, Number, Color, Language(..))
 import Game.Translate exposing (colorTranslate, numberTranslate)
-
 -- Renders images as svg at certain position and size
 viewSvgCard : Size -> Position -> Card -> Svg.Svg msg
 viewSvgCard size pos card  =
@@ -36,5 +35,5 @@ viewCard width card  =
 
 getImagePath : Color -> Number -> String
 getImagePath color number =
-    imgSourcePath++ (colorTranslate color) ++"_"++(numberTranslate number) ++".png"
+    imgSourcePath++ (colorTranslate German color) ++"_"++(numberTranslate German number) ++".png"
 

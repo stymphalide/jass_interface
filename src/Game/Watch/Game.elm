@@ -128,7 +128,7 @@ viewGameType gameType =
         Down ->
             div [] [img [src (imgSourcePath ++ "undenufe.png")] [] ]
         Color color ->
-            div [] [img [src (imgSourcePath ++ (colorTranslate color)++ "_icon.png") ] []]
+            div [] [img [src (imgSourcePath ++ (colorTranslate German color)++ "_icon.png") ] []]
 
 -- Handles navigation (so far the players and the arrows are used.)
 nav : Player -> GameCoord -> GameType -> Html Msg
