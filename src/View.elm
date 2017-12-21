@@ -27,10 +27,7 @@ view : Model -> Html Msg
 view model =
     div [] 
         [ page model
-        , text (toString model.windowSize)
-        , (toString model.game) |> (++) "GameString: " |> text
-        , (toString model.gameId) |> (++) "\nGameId: " |> text 
-        , (toString model.mode) |> (++) "\nmode: " |> text
+        , nav model
         ]
 -- This function renders a different view base on the mode, the model is in
 page : Model -> Html Msg
@@ -104,4 +101,25 @@ slct gameIds =
 viewOption : GameId -> Html Msg
 viewOption gameId =
     option [value gameId] [text ("Game " ++ gameId)]
+
+
+nav : Model -> Html Msg
+nav model =
+    case model.mode of
+        Init ->
+            case model.player of
+                Changing player ->
+                    div [] [] -- Nothing to navigate to
+                Constant player ->
+                    logout
+        Lobby ->
+            logout
+        Play ->
+            logout
+        Watch ->
+            logout
+
+logout : Html Msg
+logout =
+    a [ class "btn", onClick <| Msgs.LogOut] [text "Logout"]
 
