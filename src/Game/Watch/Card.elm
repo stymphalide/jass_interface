@@ -17,10 +17,10 @@ import Globals exposing (imgSourcePath, Position)
 import Game.Model exposing (Card, Number, Color, Language(..))
 import Game.Translate exposing (colorTranslate, numberTranslate)
 -- Renders images as svg at certain position and size
-viewSvgCard : Size -> Position -> Card -> Svg.Svg msg
-viewSvgCard size pos card  =
+viewSvgCard : Language -> Size -> Position -> Card -> Svg.Svg msg
+viewSvgCard lang size pos card  =
     image
-    [ xlinkHref (getImagePath card.color card.number)
+    [ xlinkHref (getImagePath lang card.color card.number)
     , x <| toString pos.x 
     , y <| toString pos.y
     , Svg.Attributes.width <| toString size.width
@@ -28,12 +28,12 @@ viewSvgCard size pos card  =
     ]
     []
 -- Renders card as html with certain width.
-viewCard : Int -> Card -> Html.Html Msg
-viewCard width card  =
-    Html.img [src (getImagePath card.color card.number), Html.Attributes.width width ] []
+viewCard : Language -> Int -> Card -> Html.Html Msg
+viewCard lang width card  =
+    Html.img [src (getImagePath lang card.color card.number), Html.Attributes.width width ] []
 
 
-getImagePath : Color -> Number -> String
-getImagePath color number =
-    imgSourcePath++ (colorTranslate German color) ++"_"++(numberTranslate German number) ++".png"
+getImagePath : Language -> Color -> Number -> String
+getImagePath lang color number =
+    imgSourcePath++ (colorTranslate lang color) ++"_"++(numberTranslate lang number) ++".png"
 

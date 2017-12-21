@@ -17,14 +17,14 @@ import Svg.Attributes exposing (..)
 import Msgs exposing (Msg)
 import Globals exposing (imgSourcePath, Position)
 
-import Game.Model exposing (Table, Card)
+import Game.Model exposing (Table, Card, Language)
 
 import Game.Watch.Card exposing (viewSvgCard)
 
 -- Solves that with a svg part
 -- thent adds the pictures to it.
-viewTable : Size -> Table -> Html.Html Msg
-viewTable size table =
+viewTable : Language -> Size -> Table -> Html.Html Msg
+viewTable lang size table =
     svg 
     [ width <| toString size.width  
     , height <| toString size.height
@@ -32,12 +32,12 @@ viewTable size table =
     <|
     List.concat
     [ viewBackground size {x = 0, y = 0}
-    , viewTableCards size {x = 0, y = 0} [table.pos1, table.pos2, table.pos3, table.pos4]
+    , viewTableCards lang size {x = 0, y = 0} [table.pos1, table.pos2, table.pos3, table.pos4]
     ]
 
-viewSvgTable : Size -> Position -> Table -> List (Svg msg)
-viewSvgTable size pos table =
-    List.concat [viewBackground size pos, viewTableCards size pos [table.pos1, table.pos2, table.pos3, table.pos4]]
+viewSvgTable : Language -> Size -> Position -> Table -> List (Svg msg)
+viewSvgTable lang size pos table =
+    List.concat [viewBackground size pos, viewTableCards lang size pos [table.pos1, table.pos2, table.pos3, table.pos4]]
 
 -- Adds the green carpet
 viewBackground : Size -> Position-> List (Svg msg)
@@ -50,8 +50,8 @@ viewBackground size pos =
     , height <| toString size.height 
     ] []]
 -- Renders the cards.
-viewTableCards : Size ->  Position -> List (Maybe Card) -> List (Svg msg)
-viewTableCards size pos cards =
+viewTableCards : Language -> Size ->  Position -> List (Maybe Card) -> List (Svg msg)
+viewTableCards lang size pos cards =
     let
         cardWidth = 
             (toFloat size.width) / 5 |> round
@@ -60,7 +60,7 @@ viewTableCards size pos cards =
         cardSize =
            {size | width = cardWidth, height = cardHeight}
         fixedSizeTableCard =
-            (viewTableCard cardSize)
+            (viewTableCard lang cardSize)
         positions =
             cardPositions size pos
     in
@@ -91,13 +91,13 @@ cardPositions size pos =
     in
         [pos1, pos2, pos3, pos4]
 -- Actually renders the cards uses the svgCard function.
-viewTableCard : Size -> Position -> Maybe Card -> Svg msg
-viewTableCard size pos mCard =
+viewTableCard : Language -> Size -> Position -> Maybe Card -> Svg msg
+viewTableCard lang size pos mCard =
     case mCard of
         Nothing ->
             viewEmptyCard size pos
         Just card ->
-            viewSvgCard size pos card
+            viewSvgCard lang size pos card
 
 
 viewEmptyCard : Size -> Position -> Svg msg
