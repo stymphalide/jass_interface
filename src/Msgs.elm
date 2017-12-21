@@ -33,6 +33,7 @@ type Msg
     | SizeUpdated Size
     | LogOut
     | OnKeyUp Int
+    | LanguageChange String
 
 -- Allows to store one value in one variable
 -- But it can either be changing as in with every key pressed

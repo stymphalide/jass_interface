@@ -9,15 +9,15 @@ import Html.Attributes exposing (class)
 
 import Msgs exposing (Msg)
 
-import Game.Model exposing (Group, Card, Player, History)
+import Game.Model exposing (Group, Card, Player, History, Language)
 
 import Game.Watch.Card exposing (viewCard)
 
 -- At the top are the names of the players
 -- next is their points
 -- then the played cards are displayed.
-viewGroup : Maybe Group -> Int -> Html Msg
-viewGroup mGroup width =
+viewGroup : Language -> Maybe Group -> Int -> Html Msg
+viewGroup lang mGroup width =
     case mGroup of 
         Nothing ->
             div [][text "No Group Found!"]
@@ -25,7 +25,7 @@ viewGroup mGroup width =
             div [] 
             [ h2 [] [ text (groupName group.players)]
             , h3 [] ["Points: " ++ (toString group.points) |> text]
-            , div [class "clearfix"] (viewWonTurns group.wonCards width)
+            , div [class "clearfix"] (viewWonTurns lang group.wonCards width)
             ]
 -- "Group pl_1 pl_2"
 groupName : List Player -> String
@@ -47,17 +47,17 @@ unwrapMaybeGroups mGroups =
 
 -- Renders the history of the group.
 -- Just lists them in pairs of 4
-viewWonTurns : History -> Int -> List (Html Msg)
-viewWonTurns mTurns width =
+viewWonTurns : Language -> History -> Int -> List (Html Msg)
+viewWonTurns lang mTurns width =
     case mTurns of
         Nothing ->
             []
         Just wonCards ->
-            List.map (viewWonTurn width)  wonCards 
-viewWonTurn : Int -> List Card -> Html Msg
-viewWonTurn width cards =
+            List.map (viewWonTurn lang width)  wonCards 
+viewWonTurn : Language -> Int -> List Card -> Html Msg
+viewWonTurn lang width cards =
     let
         cardWidth =
             toFloat width / 4.2 |> round
     in
-        li [class "inline-block"] (List.map (viewCard cardWidth) cards)
+        li [class "inline-block"] (List.map (viewCard lang cardWidth) cards)

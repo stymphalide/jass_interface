@@ -13,7 +13,7 @@ import Html.Events exposing (on, onClick, onInput, keyCode, targetValue)
 -- To decode a Json into a string
 import Json.Decode
 -- List utility functions
-import List 
+import List
 
 import Models exposing (Model, Input(..), Mode(..))
 import Msgs exposing (Msg)
@@ -57,6 +57,7 @@ init iPlayer mGameId mGameIds =
                 Nothing ->
                     div []
                         [ playBtn "Play New Game" player
+                        , languageDropdown
                         ]
                 Just gameIds ->
                     case mGameId of
@@ -65,12 +66,14 @@ init iPlayer mGameId mGameIds =
                                 [ playBtn "Play New Game" player
                                 , watchBtn "Watch Previous Game" "0" player
                                 , slct gameIds
+                                , languageDropdown
                                 ]
                         Just gameId ->
                             div []
                                 [ playBtn "Play New Game" player
                                 , watchBtn "Watch Previous Game" gameId player
                                 , slct gameIds
+                                , languageDropdown
                                 ]  
 -- Helper function to update the name
 newInput : String -> Msg
@@ -102,7 +105,6 @@ viewOption : GameId -> Html Msg
 viewOption gameId =
     option [value gameId] [text ("Game " ++ gameId)]
 
-
 nav : Model -> Html Msg
 nav model =
     case model.mode of
@@ -127,3 +129,12 @@ logout =
 onKeyUp : (Int -> msg) -> Attribute msg
 onKeyUp tagger =
     on "keyup" (Json.Decode.map tagger keyCode)
+languageDropdown : Html Msg
+languageDropdown =
+    div []
+    [ select [on "change" (Json.Decode.map Msgs.LanguageChange targetValue)]
+        [ option [value "french"] [text "French"]
+        , option [value "german"] [text "German"]
+        ]
+        
+    ]

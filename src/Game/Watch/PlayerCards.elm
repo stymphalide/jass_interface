@@ -9,8 +9,8 @@ import Game.Model exposing (..)
 import Game.Watch.Card exposing (viewCard)
 
 
-viewPlayerCards : Maybe (List Card) -> Int -> List (Html Msg)
-viewPlayerCards mCards width =
+viewPlayerCards : Language -> Maybe (List Card) -> Int -> List (Html Msg)
+viewPlayerCards lang mCards width =
     case mCards of
         Nothing ->
             [div [] [text "No Cards received"]]
@@ -20,12 +20,12 @@ viewPlayerCards mCards width =
                     (toFloat width) / 10
                     |> round
             in
-                List.map (viewPlayerCard cardWidth) cards
+                List.map (viewPlayerCard lang cardWidth) cards
 
-viewPlayerCard : Int -> Card -> Html Msg
-viewPlayerCard width card =
+viewPlayerCard : Language -> Int -> Card -> Html Msg
+viewPlayerCard lang width card =
     li [class "inline-block"] 
     [ div [] 
-        [viewCard width card]
+        [viewCard lang width card]
      
     ]

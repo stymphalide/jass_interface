@@ -39,17 +39,17 @@ viewGame size game =
     div [class "clearfix"]
     [ div [class "col col-3"] 
         [ (toFloat size.width / 4 |> round)
-        |> viewGroup (List.head game.groups) 
+        |> viewGroup game.language (List.head game.groups) 
         ]
     , div [class "col col-6 center"]
-        [ nav game.activePlayer (game.round, game.turn) game.gameType
+        [ nav game.language game.activePlayer (game.round, game.turn) game.gameType
         --, ol [class "list-reset"] (viewPlayers (game.round, game.turn) (game.players, game.activePlayer, game.onTurnPlayer) )
         , viewGameBoard size game 
-        , ol [class "list-reset"] (viewPlayerCards game.cardsPlayer (toFloat size.width / 2 |> round) )
+        , ol [class "list-reset"] (viewPlayerCards game.language game.cardsPlayer (toFloat size.width / 2 |> round) )
         ]
     , div [class "col col-3"] 
         [ (toFloat size.width / 4 |> round)
-        |> viewGroup (List.head (unwrapMaybeGroups (List.tail game.groups))) 
+        |> viewGroup game.language (List.head (unwrapMaybeGroups (List.tail game.groups))) 
         ]
     ]
 
@@ -65,8 +65,8 @@ viewGameBoard sizeGlobal game =
         ]
         <|
         List.concat 
-        [ viewSvgTable (sizeTable size) (posTable size) game.table
-        , viewSvgPlayers {x = 0, y = 0} size (game.round, game.turn) (game.players, game.activePlayer, game.onTurnPlayer) 
+        [ viewSvgTable game.language (sizeTable size) (posTable size) game.table
+        , viewSvgPlayers  {x = 0, y = 0} size (game.round, game.turn) (game.players, game.activePlayer, game.onTurnPlayer) 
         ]
             
 
@@ -116,8 +116,8 @@ sizeTable sizeGameBoard =
 
 
 -- Renders the GameType from the Game record received.
-viewGameType : GameType -> Html Msg
-viewGameType gameType =
+viewGameType : Language -> GameType -> Html Msg
+viewGameType lang gameType =
     case gameType of
         NoGameType ->
             div [] [img  [src (imgSourcePath ++ "question_mark.png")] [] ]
@@ -128,18 +128,18 @@ viewGameType gameType =
         Down ->
             div [] [img [src (imgSourcePath ++ "undenufe.png")] [] ]
         Color color ->
-            div [] [img [src (imgSourcePath ++ (colorTranslate color)++ "_icon.png") ] []]
+            div [] [img [src (imgSourcePath ++ (colorTranslate lang color)++ "_icon.png") ] []]
 
 -- Handles navigation (so far the players and the arrows are used.)
-nav : Player -> GameCoord -> GameType -> Html Msg
-nav player (round, turn) gameType=
+nav : Language -> Player -> GameCoord -> GameType -> Html Msg
+nav lang  player (round, turn) gameType =
     div [] 
     [ div [class "left"] 
         [ h2 [] [text player]
         , h2 [] [text ("Round #" ++ (toString (round, turn)))]
     ]
     , div [class "right"]
-        [ viewGameType gameType
+        [ viewGameType lang gameType
         ]
     , prev player (round, turn)
     , next player (round, turn)

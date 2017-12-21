@@ -32,6 +32,7 @@ type alias Game =
     , onTurnPlayer : Player
     , cardsPlayer : Maybe ( List Card ) 
     , table : Table
+    , language : Language
     }
 -- Stores a color and number (e.g. hearts ace)
 type alias Card =

@@ -9,7 +9,7 @@ import Models exposing (Model, Input(..), Mode(..), initialModel)
 import Commands exposing (..)
 
 import Game.Update exposing (updateGame, updateLobby, updateInit)
-import Game.Model exposing (Player, GameCoord, Lobby(..), Action(..))
+import Game.Model exposing (Player, GameCoord, Lobby(..), Action(..), Language(..))
 
 -- UPDATE
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -23,7 +23,13 @@ update msg model =
             playerChange input model
         Msgs.GameUpdate gameString ->
             let
-                mNewGame = updateGame gameString
+                mNewGame = 
+                    case updateGame gameString of
+                        Nothing ->
+                            Nothing
+                        Just game ->
+                            Just {game | language = model.language}
+
             in
                 ({model | game = mNewGame}, Cmd.none)
         Msgs.FetchGame mGameCoord mPlayer action ->
@@ -42,6 +48,14 @@ update msg model =
             ({model | windowSize = newSize}, Cmd.none)
         Msgs.OnKeyUp key ->
             mapKeyToUpdate key model
+        Msgs.LanguageChange langString ->
+            case langString of
+                "french" ->
+                    ({model | language = French}, Cmd.none)
+                "german" ->
+                    ({model | language = German}, Cmd.none)
+                _ ->
+                    (model, Cmd.none)
 
 -- Changes the mode of the Model
 onLocationChange : Mode -> Model -> (Model, Cmd Msg)
