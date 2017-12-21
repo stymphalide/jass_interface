@@ -21,7 +21,13 @@ update msg model =
             playerChange input model
         Msgs.GameUpdate gameString ->
             let
-                mNewGame = updateGame gameString
+                mNewGame = 
+                    case updateGame gameString of
+                        Nothing ->
+                            Nothing
+                        Just game ->
+                            Just {game | language = model.language}
+
             in
                 ({model | game = mNewGame}, Cmd.none)
         Msgs.FetchGame mGameCoord mPlayer action ->

@@ -7,7 +7,7 @@ module Decoders exposing (..)
 -- Low Level Decoders from native elm
 import Json.Decode as Decode
 -- High level decoders by NoRedInk.
-import Json.Decode.Pipeline exposing (decode, required)
+import Json.Decode.Pipeline exposing (decode, required, hardcoded)
 
 import Msgs exposing (Msg)
 import Models exposing (Model)
@@ -46,6 +46,7 @@ gameDecoder =
     |> required "onTurnPlayer" playerDecoder
     |> required "cardsPlayer" (Decode.maybe(Decode.list cardDecoder) )
     |> required "table" tableDecoder
+    |> hardcoded French
 
 -- Decodes into a gameType specified in the Game.Model module.
 gameTypeDecoder : Decode.Decoder GameType
