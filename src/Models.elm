@@ -6,12 +6,7 @@ module Models exposing (..)
 -}
 
 import Window exposing (Size)
-import Game.Model exposing (Game, Player, GameId, Action)
-
-
--- This type keeps track of the virtual position of a player.
-type alias Position =
-    {x : Int, y : Int}
+import Game.Model exposing (Game, Player, GameId, Action, Language(..))
 
 type Mode
     = Init
@@ -41,6 +36,7 @@ type alias Model =
     , windowSize : Size
     , player : Input Player
     , gameId : Maybe GameId
+    , language : Language
     }
 
 {-
@@ -56,4 +52,5 @@ initialModel =
     , windowSize = Size 0 0
     , gameId = Nothing
     , player = Changing ""
+    , language = German
     }

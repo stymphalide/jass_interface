@@ -17,6 +17,11 @@ module Game.Model exposing (..)
     cardsPlayer ==> A list of cards the player owns.
     table ==> stores which cards lie on the table.
 -}
+
+type Language
+    = German
+    | French
+
 type alias Game =
     { gameType : GameType
     , round : Int
