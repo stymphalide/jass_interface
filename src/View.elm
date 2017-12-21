@@ -112,11 +112,11 @@ nav model =
                     div [] [] -- Nothing to navigate to
                 Constant player ->
                     logout
-        Lobby ->
+        Lobby players ->
             logout
-        Play ->
+        Play gameId player ->
             logout
-        Watch ->
+        Watch gameId player ->
             logout
 
 logout : Html Msg

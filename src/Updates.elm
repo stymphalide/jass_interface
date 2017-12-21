@@ -5,7 +5,7 @@ module Updates exposing (..)
 -}
 
 import Msgs exposing (Msg)
-import Models exposing (Model, Input(..), Mode(..))
+import Models exposing (Model, Input(..), Mode(..), initialModel)
 import Commands exposing (..)
 
 import Game.Update exposing (updateGame, updateLobby, updateInit)
@@ -17,6 +17,8 @@ update msg model =
     case msg of
         Msgs.OnLocationChange mode ->
             onLocationChange mode model
+        Msgs.LogOut ->
+            ({initialModel | windowSize = model.windowSize}, Cmd.none)
         Msgs.PlayerChange input ->
             playerChange input model
         Msgs.GameUpdate gameString ->

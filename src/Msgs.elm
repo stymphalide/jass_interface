@@ -31,6 +31,7 @@ type Msg
     | GameUpdate String
     | LobbyUpdate String
     | SizeUpdated Size
+    | LogOut
 
 -- Allows to store one value in one variable
 -- But it can either be changing as in with every key pressed
