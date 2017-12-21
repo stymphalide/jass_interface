@@ -112,4 +112,8 @@ languageDropdown : Html Msg
 languageDropdown =
     div []
     [ select [on "change" (Json.Decode.map Msgs.LanguageChange targetValue)]
+        [ option [value "french"] [text "French"]
+        , option [value "german"] [text "German"]
+        ]
+        
     ]

@@ -9,7 +9,7 @@ import Models exposing (Model, Input(..), Mode(..))
 import Commands exposing (..)
 
 import Game.Update exposing (updateGame, updateLobby, updateInit)
-import Game.Model exposing (Player, GameCoord, Lobby(..), Action(..))
+import Game.Model exposing (Player, GameCoord, Lobby(..), Action(..), Language(..))
 
 -- UPDATE
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -38,6 +38,14 @@ update msg model =
                 ({model | games = mGames }, Cmd.none)
         Msgs.SizeUpdated newSize ->
             ({model | windowSize = newSize}, Cmd.none)
+        Msgs.LanguageChange langString ->
+            case langString of
+                "french" ->
+                    ({model | language = French}, Cmd.none)
+                "german" ->
+                    ({model | language = German}, Cmd.none)
+                _ ->
+                    (model, Cmd.none)
 
 -- Changes the mode of the Model
 onLocationChange : Mode -> Model -> (Model, Cmd Msg)
