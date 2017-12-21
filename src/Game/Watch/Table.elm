@@ -21,20 +21,6 @@ import Game.Model exposing (Table, Card, Language)
 
 import Game.Watch.Card exposing (viewSvgCard)
 
--- Solves that with a svg part
--- thent adds the pictures to it.
-viewTable : Language -> Size -> Table -> Html.Html Msg
-viewTable lang size table =
-    svg 
-    [ width <| toString size.width  
-    , height <| toString size.height
-    ]
-    <|
-    List.concat
-    [ viewBackground size {x = 0, y = 0}
-    , viewTableCards lang size {x = 0, y = 0} [table.pos1, table.pos2, table.pos3, table.pos4]
-    ]
-
 viewSvgTable : Language -> Size -> Position -> Table -> List (Svg msg)
 viewSvgTable lang size pos table =
     List.concat [viewBackground size pos, viewTableCards lang size pos [table.pos1, table.pos2, table.pos3, table.pos4]]
